@@ -1,0 +1,43 @@
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+namespace BookShopApi.Models
+{
+    public class User
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+
+        public string FullName { get; set; }
+
+        public string Email { get; set; }
+
+        public string Phone { get; set; }
+
+        public string PassWord { get; set; }
+        public bool IsActive { get; set; }
+        public string CodeActive { get; set; }
+
+        public string SpecificAddress { get; set; }
+        public string ProvinceId { get; set; }
+        public string DistrictId { get; set; }
+        public string WardId { get; set; }
+        public int Sex { get; set; }
+
+        public string Avatar { get; set; }
+
+        public DateTime BirthDay { get; set; }
+
+        public DateTime CreateAt { get; set; } = DateTime.UtcNow;
+
+        [BsonIgnoreIfNull]
+        public DateTime? UpdateAt { get; set; }
+
+        [BsonIgnoreIfNull]
+        public DateTime? DeleteAt { get; set; }  
+        public bool IsAdmin { get; set; }
+    }
+}
