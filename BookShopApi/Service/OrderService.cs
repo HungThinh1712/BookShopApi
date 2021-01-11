@@ -14,6 +14,7 @@ namespace BookShopApi.Service
     {
         private readonly IMongoCollection<Order> _orders;
 
+
         public OrderService(IBookShopDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
@@ -27,7 +28,7 @@ namespace BookShopApi.Service
             var query = _orders.Find(order => order.UserId == userId);
 
             var total = await query.CountDocumentsAsync();
-            query = query.Skip((page - 1) * pageSize).Limit(pageSize);
+            query = query.SortByDescending(x=>x.CreateAt).Skip((page - 1) * pageSize).Limit(pageSize);
             return new EntityList<OrdersViewModel>()
             {
                 Total = (int)total,
@@ -39,17 +40,21 @@ namespace BookShopApi.Service
                                          CreateAt = Convert.ToDateTime(x.CreateAt).ToString("dd-MM-yyyy"),
                                          TotalMoney = GetTotalMoney(x.Items),
                                          Description = GetDescription(x.Items),
-                                         Items = x.Items.Adapt<List<ItemInCartViewModel>>()
+                                         Items = x.Items.Adapt<List<ItemInCartViewModel>>(),
+                                         Status = x.Status,
+                                         PaymentType = x.PaymentType
                                      }).ToListAsync()
              };
         } 
 
-        public async Task<Order> CreateAsync(string userId, List<ItemInCart> items)
+        public async Task<Order> CreateAsync(string userId, int paymentType, List<ItemInCart> items)
         {
             var order = new Order();
             order.UserId = userId;
             order.Items = items;
+            order.PaymentType = paymentType;
             order.OrderId = DateTime.Now.ToString("yymmssff");
+            order.Status = "Đang chờ xác nhận";
             await _orders.InsertOneAsync(order);
             return order;
         }
@@ -68,6 +73,13 @@ namespace BookShopApi.Service
                 total += item.Price *item.Amount;
             return total.ToString("#.000");
         }
+        public async Task<bool> ConfirmOrder(string id)
+        {
+            var filter = Builders<Order>.Filter.Eq(x => x.Id, id);
+            var update = Builders<Order>.Update.Set(x => x.Status, "Đã xác nhận");
+            await _orders.UpdateOneAsync(filter,update);
+            return true;
+        }
         private string GetDescription(List<ItemInCart> items)
         {
             string count = items.Count >= 2 ? (items.Count - 1).ToString() : string.Empty;
@@ -78,5 +90,40 @@ namespace BookShopApi.Service
 
 
         }
+        public async Task<EntityList<OrdersViewModel>> GetAllAsync(int page = 1, int pageSize = 10,int status=0)
+        {
+            var query = _orders.Find(order => true);
+            
+            if (status == 1)
+            {
+                query = _orders.Find(order => order.Status =="Đã xác nhận");
+            }
+            else if(status==2)
+            {
+                query = _orders.Find(order => order.Status == "Đang chờ xác nhận");
+            }    
+
+            var total = await query.CountDocumentsAsync();
+            query = query.SortByDescending(x=>x.CreateAt).Skip((page - 1) * pageSize).Limit(pageSize);
+            return new EntityList<OrdersViewModel>()
+            {
+                Total = (int)total,
+                Entities = await query.Project(x =>
+                                     new OrdersViewModel
+                                     {
+                                         Id = x.Id,
+                                         OrderId = x.OrderId,
+                                         CreateAt = Convert.ToDateTime(x.CreateAt).ToString("dd-MM-yyyy"),
+                                         TotalMoney = GetTotalMoney(x.Items),
+                                         Description = GetDescription(x.Items),
+                                         Items = x.Items.Adapt<List<ItemInCartViewModel>>(),
+                                         Status = x.Status,
+                                         UserId = x.UserId,
+                                         PaymentType = x.PaymentType
+                                     }).ToListAsync()
+            };
+        }
+
+      
     }
 }

@@ -1,5 +1,7 @@
 ﻿using BookShopApi.DatabaseSettings;
 using BookShopApi.Models;
+using BookShopApi.Models.ViewModels.Users;
+using Mapster;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using System;
@@ -23,7 +25,7 @@ namespace BookShopApi.Service
         }
 
         public async Task<User> GetUserbyEmailAsync(string email) =>
-            await _users.Find<User>(user => user.Email == email && user.DeleteAt==null).FirstOrDefaultAsync();
+            await _users.Find<User>(user => user.Email == email).FirstOrDefaultAsync();
         
 
         public async Task<List<User>> GetAsync() =>
@@ -43,6 +45,16 @@ namespace BookShopApi.Service
         }
         public async Task<User> CreateAsync(User user)
         {
+            await _users.InsertOneAsync(user);
+            return user;
+        }
+        public async Task<User> CreateAsync(string email,string fullName )
+        {
+            var user = new User();
+
+            user.Email = email;
+            user.FullName = fullName;
+            user.ImageName = "defaultAvatar.png";
             await _users.InsertOneAsync(user);
             return user;
         }
@@ -106,6 +118,44 @@ namespace BookShopApi.Service
                 return false;
             return true;
         }
-        
+
+        public async Task<User> GetAdminAsync() =>
+         await _users.Find<User>(user => user.IsAdmin == true).FirstOrDefaultAsync();
+
+        public async Task  UpdateAvatarAsync(UpdateAvatarModel updatedUser)
+        {
+            var filter = Builders<User>.Filter.Eq(u => u.Id, updatedUser.Id);
+            var update = Builders<User>.Update.Set(u => u.ImageName, updatedUser.ImageName);
+            await _users.UpdateOneAsync(filter, update);
+        }
+
+        public async Task UpdateCodePasswordAsync(string id)
+        {
+            var filter = Builders<User>.Filter.Eq(u => u.Id, id);
+            var update = Builders<User>.Update.Set(u => u.CodeResetPassWord, null);
+            _logger.LogInformation(
+                        "Queued Background Task {Guid} is starting.");
+            await _users.UpdateOneAsync(filter, update);
+        }
+
+        public async Task<EntityList<UsersInAdminViewModel>> GetAllAsync(string name ,int page = 1, int pageSize = 10)
+        {
+            string searchName = string.IsNullOrEmpty(name) ? string.Empty : name.ToLower();
+            var query = _users.Find(user => user.FullName.ToLower().Contains(searchName) && user.IsAdmin==false);
+
+            var total = await query.CountDocumentsAsync();
+            query = query.SortByDescending(x => x.CreateAt).Skip((page - 1) * pageSize).Limit(pageSize);
+            return new EntityList<UsersInAdminViewModel>()
+            {
+                Total = (int)total,
+                Entities = (await query.ToListAsync()).Adapt<List<UsersInAdminViewModel>>()
+            };
+        }
+
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+            var user = await _users.Find<User>(user => user.Email == email).FirstOrDefaultAsync();
+            return user ;
+        }
     }
 }

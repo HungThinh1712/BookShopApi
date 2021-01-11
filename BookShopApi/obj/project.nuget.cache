@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HT2y2TxuEsYgxuKVCcW2bux/hDjntC0lZif4TfkWCXsYaQctbWBf3AM9XCkH33NTgh3Rhet23mkg8O3epT0a4w==",
+  "dgSpecHash": "Mrg0Vlj6uYHf6NL8oHQi10VQWL4FZNG3NG/x6NWg1oaSekmpyrRzk5pqTts9eAL4iOCOdc9yLXuf+dabJjXklQ==",
   "success": true,
-  "projectFilePath": "E:\\BookShopApi\\BookShopApi\\BookShopApi.csproj",
+  "projectFilePath": "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\BookShopApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\99hun\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\dnsclient\\1.3.1\\dnsclient.1.3.1.nupkg.sha512",

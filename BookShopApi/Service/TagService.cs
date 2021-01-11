@@ -19,9 +19,9 @@ namespace BookShopApi.Services
         }
 
         public async Task<List<Models.Tag>> GetAsync() =>
-           await _tags.Find(tag => tag.IsDeleted == false).ToListAsync();
+           await _tags.Find(tag => true).ToListAsync();
         public async Task<Models.Tag> GetAsync(string id) =>
-           await _tags.Find(tag => tag.Id == id && tag.IsDeleted == false).FirstOrDefaultAsync();
+           await _tags.Find(tag => tag.Id == id).FirstOrDefaultAsync();
 
         public async Task<Models.Tag> CreateAsync(Models.Tag tag)
         {

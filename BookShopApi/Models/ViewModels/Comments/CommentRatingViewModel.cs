@@ -9,6 +9,6 @@ namespace BookShopApi.Models.ViewModels.Comments
     public class CommentRatingViewModel
     {
         public List<RatingViewModel> Ratings { get; set; }
-        public List<CommentViewModel> Comments { get; set; }
+        public EntityList<CommentViewModel> Comments { get; set; }
     }
 }

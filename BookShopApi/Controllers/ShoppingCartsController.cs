@@ -104,8 +104,8 @@ namespace BookShopApi.Controllers
             await _shoppingCartService.RemoveCartItemAsync(userId, bookId);
             return Ok("Delete successfull");
         }
-        [HttpPost("[action]")]
-        public async Task<ActionResult> PayForCart()
+        [HttpGet("[action]")]
+        public async Task<ActionResult> PayForCart(int paymentType)
         {
             var headerValues = Request.Headers["Authorization"];
             string userId = Authenticate.DecryptToken(headerValues.ToString());
@@ -117,7 +117,7 @@ namespace BookShopApi.Controllers
                 book.Amount = book.Amount - item.Amount;
                 await _bookService.UpdateAsync(book.Id, book);
             }
-            await _orderService.CreateAsync(userId, shoppingcart.ItemInCart);
+            await _orderService.CreateAsync(userId, paymentType, shoppingcart.ItemInCart);
             shoppingcart.ItemInCart.Clear();
             await _shoppingCartService.UpdateAsync(userId, shoppingcart);
 

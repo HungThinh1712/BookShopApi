@@ -67,7 +67,7 @@ namespace BookShopApi.Models
         public string Code { get; set; }
 
         [BsonIgnoreIfNull]
-        public List<int> Rating { get; set; }
+        public List<Comment> Comments { get; set; } = new List<Comment>();
 
     }
     

@@ -11,7 +11,6 @@ namespace BookShopApi.Validator
         {
            
             RuleFor(book => book.Description).NotEmpty().WithMessage("Vui lòng nhập mô tả");
-            RuleFor(book => book.ImageFile).NotNull().WithMessage("Vui lòng chọn hình ảnh");
             RuleFor(book => book.BookName).NotEmpty().WithMessage("Vui lòng nhập tên sách");
             RuleFor(book => book.ZoneType).NotEqual("0").WithMessage("Vui lòng chọn khu vực");
             RuleFor(book => book.PublishHouseId).NotEqual("0").WithMessage("Vui lòng chọn nhà xuất bản");

@@ -17,19 +17,25 @@ namespace BookShopApi.Models.ViewModels.Books
         public string CoverPrice { get; set; }
         public string ImageSrc { get; set; }
         public double Rating { get; set; }
-
+        public int Amount { get; set; }
         public string BookTypeName { get; set; }
         public string AuthorName { get; set; }
         public string PublishingHouseName { get; set; }
         public string Size { get; set; }
+
+        public string TagId { get; set; }
+        public string AuthorId { get; set; }
+        public string PublishingHouseId { get; set; }
 
         public string PageAmount { get; set; }
 
         public string Cover_Type { get; set; }
 
         public string PublishDate { get; set; }
+        public DateTime PublishDateAdmin { get; set; }
 
         [BsonRepresentation(BsonType.ObjectId)]
         public string TypeId { get; set; }
+        public string ZoneType { get; set; }
     }
 }

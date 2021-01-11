@@ -12,6 +12,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using BookShopApi.Hubs;
 
 namespace BookShopApi
 {
@@ -61,6 +62,7 @@ namespace BookShopApi
             services.AddSingleton<OrderService>();
             services.AddSingleton<DistrictService>();
             services.AddSingleton<WardService>();
+            services.AddSingleton<NotificationService>();
             services.AddAuthentication();
             services.AddMvc().AddSessionStateTempDataProvider();
             services.AddSession();
@@ -74,6 +76,7 @@ namespace BookShopApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BookShop API", Version = "v1" });
             });
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,9 +102,11 @@ namespace BookShopApi
                 FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Images")),
                 RequestPath = "/Images"
             });
+          
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<NotificationHub>("api/hubs/notification");
             });
         }
     }

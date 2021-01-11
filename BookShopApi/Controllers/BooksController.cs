@@ -3,6 +3,7 @@ using BookShopApi.Models;
 using BookShopApi.Models.ViewModels;
 using BookShopApi.Models.ViewModels.Books;
 using BookShopApi.Service;
+using BookShopApi.Services;
 using Mapster;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,6 +31,7 @@ namespace BookShopApi.Controllers
                                TypeService typeService,
                                PublishingHouseService publishingHouseService,
                                AuthorService authorService,
+                               TagService tagService,
                                IWebHostEnvironment hostEnvironment)
         {
             _bookService = bookService;
@@ -84,6 +86,7 @@ namespace BookShopApi.Controllers
             [FromQuery] string sortPrice,
             [FromQuery] string publishHouseId,
             [FromQuery] string authorId,
+            [FromQuery] string tagId,
             [FromQuery] int page
         )
         {
@@ -95,6 +98,8 @@ namespace BookShopApi.Controllers
                 filter = filter & Builders<Book>.Filter.Eq("PublishHouseId", publishHouseId);
             if (authorId != null)
                 filter = filter & Builders<Book>.Filter.Eq("AuthorId", authorId);
+            if (tagId != null)
+                filter = filter & Builders<Book>.Filter.Eq("TagId", tagId);
             SortDefinition<Book> sortDefinition = null;
             if (sortPrice == "desc")
                 sortDefinition = Builders<Book>.Sort.Descending(x => x.Price);
@@ -129,15 +134,20 @@ namespace BookShopApi.Controllers
                 Price = book.Price.ToString(),
                 CoverPrice = book.CoverPrice.ToString(),
                 ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, book.ImageName),
-                Rating = Rouding.Adjust(Average.CountingAverage(book.Rating)),
+                Rating = Rouding.Adjust(Average.CountingAverage(book.Comments)),
                 BookTypeName = type.Name,
                 PublishingHouseName = publishingHouse.Name,
                 Cover_Type = book.CoverType,
                 PageAmount = book.PageAmount,
-                PublishDate = Convert.ToDateTime(book.PublishDate).ToString("dd-MM-yyyy"),
+                PublishDate = Convert.ToDateTime(book.PublishDate).ToString("yyyy-MM-dd"),
                 Size = book.Size,
                 AuthorName = author.Name,
-                TypeId = book.TypeId,
+                AuthorId = author.Id,
+                PublishingHouseId = publishingHouse.Id,
+                TypeId = type.Id,
+                TagId = book.TagId,
+                Amount = book.Amount,
+                ZoneType = book.ZoneType
             };
             
             return Ok(bookViewModel);
@@ -152,9 +162,18 @@ namespace BookShopApi.Controllers
 
         }
         [HttpPut("[action]")]
-        public async Task<IActionResult> Update(string id, Book updatedBook)
+        public async Task<IActionResult> Update([FromForm] Book updatedBook)
         {
-            await _bookService.UpdateAsync(id, updatedBook);
+            var book = await _bookService.GetAsync(updatedBook.Id);
+            updatedBook.ImageName = book.ImageName;
+
+            if (updatedBook.ImageFile != null)
+            {
+                DeleteImage(book.ImageName);
+                updatedBook.ImageName = await SaveImageAsync(updatedBook.ImageFile);
+            }
+           
+            await _bookService.UpdateBookAsync(updatedBook);
             return Ok(updatedBook);
         }
         
@@ -178,12 +197,30 @@ namespace BookShopApi.Controllers
             }
             return imageName;
         }
+        private  void DeleteImage(string imageName)
+        {
+            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Images", imageName);
+            if (System.IO.File.Exists(imagePath))
+                System.IO.File.Delete(imagePath);
+        }
         private BooksViewModel GetBookExisted(string bookId, List<BooksViewModel> books)
         {
             foreach (var book in books)
                 if (book.Id == bookId)
                     return book;
             return null;
+        }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<EntityList<BooksViewModel>>> SearchBookByNameAdmin(
+            [FromQuery] string name,
+            [FromQuery] int page
+        )
+        {
+            var filter = Builders<Book>.Filter.Regex("Alias", new BsonRegularExpression(Unsign.convertToUnSign(name).ToLower()))
+                          & Builders<Book>.Filter.Eq("DeleteAt", BsonNull.Value);
+            var books = await _bookService.SearchBooksAdminAsync(filter, Request,page);
+            return Ok(books);
         }
 
     }

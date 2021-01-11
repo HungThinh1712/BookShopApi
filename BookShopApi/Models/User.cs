@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Microsoft.AspNetCore.Http;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace BookShopApi.Models
         public string PassWord { get; set; }
         public bool IsActive { get; set; }
         public string CodeActive { get; set; }
+        public string CodeResetPassWord { get; set; }
 
         public string SpecificAddress { get; set; }
         public string ProvinceId { get; set; }
@@ -27,7 +29,10 @@ namespace BookShopApi.Models
         public string WardId { get; set; }
         public int Sex { get; set; }
 
-        public string Avatar { get; set; }
+        public string ImageName { get; set; }
+
+        [BsonIgnore]
+        public IFormFile ImageFile { get; set; }
 
         public DateTime BirthDay { get; set; }
 
@@ -37,7 +42,7 @@ namespace BookShopApi.Models
         public DateTime? UpdateAt { get; set; }
 
         [BsonIgnoreIfNull]
-        public DateTime? DeleteAt { get; set; }  
+        public DateTime? DeleteAt { get; set; }
         public bool IsAdmin { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using BookShopApi.Models.ViewModels.Books;
 using BookShopApi.Models.ViewModels.Comments;
 using Mapster;
 using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,26 +28,24 @@ namespace BookShopApi.Service
         public async Task<List<Comment>> GetAsync() =>
             await _comments.Find(comment => true).ToListAsync();
 
-        public async Task<List<CommentViewModel>> GetAsync(string id)
+        public async Task<List<Comment>> GetByIdAsync(string id) =>
+            await _comments.Find(comment => comment.BookId ==id).ToListAsync();
+
+        public async Task<EntityList<CommentViewModel>> GetAsync(string id, int page = 1)
         {
-            var result = await _comments.Aggregate()
-                                        .Match(comment => comment.BookId == id && comment.Content != null && comment.Title != null)
-                                       .Lookup<Comment, User, CommentWithUserFullName>(
-                                            _users,
-                                            x => x.UserId,
-                                            x => x.Id,
-                                            x => x.User).Project(x =>
-                                           new CommentViewModel
-                                           {
-                                               Id = x.Id,
-                                               Title = x.Title,
-                                               Rate = x.Rate,
-                                               Content = x.Content,
-                                               CreateAt = x.CreateAt,
-                                               UserFullName = x.User[0].FullName
-                                           }).ToListAsync();
-            var comments = result.Adapt<List<CommentViewModel>>();
-            return comments;
+            if (page == 0)
+                page = 1;
+
+            var query = _comments.Find(x => x.BookId == id);
+            var total = await query.CountDocumentsAsync();
+            query = query.SortByDescending(x => x.CreateAt).Skip((page - 1) * 3).Limit(3);
+
+            var comments = (await query.ToListAsync()).Adapt<List<CommentViewModel>>();
+            return new EntityList<CommentViewModel>()
+            {
+                Total = (int)total,
+                Entities = comments
+            };
         }
 
         public async Task<List<RatingViewModel>> GetAmountRating(string id)
@@ -57,12 +56,12 @@ namespace BookShopApi.Service
                                        {
                                            Key = g.Key,
                                            count = g.Count()
-                                       }).SortByDescending(x=>x.Key).Project(x => new RatingViewModel
+                                       }).SortByDescending(x => x.Key).Project(x => new RatingViewModel
                                        {
                                            Value = x.Key,
                                            Amount = x.count
                                        }).ToListAsync();
-           
+
             return result;
         }
 
@@ -78,5 +77,10 @@ namespace BookShopApi.Service
 
         public async Task RemoveAsync(string id) =>
            await _comments.DeleteOneAsync(comment => comment.Id == id);
+        public string FormatDatetimeComment(DateTime createAt)
+        {
+            DateTime date = createAt.ToLocalTime();
+            return date.Date.ToString() + " tháng" + date.Month.ToString() + " năm " + date.Year.ToString();
+        }
     }
 }

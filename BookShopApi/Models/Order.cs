@@ -17,8 +17,13 @@ namespace BookShopApi.Models
         public string OrderId { get; set; }
         public  List<ItemInCart> Items { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
-        public int PaymentId { get; set; }
+        public string Status { get; set; }
+        public int PaymentType { get; set; }
 
        
+    }
+    public class OrderWithUserName : Order
+    {
+        public User[] User { get; set; }
     }
 }

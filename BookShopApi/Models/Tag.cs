@@ -14,6 +14,6 @@ namespace BookShopApi.Models
 
         public string Name { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public DateTime CreateAt { get; set; }
     }
 }

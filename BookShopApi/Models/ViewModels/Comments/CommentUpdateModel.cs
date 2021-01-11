@@ -7,18 +7,27 @@ using System.Threading.Tasks;
 
 namespace BookShopApi.Models.ViewModels.Comments
 {
-    public class CommentViewModel
+    public class CommentUpdateModel
     {
-
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        public string UserFullName { get; set; }
-        public string ImgSrc { get; set; }
-        public string UserId { get; set; }
-        public string BookId { get; set; }
-        public string Title { get; set; }
-        public int Rate { get; set; }
-        public string Content { get; set; }
-        public DateTime CreateAt { get; set; }
 
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string UserId { get; set; }
+
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string BookId { get; set; }
+
+        public string Title { get; set; }
+
+        public int Rate { get; set; }
+
+        public string Content { get; set; }
+        public int Page { get; set; }
+
+        public DateTime CreateAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdateAt { get; set; }
+        public DateTime? DeleteAt { get; set; }
     }
 }

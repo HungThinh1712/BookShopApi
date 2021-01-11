@@ -12,6 +12,6 @@ namespace BookShopApi.Models
 
         [BsonRepresentation(BsonType.ObjectId)]
         public string UserId { get; set; }
-        public List<ItemInCart> ItemInCart { get; set; }
+        public List<ItemInCart> ItemInCart { get; set; } = new List<ItemInCart>();
     }
 }

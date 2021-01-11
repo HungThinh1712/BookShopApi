@@ -22,6 +22,7 @@ namespace BookShopApi.DatabaseSettings
         public string ProvincesCollectionName { get; set; }
         public string WardsCollectionName { get; set; }
         public string DistrictsCollectionName { get; set; }
+        public string NotificationsCollectionName { get; set; }
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
     }
@@ -43,6 +44,7 @@ namespace BookShopApi.DatabaseSettings
         string ProvincesCollectionName { get; set; }
         string WardsCollectionName { get; set; }
         string DistrictsCollectionName { get; set; }
+        string NotificationsCollectionName { get; set; }
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }
     }

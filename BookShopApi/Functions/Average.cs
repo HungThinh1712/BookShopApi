@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookShopApi.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ namespace BookShopApi.Functions
 {
     public static class Average
     {
-        public static double CountingAverage(List<int> arr)
+        public static double CountingAverage(List<Comment> arr)
         {
             if (arr == null || arr.Count == 0)
             {
@@ -15,11 +16,7 @@ namespace BookShopApi.Functions
             }
             else
             {
-                int sum = 0;
-                foreach (int i in arr)
-                {
-                    sum += i;
-                }
+                int sum = arr.Select(x => x.Rate).Sum();
                 return sum / (double)arr.Count;
 
             }

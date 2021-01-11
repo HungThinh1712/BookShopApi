@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\BookShopApi\\BookShopApi\\BookShopApi.csproj": {}
+    "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\BookShopApi.csproj": {}
   },
   "projects": {
-    "E:\\BookShopApi\\BookShopApi\\BookShopApi.csproj": {
+    "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\BookShopApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\BookShopApi\\BookShopApi\\BookShopApi.csproj",
+        "projectUniqueName": "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\BookShopApi.csproj",
         "projectName": "BookShopApi",
-        "projectPath": "E:\\BookShopApi\\BookShopApi\\BookShopApi.csproj",
+        "projectPath": "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\BookShopApi.csproj",
         "packagesPath": "C:\\Users\\99hun\\.nuget\\packages\\",
-        "outputPath": "E:\\BookShopApi\\BookShopApi\\obj\\",
+        "outputPath": "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

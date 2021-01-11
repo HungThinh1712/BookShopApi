@@ -57,8 +57,7 @@ namespace BookShopApi.Controllers
             {
                 return BadRequest("Not found");
             }
-            tag.IsDeleted = true;
-            await _tagservice.UpdateAsync(id, tag);
+            await _tagservice.RemoveAsync(id);
             return Ok("Delete sucessfully");
         }
     }
