@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Mrg0Vlj6uYHf6NL8oHQi10VQWL4FZNG3NG/x6NWg1oaSekmpyrRzk5pqTts9eAL4iOCOdc9yLXuf+dabJjXklQ==",
+  "dgSpecHash": "DswyJjM2JrTLDARbCnoHvbQVpPcz8zKZm4nzEcdhSPIwQ6YfTzSRKpqzb7Ze75fGXQEPJ+VCVm5dhjVNLgY79g==",
   "success": true,
   "projectFilePath": "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\BookShopApi.csproj",
   "expectedPackageFiles": [
@@ -37,6 +37,7 @@
     "C:\\Users\\99hun\\.nuget\\packages\\microsoft.netcore.platforms\\2.1.2\\microsoft.netcore.platforms.2.1.2.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\99hun\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.10.9\\microsoft.visualstudio.azure.containers.tools.targets.1.10.9.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration\\3.1.4\\microsoft.visualstudio.web.codegeneration.3.1.4.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.contracts\\3.1.4\\microsoft.visualstudio.web.codegeneration.contracts.3.1.4.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.core\\3.1.4\\microsoft.visualstudio.web.codegeneration.core.3.1.4.nupkg.sha512",

@@ -41,7 +41,7 @@ namespace BookShopApi.Service
                 }
                 if (time >= 1440 )
                 {
-                    notification.TimeAgo = ((int)DateTime.UtcNow.Subtract(notification.CreateAt).TotalHours).ToString() + " ngày" + " trước";
+                    notification.TimeAgo = ((int)DateTime.UtcNow.Subtract(notification.CreateAt).TotalDays).ToString() + " ngày" + " trước";
                 }
                 
                 if (time < 1)
