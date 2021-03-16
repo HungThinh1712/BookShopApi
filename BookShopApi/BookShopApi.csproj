@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>a28c884e-b9c0-4ab0-acdd-8d7a8973e583</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +13,7 @@
     <PackageReference Include="Mapster" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.8.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="MongoDB.Driver" Version="2.11.2" />
     <PackageReference Include="MongoDB.Driver.Core" Version="2.11.2" />
@@ -21,98 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/libzstd.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/libzstd.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/snappy32.dll" />
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\contentFiles\any\netstandard2.0\Core\Compression\Snappy\lib\win\snappy32.dll" />
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\contentFiles\any\netstandard2.0\Core\Compression\Snappy\lib\win\snappy64.dll" />
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\contentFiles\any\netstandard2.0\Core\Compression\Zstandard\lib\win\libzstd.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/libzstd.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/libzstd.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/libzstd.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/libzstd.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/libzstd.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/libzstd.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/libzstd.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/libzstd.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/libzstd.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/libzstd.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/libzstd.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/snappy32.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/snappy64.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/libzstd.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/libzstd.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/snappy32.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/snappy32.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="C:\Users\99hun\.nuget\packages\microsoft.diagnostics.tracing.traceevent\2.0.49\build\..\lib\native\amd64\KernelTraceControl.dll" />
-    <None Remove="C:\Users\99hun\.nuget\packages\microsoft.diagnostics.tracing.traceevent\2.0.49\build\..\lib\native\amd64\msdia140.dll" />
-    <None Remove="C:\Users\99hun\.nuget\packages\microsoft.diagnostics.tracing.traceevent\2.0.49\build\..\lib\native\x86\KernelTraceControl.dll" />
-    <None Remove="C:\Users\99hun\.nuget\packages\microsoft.diagnostics.tracing.traceevent\2.0.49\build\..\lib\native\x86\KernelTraceControl.Win61.dll" />
-    <None Remove="C:\Users\99hun\.nuget\packages\microsoft.diagnostics.tracing.traceevent\2.0.49\build\..\lib\native\x86\msdia140.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\99hun\.nuget\packages\mongodb.driver.core\2.11.2\build\../runtimes/win/native/libzstd.dll" />
+    <Content Include="Images\*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 

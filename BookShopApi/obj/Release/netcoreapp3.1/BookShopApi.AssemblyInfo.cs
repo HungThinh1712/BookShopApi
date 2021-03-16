@@ -11,6 +11,10 @@
 using System;
 using System.Reflection;
 
+<<<<<<< HEAD
+=======
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("a28c884e-b9c0-4ab0-acdd-8d7a8973e583")]
+>>>>>>> e1f419498886a29fbedabee5ebfae90e5b4682e1
 [assembly: System.Reflection.AssemblyCompanyAttribute("BookShopApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]

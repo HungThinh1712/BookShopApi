@@ -276,9 +276,6 @@ F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\runtimes\win
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.csprojAssemblyReference.cache
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.AssemblyInfoInputs.cache
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.AssemblyInfo.cs
-F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.csproj.CoreCompileInputs.cache
-F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.MvcApplicationPartsAssemblyInfo.cs
-F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.MvcApplicationPartsAssemblyInfo.cache
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.RazorTargetAssemblyInfo.cache
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.csproj.CopyComplete
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\staticwebassets\BookShopApi.StaticWebAssets.Manifest.cache
@@ -286,6 +283,7 @@ F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\staticwebass
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.dll
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.pdb
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.genruntimeconfig.cache
+<<<<<<< HEAD
 F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\appsettings.Development.json
 F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\snappy32.dll
 F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\snappy64.dll
@@ -430,3 +428,136 @@ F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\
 F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.dll
 F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.pdb
 F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.genruntimeconfig.cache
+=======
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.csproj.CoreCompileInputs.cache
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.MvcApplicationPartsAssemblyInfo.cs
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.MvcApplicationPartsAssemblyInfo.cache
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\10-Vạn-Câu20234828.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\10-Vạn-Câu20311361.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\10-Vạn-Câu20365573.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\135038800_21550256.png
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\21-Bài-Học20242847.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\21-Bài-Học20323808.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\a21022715.png
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\a21323615.png
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\a21442708.png
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\a21475080.png
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Anders-Sát20334182.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Báo-cáo-20060769.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Báo-cáo-20250818.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Bá-Tước-Mo21512406.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Chuyện-Ngà20263647.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Cân-Bằng-C20254849.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Công-Nghệ-20001612.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Cẩm-Nang-C20012687.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\defaultAvatar.png
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Cambridg21002388.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Diary-of20394468.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Early-Le20044402.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_English-20592006.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Factfuln20054680.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Flipped20062927.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Get-Read20070940.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Harry-Po20080822.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_I-Learn-20411995.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Life-BRE20094657.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Look-5-S20104354.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_No-Filte20111552.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_No-Rules20120223.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Oxford-A20124089.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Oxford-L20403367.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Principl20143529.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_The-Alch20160718.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_The-Body20165566.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_The-Dail20174007.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_The-Lord20190035.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_The-Ride20201012.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_They-Bot20213891.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Tiny-Hab20152737.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Trump-Th20222283.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Hoàng-Tử-B20443572.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\image_189320190508.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\image_189321331509.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\image_189321354019.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\image_189321471225.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Mắt-Biếc-(20370192.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Ngôi-Làng-20362177.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Quẳng-gá20351767.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Sinh-Vật-H20333856.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Sách-Giáo-20342974.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Thám-Tử-Lừ20282198.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Tony-Buổi-20330458.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Trải-Nghiệ20294803.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Tôi-Tự-Học20322714.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Tường-Lửa20310023.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Từ-Điển-An20314228.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Ôn-Thi-Tuy20355350.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Đàn-ông-s20565645.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Đắc-Nhân-T20580117.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Đọc-Vị-Bất20274095.jpg
+>>>>>>> e1f419498886a29fbedabee5ebfae90e5b4682e1
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\10-Vạn-Câu20234828.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\10-Vạn-Câu20311361.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\10-Vạn-Câu20365573.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\102400082_21251646.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\135038800_21550256.png
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\21-Bài-Học20242847.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\21-Bài-Học20323808.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\7a8f42124221454672.png
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\a21022715.png
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\a21323615.png
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\a21442708.png
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\a21475080.png
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Anders-Sát20334182.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Báo-cáo-20060769.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Báo-cáo-20250818.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Bá-Tước-Mo21512406.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Chuyện-Ngà20263647.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Cân-Bằng-C20254849.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Công-Nghệ-20001612.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Cẩm-Nang-C20012687.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\defaultAvatar.png
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Cambridg21002388.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Diary-of20394468.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Early-Le20044402.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_English-20592006.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Factfuln20054680.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Flipped20062927.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Get-Read20070940.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Harry-Po20080822.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_I-Learn-20411995.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Life-BRE20094657.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Look-5-S20104354.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_No-Filte20111552.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_No-Rules20120223.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Oxford-A20124089.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Oxford-L20403367.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Principl20143529.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_The-Alch20160718.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_The-Body20165566.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_The-Dail20174007.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_The-Lord20190035.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_The-Ride20201012.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_They-Bot20213891.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Tiny-Hab20152737.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Trump-Th20222283.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Hoàng-Tử-B20443572.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\image_189320190508.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\image_189321331509.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\image_189321354019.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\image_189321471225.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Mắt-Biếc-(20370192.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Ngôi-Làng-20362177.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Quẳng-gá20351767.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Sinh-Vật-H20333856.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Sách-Giáo-20342974.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Thám-Tử-Lừ20282198.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Tony-Buổi-20330458.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Trải-Nghiệ20294803.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Tôi-Tự-Học20322714.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Tường-Lửa20310023.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Từ-Điển-An20314228.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Ôn-Thi-Tuy20355350.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Đàn-ông-s20565645.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Đắc-Nhân-T20580117.jpg
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Đọc-Vị-Bất20274095.jpg

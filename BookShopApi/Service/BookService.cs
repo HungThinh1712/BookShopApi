@@ -32,7 +32,7 @@ namespace BookShopApi.Service
             int size = 10;
             int length = 10;
             //Get extra five books after first time
-            return await _books.Find(book => book.DeleteAt ==null).Limit(index*size + length).Project(x => 
+            return await _books.Find(book => book.DeleteAt ==null && book.Amount>0).Limit(index*size + length).Project(x => 
                                 new BooksViewModel { 
                                     Id = x.Id, 
                                     BookName = x.BookName, 
@@ -50,7 +50,7 @@ namespace BookShopApi.Service
             int size = 10;
             int length = 10;
             //Get extra five books after first time
-            return await _books.Find(book => book.DeleteAt == null && book.ZoneType ==zoneType).Limit(index * size + length).Project(x =>
+            return await _books.Find(book => book.DeleteAt == null && book.ZoneType ==zoneType && book.Amount>0).Limit(index * size + length).Project(x =>
                                    new BooksViewModel
                                    {
                                        Id = x.Id,
