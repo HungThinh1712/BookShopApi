@@ -353,7 +353,7 @@ namespace BookShopApi.Controllers
         }
 
         [HttpGet("Admin/[action]")]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUser([FromQuery] string name,int page)
+        public async Task<ActionResult<IEnumerable<User>>> GetUser([FromQuery] string name,int page)
         {
             var users = await _userService.GetAllAsync(name);
             foreach(var user in users.Entities)
@@ -361,6 +361,18 @@ namespace BookShopApi.Controllers
                 user.BirthDay = Convert.ToDateTime(user.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
                 user.SumOrder = await GetSumOrder(user.Id);
                 user.Address = await GetAddress(user.Id);
+            }
+            return Ok(users);
+        }
+
+        [HttpGet("Admin/[action]")]
+        public async Task<ActionResult<IEnumerable<User>>> GetAllUser([FromQuery] string name, int page)
+        {
+            var users = await _userService.GetAllUserAsync(name);
+            foreach (var user in users.Entities)
+            {
+                user.BirthDay = Convert.ToDateTime(user.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
+                user.Address = await GetAddressUser(user.Id);
             }
             return Ok(users);
         }
@@ -379,7 +391,22 @@ namespace BookShopApi.Controllers
             {
                 return "Chưa cập nhật địa chỉ giao hàng";
             }
-            
+        }
+
+        private async Task<string> GetAddressUser(string id)
+        {
+            var returnedUser = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
+            if (returnedUser.ProvinceId != null)
+            {
+                returnedUser.ProvinceName = (await _provinceService.GetByIdAsync(returnedUser.ProvinceId)).Name;
+                returnedUser.DistrictName = (await _districtService.GetByIdAsync(returnedUser.DistrictId)).Name;
+                returnedUser.WardName = (await _wardService.GetByIdAsync(returnedUser.WardId)).Name;
+                return returnedUser.SpecificAddress + ", " + returnedUser.WardName + ", " + returnedUser.DistrictName + ", " + returnedUser.ProvinceName;
+            }
+            else
+            {
+                return "Tài khoản chưa cập nhật địa chỉ";
+            }
         }
 
         private async Task<int> GetSumOrder(string id)
@@ -409,7 +436,6 @@ namespace BookShopApi.Controllers
                 await _shoppingCartService.CreateAsync(shoppingCart);
                 return Ok(Authenticate.GetToken(createdUser.Id, createdUser.IsAdmin));
             }
-
         }
     }
 }

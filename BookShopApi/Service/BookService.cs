@@ -63,6 +63,25 @@ namespace BookShopApi.Service
                                    }).ToListAsync();
         }
 
+        public async Task<List<BooksViewModel>> GetByTagAsync(int index, HttpRequest request, string tag)
+        {
+            //Get ten books first time
+            int size = 10;
+            int length = 10;
+            //Get extra five books after first time
+            return await _books.Find(book => book.DeleteAt == null && book.Tag == tag).Limit(index * size + length).Project(x =>
+                                    new BooksViewModel
+                                    {
+                                        Id = x.Id,
+                                        BookName = x.BookName,
+                                        Price = x.Price.ToString(),
+                                        CoverPrice = x.CoverPrice.ToString(),
+                                        ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, x.ImageName),
+                                        Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
+                                        TypeId = x.TypeId
+                                    }).ToListAsync();
+        }
+
         public async Task<List<BooksViewModel>> GetBooksByTypeIdAsync(string typeId, HttpRequest request)
         {
             int size = 6;  //Get ten books first time
@@ -103,21 +122,6 @@ namespace BookShopApi.Service
             };
         }
 
-        public async Task<List<BooksViewModel>> GetBooksByTageIdAsync(string tagId)
-        {
-            int size = 5;  //Get ten books first time
-            return await _books.Find(book => book.TagId == tagId).Limit(size).Project(x =>
-                                   new BooksViewModel
-                                   {
-                                       Id = x.Id,
-                                       BookName = x.BookName,
-                                       Price = x.Price.ToString(),
-                                       CoverPrice = x.CoverPrice.ToString(),
-                                       ImageSrc = x.ImageName,
-                                       Rating = Average.CountingAverage(x.Comments),
-                                       TypeId = x.TypeId
-                                   }).ToListAsync();
-        }
         public async Task<Book> GetAsync(string id) =>
            await _books.Find<Book>(book => book.Id == id).FirstOrDefaultAsync();
 
@@ -142,7 +146,7 @@ namespace BookShopApi.Service
         {
             var filter = Builders<Book>.Filter.Eq(x => x.Id, updatedBook.Id);
             var update = Builders<Book>.Update.Set(x => x.BookName, updatedBook.BookName).
-                                                Set(x => x.TagId, updatedBook.TagId).
+                                                Set(x => x.Tag, updatedBook.Tag).
                                                 Set(x => x.PublishHouseId, updatedBook.PublishHouseId).
                                                 Set(x => x.AuthorId, updatedBook.AuthorId).
                                                 Set(x => x.TypeId, updatedBook.TypeId).
@@ -156,8 +160,6 @@ namespace BookShopApi.Service
                                                 Set(x => x.ZoneType, updatedBook.ZoneType).
                                                 Set(x => x.ImageName, updatedBook.ImageName);
             await _books.UpdateOneAsync(filter, update);
-
-
         }
 
         public async Task UpdateAsync(string id, Book bookIn) =>

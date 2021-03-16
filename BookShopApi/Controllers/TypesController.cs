@@ -28,7 +28,7 @@ namespace BookShopApi.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<ActionResult<Type>> Get(
+        public async Task<ActionResult<System.Type>> Get(
             [FromQuery(Name = "id")] string id
             )
         {
@@ -65,6 +65,17 @@ namespace BookShopApi.Controllers
             type.DeleteAt = DateTime.UtcNow;
             await _typeService.UpdateAsync(id,type);
             return Ok("Delete sucessfully");
+        }
+
+        [HttpGet("Admin/[action]")]
+        public async Task<ActionResult<IEnumerable<Models.BookType>>> GetAllType([FromQuery] string name, int page)
+        {
+            var types = await _typeService.GetAllTypeAsync(name);
+            foreach (var type in types.Entities)
+            {
+                type.CreateAt = Convert.ToDateTime(type.CreateAt).ToLocalTime().ToString("yyyy-MM-dd");
+            }
+            return Ok(types);
         }
     }
 }

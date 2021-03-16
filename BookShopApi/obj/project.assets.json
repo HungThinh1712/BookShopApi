@@ -7611,23 +7611,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\99hun\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\hongl\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\BookShopApi.csproj",
+      "projectUniqueName": "F:\\Specialized Subjects\\I-2020-2021\\TieuLuanChuyenNganh\\BookShopApi\\BookShopApi\\BookShopApi.csproj",
       "projectName": "BookShopApi",
-      "projectPath": "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\BookShopApi.csproj",
-      "packagesPath": "C:\\Users\\99hun\\.nuget\\packages\\",
-      "outputPath": "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\obj\\",
+      "projectPath": "F:\\Specialized Subjects\\I-2020-2021\\TieuLuanChuyenNganh\\BookShopApi\\BookShopApi\\BookShopApi.csproj",
+      "packagesPath": "C:\\Users\\hongl\\.nuget\\packages\\",
+      "outputPath": "F:\\Specialized Subjects\\I-2020-2021\\TieuLuanChuyenNganh\\BookShopApi\\BookShopApi\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\99hun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\hongl\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7639,6 +7635,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -7650,6 +7647,7 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "BCrypt.Net-Next": {
             "target": "Package",
@@ -7722,7 +7720,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

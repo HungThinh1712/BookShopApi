@@ -19,14 +19,25 @@ namespace BookShopApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Author>>> GetAll()
+        public async Task<ActionResult<IEnumerable<Models.Author>>> GetAll()
         {
             var author = await _authorService.GetAsync();
             return Ok(author);
         }
 
+        [HttpGet("Admin/[action]")]
+        public async Task<ActionResult<IEnumerable<Models.Author>>> GetAllAuthor([FromQuery] string name, int page)
+        {
+            var authors = await _authorService.GetAllAuthorAsync(name);
+            foreach (var author in authors.Entities)
+            {
+                author.CreateAt = Convert.ToDateTime(author.CreateAt).ToLocalTime().ToString("yyyy-MM-dd");
+            }
+            return Ok(authors);
+        }
+
         [HttpGet("[action]")]
-        public async Task<ActionResult<Author>> Get(
+        public async Task<ActionResult<Models.Author>> Get(
             [FromQuery(Name = "id")] string id
             )
         {
@@ -37,15 +48,15 @@ namespace BookShopApi.Controllers
             }
             return Ok(author);
         }
+
         [HttpPost("[action]")]
-        public async Task<IActionResult> Create(Author author)
+        public async Task<IActionResult> Create(Models.Author author)
         {
             var createdAuthor = await _authorService.CreateAsync(author);
             return Ok(createdAuthor);
-
         }
         [HttpPut("[action]")]
-        public async Task<IActionResult> Update(string id, Author updatedAuthor)
+        public async Task<IActionResult> Update(string id, Models.Author updatedAuthor)
         {
             await _authorService.UpdateAsync(id, updatedAuthor);
             return Ok(updatedAuthor);

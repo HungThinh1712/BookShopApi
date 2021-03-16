@@ -3,12 +3,12 @@ using BookShopApi.Models;
 using BookShopApi.Models.ViewModels;
 using BookShopApi.Models.ViewModels.Books;
 using BookShopApi.Service;
-using BookShopApi.Services;
 using Mapster;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -31,7 +31,6 @@ namespace BookShopApi.Controllers
                                TypeService typeService,
                                PublishingHouseService publishingHouseService,
                                AuthorService authorService,
-                               TagService tagService,
                                IWebHostEnvironment hostEnvironment)
         {
             _bookService = bookService;
@@ -58,6 +57,17 @@ namespace BookShopApi.Controllers
 
             return Ok(books);
         }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<List<BooksViewModel>>> GetBookByTag(
+            [FromQuery] int index,
+            [FromQuery] string tag)
+        {
+            var books = await _bookService.GetByTagAsync(index, Request, tag);
+
+            return Ok(books);
+        }
+
         [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<BooksViewModel>>> GetBookByTypeId(
             [FromQuery] string typeId,
@@ -145,7 +155,7 @@ namespace BookShopApi.Controllers
                 AuthorId = author.Id,
                 PublishingHouseId = publishingHouse.Id,
                 TypeId = type.Id,
-                TagId = book.TagId,
+                Tag = book.Tag,
                 Amount = book.Amount,
                 ZoneType = book.ZoneType
             };

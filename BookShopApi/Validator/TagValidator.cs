@@ -4,11 +4,11 @@ using FluentValidation;
 
 namespace BookShopApi.Validator
 {
-    public class TagValidator : AbstractValidator<Tag>
+    public class TagValidator : AbstractValidator<Book>
     {
         public TagValidator()
         {
-            RuleFor(tag => tag.Name).NotEmpty().WithMessage("Vui lòng nhập thẻ");
+            RuleFor(book => book.Tag).NotEmpty().WithMessage("Vui lòng nhập thẻ");
         }
     }
 }

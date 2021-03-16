@@ -1,6 +1,5 @@
 using BookShopApi.DatabaseSettings;
 using BookShopApi.Service;
-using BookShopApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -52,7 +51,6 @@ namespace BookShopApi
         
             services.AddSingleton<BookService>();
             services.AddSingleton<TypeService>();
-            services.AddSingleton<TagService>();
             services.AddSingleton<CommentService>();
             services.AddSingleton<PublishingHouseService>();
             services.AddSingleton<AuthorService>();

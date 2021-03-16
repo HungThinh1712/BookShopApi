@@ -59,10 +59,7 @@ namespace BookShopApi.Controllers
         [HttpGet("Admin/ConfirmOrder")]
         public async Task<ActionResult> ConfirmOrder(string orderId)
         {
-
             return Ok(await _orderService.ConfirmOrder(orderId));
         }
-
-
     }
 }

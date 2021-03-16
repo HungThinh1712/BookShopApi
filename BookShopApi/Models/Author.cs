@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
+using System.Collections.Generic;
 
 namespace BookShopApi.Models
 {
@@ -19,5 +20,6 @@ namespace BookShopApi.Models
 
         [BsonIgnoreIfNull]
         public DateTime? DeleteAt { get; set; }
+        public IEnumerable<object> Entities { get; internal set; }
     }
 }

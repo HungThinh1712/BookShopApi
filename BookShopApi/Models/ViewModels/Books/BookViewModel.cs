@@ -22,8 +22,8 @@ namespace BookShopApi.Models.ViewModels.Books
         public string AuthorName { get; set; }
         public string PublishingHouseName { get; set; }
         public string Size { get; set; }
-
-        public string TagId { get; set; }
+   
+        public string Tag { get; set; }
         public string AuthorId { get; set; }
         public string PublishingHouseId { get; set; }
 
