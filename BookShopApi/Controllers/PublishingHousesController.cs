@@ -48,17 +48,14 @@ namespace BookShopApi.Controllers
 
         }
 
-        [HttpPut("[action]")]
-        public async Task<IActionResult> Update(JObject updatedPulishHouse)
+        [HttpPut("[action]")]   
+        public async Task<IActionResult> Update(JObject updatedPublishHouse)
         {
-            var publishHouse = updatedPulishHouse["updatedPulishHouse"];
+            var publishHouse = updatedPublishHouse["updatedPublishHouse"];
             string name = publishHouse["name"].ToString();
             string id = publishHouse["id"].ToString();
-
             await _publishingHouseService.UpdateAsync(id, name);
-            //return user updated
-            var returnedpublishHouse = (await _publishingHouseService.GetAsync(id)).Adapt<PublishingHousesInAdminViewModel>();
-            return Ok(returnedpublishHouse);
+            return Ok(updatedPublishHouse);
         }
 
         [HttpGet("Admin/[action]")]

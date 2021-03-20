@@ -54,5 +54,12 @@ namespace BookShopApi.Service
                 Entities = (await query.ToListAsync()).Adapt<List<TypesInAdminViewModel>>()
             };
         }
+
+        public async Task UpdateAsync(string id, string name)
+        {
+            var filter = Builders<BookType>.Filter.Eq(u => u.Id, id);
+            var update = Builders<BookType>.Update.Set(u => u.Name, name);
+            await _types.UpdateOneAsync(filter, update);
+        }
     }
 }

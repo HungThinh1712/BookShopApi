@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BookShopApi.Service;
 using System;
 using BookShopApi.Models.ViewModels.BookTypes;
+using Newtonsoft.Json.Linq;
 
 namespace BookShopApi.Controllers
 {
@@ -48,11 +49,13 @@ namespace BookShopApi.Controllers
 
         }
 
-        [HttpPut("[action]")]   
-        public async Task<IActionResult> Update(string id, BookType updatedType)
+        [HttpPut("[action]")]
+        public async Task<IActionResult> Update(JObject updatedType)
         {
-      
-            await _typeService.UpdateAsync(id, updatedType);
+            var bookType = updatedType["updatedType"];
+            string name = bookType["name"].ToString();
+            string id = bookType["id"].ToString();
+            await _typeService.UpdateAsync(id, name);
             return Ok(updatedType);
         }
 

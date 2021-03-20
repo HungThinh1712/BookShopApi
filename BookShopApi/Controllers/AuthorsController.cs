@@ -1,6 +1,7 @@
 ﻿using BookShopApi.Models;
 using BookShopApi.Service;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -55,20 +56,15 @@ namespace BookShopApi.Controllers
             var createdAuthor = await _authorService.CreateAsync(author);
             return Ok(createdAuthor);
         }
-        [HttpPut("[action]")]
-        public async Task<IActionResult> Update(string id, Models.Author updatedAuthor)
-        {
-            await _authorService.UpdateAsync(id, updatedAuthor);
-            return Ok(updatedAuthor);
-        }
 
-        [HttpDelete("[action]")]
-        public async Task<IActionResult> Delete(string id)
+        [HttpPut("[action]")]
+        public async Task<IActionResult> Update(JObject updatedAuthor)
         {
-            var author = await _authorService.GetAsync(id);
-            author.DeleteAt = DateTime.UtcNow;
-            await _authorService.UpdateAsync(id, author);
-            return Ok("Delete sucessfully");
+            var author = updatedAuthor["updatedAuthor"];
+            string name = author["name"].ToString();
+            string id = author["id"].ToString();
+            await _authorService.UpdateAsync(id, name);
+            return Ok(updatedAuthor);
         }
     }
 }

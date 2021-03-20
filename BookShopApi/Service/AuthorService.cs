@@ -32,9 +32,12 @@ namespace BookShopApi.Service
             return author;
         }
 
-        public async Task UpdateAsync(string id, Models.Author authorIn) =>
-           await _authors.ReplaceOneAsync(author => author.Id == id, authorIn);
-
+        public async Task UpdateAsync(string id, string name)
+        {
+            var filter = Builders<Author>.Filter.Eq(u => u.Id, id);
+            var update = Builders<Author>.Update.Set(u => u.Name, name);
+            await _authors.UpdateOneAsync(filter, update);
+        }
 
         public async Task RemoveAsync(string id) =>
            await _authors.DeleteOneAsync(author => author.Id == id);

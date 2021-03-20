@@ -35,8 +35,8 @@ namespace BookShopApi.Service
 
         public async Task UpdateAsync(string id, string name)
         {
-            var filter = Builders<PublishingHouse>.Filter.Eq(p => p.Id, id);
-            var update = Builders<PublishingHouse>.Update.Set(p => p.Name, name);
+            var filter = Builders<PublishingHouse>.Filter.Eq(u => u.Id, id);
+            var update = Builders<PublishingHouse>.Update.Set(u => u.Name, name);
             await _publishingHouses.UpdateOneAsync(filter, update);
         }
 
