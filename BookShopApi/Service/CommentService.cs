@@ -25,11 +25,14 @@ namespace BookShopApi.Service
             _users = database.GetCollection<User>(settings.UsersCollectionName);
         }
 
-        public async Task<List<Comment>> GetAsync() =>
-            await _comments.Find(comment => true).ToListAsync();
+        public async Task<Comment> GetByUserIdAsync(string id) =>
+           await _comments.Find<Comment>(comment => comment.UserId == id).FirstOrDefaultAsync();
 
         public async Task<List<Comment>> GetByIdAsync(string id) =>
             await _comments.Find(comment => comment.BookId ==id).ToListAsync();
+        //public async Task<List<Comment>> GetByUserIdAsync(string id) =>
+        //    await _comments.Find(comment => comment.UserId == id).ToListAsync();
+
 
         public async Task<EntityList<CommentViewModel>> GetAsync(string id, int page = 1)
         {

@@ -125,6 +125,7 @@ namespace BookShopApi.Service
         public async Task<Book> GetAsync(string id) =>
            await _books.Find<Book>(book => book.Id == id).FirstOrDefaultAsync();
 
+
         public async Task<BooksViewModel> CreateAsync(Book book,HttpRequest request)
         {
             book.Code = DateTime.Now.ToString("yymmssff") + book.PublishDate.DayOfYear.ToString().PadLeft(3, '0');

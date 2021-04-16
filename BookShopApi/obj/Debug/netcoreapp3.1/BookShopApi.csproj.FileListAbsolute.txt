@@ -207,3 +207,4 @@ F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\
 F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.dll
 F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.pdb
 F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.genruntimeconfig.cache
+F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Oxford-Thư21095250.jpg

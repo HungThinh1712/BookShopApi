@@ -1,4 +1,5 @@
-﻿using BookShopApi.Models;
+﻿using BookShopApi.Functions;
+using BookShopApi.Models;
 using BookShopApi.Models.ViewModels.Books;
 using BookShopApi.Models.ViewModels.Comments;
 using BookShopApi.Service;
@@ -37,6 +38,33 @@ namespace BookShopApi.Controllers
 
             return Ok(comments);
         }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<EntityList<CommentViewModel>>> GetCommentsByUserId(
+            [FromQuery] string userId)
+        {
+            var comments = await _commentService.GetByUserIdAsync(userId);
+            if (comments == null)
+            {
+                return BadRequest("book not found");
+            }
+            var book = await _bookService.GetAsync(comments.BookId);
+
+            CommentViewModel commentViewModel = new CommentViewModel()
+            {
+                Id = comments.Id,
+                BookName = book.BookName,
+                UserId = comments.UserId,
+                BookId = comments.BookId,
+                Title = comments.Title,
+                ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, book.ImageName),
+                Rate = comments.Rate,
+                Content = comments.Content,
+                CreateAt = Convert.ToDateTime(comments.CreateAt).ToString("yyyy-MM-dd")
+            };
+            return Ok(commentViewModel);
+        }
+
         [HttpGet("[action]")]
         public async Task<ActionResult<List<RatingViewModel>>> GetRatings(
             [FromQuery] string bookId)
@@ -123,7 +151,6 @@ namespace BookShopApi.Controllers
                 comment.UserFullName = user.FullName;
                 comment.ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, user.ImageName);
             }
-           
         }
     }
 }
