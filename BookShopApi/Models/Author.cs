@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Microsoft.AspNetCore.Http;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,13 @@ namespace BookShopApi.Models
         public string Id { get; set; }
 
         public string Name { get; set; }
+        public DateTime BirthDay { get; set; }
+        public string Description { get; set; }
+        public string ImageName { get; set; }
+        [BsonIgnore]
+        public IFormFile ImageFile { get; set; }
+        [BsonIgnore]
+        public string ImageSrc { get; set; }
 
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
 
@@ -20,6 +28,5 @@ namespace BookShopApi.Models
 
         [BsonIgnoreIfNull]
         public DateTime? DeleteAt { get; set; }
-        public IEnumerable<object> Entities { get; internal set; }
     }
 }

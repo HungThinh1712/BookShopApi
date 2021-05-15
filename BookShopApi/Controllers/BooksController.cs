@@ -133,7 +133,7 @@ namespace BookShopApi.Controllers
             }
             var type = await _typeService.GetAsync(book.TypeId);
             var publishingHouse = await _publishingHouseService.GetAsync(book.PublishHouseId);
-            var author = await _authorService.GetAsync(book.AuthorId);
+            var author = await _authorService.GetAsync(book.AuthorId,Request);
 
 
             BookViewModel bookViewModel = new BookViewModel()

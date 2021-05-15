@@ -10,11 +10,9 @@ namespace BookShopApi.Models.ViewModels.Authors
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public string CreateAt { get; set; }
-        [BsonIgnoreIfNull]
-        public string UpdateAt { get; set; }
-        [BsonIgnoreIfNull]
-        public string DeleteAt { get; set; }
-        public int SumBooks { get; set; }
+        public string BirthDay { get; set; }
+        public string Description { get; set; }
+        public string ImageSrc { get; set; }
+        public string ImageName { get; set; }
     }
 }

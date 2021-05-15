@@ -89,16 +89,23 @@ namespace BookShopApi.Controllers
         public async Task SendNotiToAmin(Notification notification)
         {
             // run some logic...    
-            var userAdmin= await _userService.GetAdminAsync();
+            try
+            {
+                var userAdmin = await _userService.GetAdminAsync();
 
-            notification.UserId = userAdmin.Id;
-            notification.CreateAt = DateTime.UtcNow;
-            notification.Status = 0;
- 
-   
-            await _notificationService.CreateAsync(notification);
+                notification.UserId = userAdmin.Id;
+                notification.CreateAt = DateTime.UtcNow;
+                notification.Status = 0;
 
-            await _notificationHub.Clients.All.ReceiveMessage(notification);
+
+                await _notificationService.CreateAsync(notification);
+
+                await _notificationHub.Clients.All.ReceiveMessage(notification);
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
         }
 
     }

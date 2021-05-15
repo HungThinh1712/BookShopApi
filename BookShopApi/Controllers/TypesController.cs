@@ -22,9 +22,12 @@ namespace BookShopApi.Controllers
         }
 
         [HttpGet("[action]")]    
-        public async Task<ActionResult<List<BookTypeViewModel>>> GetAll()
+        public async Task<ActionResult<List<BookTypeViewModel>>> GetAll(
+            [FromQuery] string name,
+            [FromQuery] int page,
+            [FromQuery] int pageSize)
         {
-            var types = await _typeService.GetAsync();
+            var types = await _typeService.GetAsync(name,page,pageSize);
             return Ok(types);
         }
 

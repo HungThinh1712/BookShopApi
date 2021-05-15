@@ -21,18 +21,33 @@ namespace BookShopApi.Service
             _types = database.GetCollection<BookType>(settings.TypesCollectionName);
         }
 
-        public async Task<List<BookTypeViewModel>> GetAsync()
+        public async Task<EntityList<BookTypeViewModel>> GetAsync(string name, int page, int pageSize)
         {
-            return (await _types.Find(type => type.DeleteAt == null).ToListAsync()).Adapt<List<BookTypeViewModel>>();
+            string searchString = string.IsNullOrEmpty(name) ? string.Empty : name;
+            var query = _types.Find(type =>type.Name.Contains(searchString));
+            int total = (int)await query.CountDocumentsAsync();
+            query = query.SortByDescending(x => x.CreateAt).Skip((page - 1) * pageSize).Limit(pageSize);
+            return new EntityList<BookTypeViewModel>()
+            {
+                Total = total ,
+                Entities = (await query.ToListAsync()).Adapt<List<BookTypeViewModel>>()
+            };
+           
         }
           
         public async Task<BookType> GetAsync(string id) =>
            await _types.Find<BookType>(type => type.Id == id).FirstOrDefaultAsync();
 
-        public async Task<BookType> CreateAsync(BookType type)
+        public async Task<EntityList<BookTypeViewModel>> CreateAsync(BookType type)
         {
             await _types.InsertOneAsync(type);
-            return type;
+            var query = _types.Find(type => type.DeleteAt == null);
+            query = query.SortByDescending(x => x.CreateAt);
+            return new EntityList<BookTypeViewModel>()
+            {
+                Total = (int)await query.CountDocumentsAsync(),
+                Entities = (await query.ToListAsync()).Adapt<List<BookTypeViewModel>>()
+            };
         }
 
         public async Task UpdateAsync(string id, BookType typeIn) =>

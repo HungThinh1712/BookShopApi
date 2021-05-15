@@ -365,17 +365,17 @@ namespace BookShopApi.Controllers
             return Ok(users);
         }
 
-        [HttpGet("Admin/[action]")]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUser([FromQuery] string name, int page)
-        {
-            var users = await _userService.GetAllUserAsync(name);
-            foreach (var user in users.Entities)
-            {
-                user.BirthDay = Convert.ToDateTime(user.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
-                user.Address = await GetAddressUser(user.Id);
-            }
-            return Ok(users);
-        }
+        //[HttpGet("Admin/[action]")]
+        //public async Task<ActionResult<IEnumerable<User>>> GetAllUser([FromQuery] string name, int page)
+        //{
+        //    var users = await _userService.GetAllUserAsync(name);
+        //    foreach (var user in users.Entities)
+        //    {
+        //        user.BirthDay = Convert.ToDateTime(user.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
+        //        user.Address = await GetAddressUser(user.Id);
+        //    }
+        //    return Ok(users);
+        //}
 
         private async Task<string> GetAddress(string id)
         {

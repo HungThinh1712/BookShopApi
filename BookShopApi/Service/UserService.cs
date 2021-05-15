@@ -152,24 +152,15 @@ namespace BookShopApi.Service
             };
         }
 
-        public async Task<EntityList<UsersInAdminViewModel>> GetAllUserAsync(string name, int page = 1, int pageSize = 10)
-        {
-            string searchName = string.IsNullOrEmpty(name) ? string.Empty : name.ToLower();
-            var query = _users.Find(user => user.FullName.ToLower().Contains(searchName));
-
-            var total = await query.CountDocumentsAsync();
-            query = query.SortByDescending(x => x.CreateAt).Skip((page - 1) * pageSize).Limit(pageSize);
-            return new EntityList<UsersInAdminViewModel>()
-            {
-                Total = (int)total,
-                Entities = (await query.ToListAsync()).Adapt<List<UsersInAdminViewModel>>()
-            };
-        }
-
         public async Task<User> GetUserByEmailAsync(string email)
         {
             var user = await _users.Find<User>(user => user.Email == email).FirstOrDefaultAsync();
             return user ;
+        }
+
+        internal Task GetAllUserAsync(string name)
+        {
+            throw new NotImplementedException();
         }
     }
 }
