@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "DswyJjM2JrTLDARbCnoHvbQVpPcz8zKZm4nzEcdhSPIwQ6YfTzSRKpqzb7Ze75fGXQEPJ+VCVm5dhjVNLgY79g==",
+  "dgSpecHash": "MKmJZ1N9BbxDijy4iegETAlpfJKLrbnuhJeEGhR/Wf9hH/N7hd596yDFUmQbnJhLGTdPF4r+Iz+ifwwexA+h+g==",
   "success": true,
   "projectFilePath": "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\BookShopApi.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\99hun\\.nuget\\packages\\aspnetcore.proxy\\4.2.0\\aspnetcore.proxy.4.2.0.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\dnsclient\\1.3.1\\dnsclient.1.3.1.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\fluentvalidation\\9.2.0\\fluentvalidation.9.2.0.nupkg.sha512",
