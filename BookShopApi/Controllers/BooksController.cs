@@ -96,7 +96,7 @@ namespace BookShopApi.Controllers
             [FromQuery] string sortPrice,
             [FromQuery] string publishHouseId,
             [FromQuery] string authorId,
-            [FromQuery] string tagId,
+            [FromQuery] string tag,
             [FromQuery] int page
         )
         {
@@ -108,8 +108,8 @@ namespace BookShopApi.Controllers
                 filter = filter & Builders<Book>.Filter.Eq("PublishHouseId", publishHouseId);
             if (authorId != null)
                 filter = filter & Builders<Book>.Filter.Eq("AuthorId", authorId);
-            if (tagId != null)
-                filter = filter & Builders<Book>.Filter.Eq("TagId", tagId);
+            if (tag != null)
+                filter = filter & Builders<Book>.Filter.Eq("Tag", tag);
             SortDefinition<Book> sortDefinition = null;
             if (sortPrice == "desc")
                 sortDefinition = Builders<Book>.Sort.Descending(x => x.Price);

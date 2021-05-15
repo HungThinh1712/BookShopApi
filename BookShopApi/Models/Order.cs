@@ -15,7 +15,7 @@ namespace BookShopApi.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string UserId { get; set; }
         public string OrderId { get; set; }
-        public  List<ItemInCart> Items { get; set; }
+        public List<ItemInCart> Items { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
         public string Status { get; set; }
         public int PaymentType { get; set; }
