@@ -36,8 +36,7 @@ namespace BookShopApi.Controllers
                                DistrictId = sc["huyen_abc"].ToString()
                            }
                            ).ToList();
-            foreach (var item in lstWard)
-                await _wardService.CreateAsync(item);
+            await _wardService.CreateManyAsync(lstWard);
             return true;
         }
         [HttpGet]

@@ -34,8 +34,7 @@ namespace BookShopApi.Controllers
                                Alias = Unsign.convertToUnSign(sc["name"].ToString()).Trim()
                            }
                            ).ToList();
-            foreach (var item in lstprovince)
-                await _provinceService.CreateAsync(item);
+            await _provinceService.CreateManyAsync(lstprovince);
             return true;
         }
         [HttpGet]

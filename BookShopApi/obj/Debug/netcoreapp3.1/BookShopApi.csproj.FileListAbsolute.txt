@@ -357,3 +357,4 @@ F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\10-Vạn-Câu21543257.jpg
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\21-Bài-Học21545526.jpg
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\a2102271521012231.png
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\83063593_221184085.jpg
