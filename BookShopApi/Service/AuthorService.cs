@@ -25,7 +25,7 @@ namespace BookShopApi.Service
         public async Task<EntityList<AuthorsInAdminViewModel>> GetAsync(string name, int page,int pageSize, HttpRequest request)
         {
             string searchString = String.IsNullOrEmpty(name) ? string.Empty : name;
-            var query = _authors.Find(author => author.Name.Contains(searchString))
+            var query = _authors.Find(author => author.Name.Contains(searchString) && author.DeleteAt==null)
                 .Project(x=>new AuthorsInAdminViewModel 
                 { 
                     Id = x.Id,
@@ -61,16 +61,18 @@ namespace BookShopApi.Service
             return true;
         }
 
-        public async Task UpdateAsync(Author author)
+        public async Task<Author> UpdateAsync(Author author)
         {
-            try
-            {
-                await _authors.ReplaceOneAsync(x=>x.Id ==author.Id, author);
-            }
-            catch (Exception e) { throw e; }
+            
+            await _authors.ReplaceOneAsync(x=>x.Id ==author.Id, author);
+            return author;
+           
         }
 
-        public async Task RemoveAsync(string id) =>
-           await _authors.DeleteOneAsync(author => author.Id == id);
+        public async Task RemoveAsync(string id)
+        {
+            var update = Builders<Author>.Update.Set(x => x.DeleteAt, DateTime.UtcNow);
+            await _authors.UpdateOneAsync(x => x.Id == id, update);
+        }
     }
 }

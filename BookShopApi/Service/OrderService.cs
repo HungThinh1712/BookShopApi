@@ -6,6 +6,7 @@ using Mapster;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BookShopApi.Service
@@ -71,7 +72,7 @@ namespace BookShopApi.Service
             decimal total = 0;
             foreach (var item in itemInCarts)
                 total += item.Price *item.Amount;
-            return total.ToString("#.000");
+            return total.ToString();
         }
         public async Task<bool> ConfirmOrder(string id)
         {
@@ -123,6 +124,28 @@ namespace BookShopApi.Service
                                      }).ToListAsync()
             };
         }
+        public async Task<List<decimal>> StatisticRevenue(int? year)
+        {
+            DateTime startDate =year!=null ? new DateTime((int)year, 1, 1) : DateTime.MinValue;
+            DateTime endDate = year != null ? new DateTime((int)year + 1, 1, 1) : DateTime.MaxValue;
+            var query = _orders.Aggregate().Match(x => x.Status == "Đã xác nhận"
+            && (year==null || (x.CreateAt >=startDate && x.CreateAt < endDate))).
+                Group(x => x.CreateAt.Month, x => new
+                {
+                    month =x.Key,
+                    TotalPrice = x.Sum(x => x.Items.Sum(y => y.TotalMoney))
+                });
+            var orders =  await query.ToListAsync();
+            List<int> months = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+            var orderMonths = orders.Select(x => x.month).ToList() ;
+            var differentMonh = months.Except(orderMonths).ToList();
+            foreach(var item in differentMonh)
+            {
+                orders.Add(new { month = item, TotalPrice = (decimal)0 });
+            }
+            return orders.OrderBy(x => x.month).Select(x=>x.TotalPrice).ToList();
+                
+        } 
 
       
     }

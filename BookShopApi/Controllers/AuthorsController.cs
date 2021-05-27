@@ -35,7 +35,8 @@ namespace BookShopApi.Controllers
             
 
             var authors = await _authorService.GetAsync(name,page,pageSize,Request);
-            return Ok(authors);
+
+                return Ok(authors);
         }
 
 
@@ -60,6 +61,14 @@ namespace BookShopApi.Controllers
             return Ok(createdAuthor);
 
         }
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> Delete(string id)
+        {
+
+            await _authorService.RemoveAsync(id);
+            return Ok();
+
+        }
         [HttpPut("[action]")]
         public async Task<IActionResult> Update([FromForm] UpdatedAuthor updatedAuthor)
         {
@@ -74,8 +83,16 @@ namespace BookShopApi.Controllers
                 author.ImageName = await SaveImageAsync(updatedAuthor.ImageFile);
             }
 
-            await _authorService.UpdateAsync(author);
-            return Ok(updatedAuthor);
+            var result = await _authorService.UpdateAsync(author);
+            var authorRM = new AuthorsInAdminViewModel
+            {
+                Id = result.Id,
+                Name = result.Name,
+                Description = result.Description,
+                BirthDay = result.BirthDay.ToLocalTime().ToString("yyyy-MM-dd"),
+                ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, result.ImageName),
+            };
+            return Ok(authorRM);
         }
         private async Task<string> SaveImageAsync(IFormFile imageFile)
         {

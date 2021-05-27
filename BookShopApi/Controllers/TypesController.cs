@@ -22,13 +22,14 @@ namespace BookShopApi.Controllers
         }
 
         [HttpGet("[action]")]    
-        public async Task<ActionResult<List<BookTypeViewModel>>> GetAll(
+        public async Task<ActionResult<EntityList<BookTypeViewModel>>> GetAll(
             [FromQuery] string name,
             [FromQuery] int page,
             [FromQuery] int pageSize)
         {
             var types = await _typeService.GetAsync(name,page,pageSize);
-            return Ok(types);
+           
+            return Ok(types); ;
         }
 
         [HttpGet("[action]")]
@@ -53,34 +54,31 @@ namespace BookShopApi.Controllers
         }
 
         [HttpPut("[action]")]
-        public async Task<IActionResult> Update(JObject updatedType)
+        public async Task<IActionResult> Update(BookType type)
         {
-            var bookType = updatedType["updatedType"];
-            string name = bookType["name"].ToString();
-            string id = bookType["id"].ToString();
-            await _typeService.UpdateAsync(id, name);
-            return Ok(updatedType);
+            var result = await _typeService.UpdateAsync(type.Id,type);
+
+            return Ok(new BookTypeViewModel
+            {
+                Id = result.Id,
+                Name = result.Name,
+                CreateAt = result.CreateAt.ToLocalTime().ToString("yyyy-MM-dd"),
+            }) ;
         }
 
         [HttpDelete("[action]")]
         public async Task<IActionResult> Delete(string id)
         {
            
-            var type = await _typeService.GetAsync(id);
-          
-            type.DeleteAt = DateTime.UtcNow;
-            await _typeService.UpdateAsync(id,type);
-            return Ok("Delete sucessfully");
+            
+            await _typeService.RemoveAsync(id);
+            return Ok();
         }
 
         [HttpGet("Admin/[action]")]
         public async Task<ActionResult<IEnumerable<Models.BookType>>> GetAllType([FromQuery] string name, int page)
         {
             var types = await _typeService.GetAllTypeAsync(name);
-            foreach (var type in types.Entities)
-            {
-                type.CreateAt = Convert.ToDateTime(type.CreateAt).ToLocalTime().ToString("yyyy-MM-dd");
-            }
             return Ok(types);
         }
     }

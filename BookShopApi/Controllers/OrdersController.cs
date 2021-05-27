@@ -61,5 +61,10 @@ namespace BookShopApi.Controllers
         {
             return Ok(await _orderService.ConfirmOrder(orderId));
         }
+        [HttpGet("StatisticByMonth")]
+        public async Task<ActionResult> GetMonthsStatistic([FromQuery] int? year)
+        {
+            return Ok(await _orderService.StatisticRevenue(year));
+        }
     }
 }

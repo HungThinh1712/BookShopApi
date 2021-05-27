@@ -2,6 +2,7 @@
 using BookShopApi.Models;
 using BookShopApi.Models.ViewModels.PublishingHouses;
 using Mapster;
+using Microsoft.AspNetCore.Http;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -21,9 +22,25 @@ namespace BookShopApi.Service
             _publishingHouses = database.GetCollection<Models.PublishingHouse>(settings.PublishingHousesCollectionName);
         }
 
-        public async Task<List<Models.PublishingHouse>> GetAsync() =>
-            await _publishingHouses.Find(publishingHouse => true).ToListAsync();
-
+        public async Task<EntityList<PublishingHousesInAdminViewModel>> GetAsync(string name, int page, int pageSize, HttpRequest request)
+        {
+            string searchString = String.IsNullOrEmpty(name) ? string.Empty : name;
+            var query = _publishingHouses.Find(publishingHouse => publishingHouse.Name.Contains(searchString) && publishingHouse.DeleteAt==null)
+                .Project(x => new PublishingHousesInAdminViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    CreateAt = x.CreateAt.ToLocalTime().ToString("yyyy-MM-dd"),
+                }); ;
+            int total = (int)await query.CountDocumentsAsync();
+            query = query.SortByDescending(x => x.CreateAt).Skip((page - 1) * pageSize).Limit(pageSize);
+            return new EntityList<PublishingHousesInAdminViewModel>()
+            {
+                Total = total,
+                Entities = await query.ToListAsync()
+            };;
+        }
+           
         public async Task<Models.PublishingHouse> GetAsync(string id) =>
            await _publishingHouses.Find<Models.PublishingHouse>(publishingHouse => publishingHouse.Id == id).FirstOrDefaultAsync();
 
@@ -33,20 +50,27 @@ namespace BookShopApi.Service
             return publishingHouse;
         }
 
-        public async Task UpdateAsync(string id, string name)
+        public async Task<PublishingHouse> UpdateAsync(PublishingHouse publishingHouse)
         {
-            var filter = Builders<PublishingHouse>.Filter.Eq(u => u.Id, id);
-            var update = Builders<PublishingHouse>.Update.Set(u => u.Name, name);
+            var filter = Builders<PublishingHouse>.Filter.Eq(u => u.Id, publishingHouse.Id);
+            var update = Builders<PublishingHouse>.Update.Set(u => u.Name, publishingHouse.Name);
             await _publishingHouses.UpdateOneAsync(filter, update);
+            var result = await _publishingHouses.Find<Models.PublishingHouse>(x => x.Id == publishingHouse.Id).FirstOrDefaultAsync();
+            return result;
         }
 
-        public async Task RemoveAsync(string id) =>
-           await _publishingHouses.DeleteOneAsync(publishingHouse => publishingHouse.Id == id);
+        public async Task RemoveAsync(string id)
+        {
+            var filter = Builders<PublishingHouse>.Filter.Eq(u => u.Id,id);
+            var update = Builders<PublishingHouse>.Update.Set(u => u.DeleteAt, DateTime.UtcNow);
+            await _publishingHouses.UpdateOneAsync(filter, update);
+        }
+           
 
         public async Task<EntityList<PublishingHousesInAdminViewModel>> GetAllTypeAsync(string name, int page = 1, int pageSize = 10)
         {
             string searchName = string.IsNullOrEmpty(name) ? string.Empty : name.ToLower();
-            var query = _publishingHouses.Find(author => author.Name.ToLower().Contains(searchName));
+            var query = _publishingHouses.Find(author => author.Name.ToLower().Contains(searchName) && author.DeleteAt==null);
 
             var total = await query.CountDocumentsAsync();
             query = query.SortByDescending(x => x.CreateAt).Skip((page - 1) * pageSize).Limit(pageSize);

@@ -14,5 +14,6 @@ namespace BookShopApi.Models.ViewModels.BookTypes
         public string Id { get; set; }
 
         public string Name { get; set; }
+        public string CreateAt { get; set; }
     }
 }

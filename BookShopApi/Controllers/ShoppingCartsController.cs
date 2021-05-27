@@ -114,6 +114,7 @@ namespace BookShopApi.Controllers
             foreach (var item in shoppingcart.ItemInCart)
             {
                 var book = await _bookService.GetAsync(item.BookId);
+                item.TotalMoney = item.Amount * item.Price;
                 book.Amount = book.Amount - item.Amount;
                 await _bookService.UpdateAsync(book.Id, book);
             }
