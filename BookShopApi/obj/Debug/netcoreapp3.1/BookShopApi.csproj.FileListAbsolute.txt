@@ -394,3 +394,5 @@ F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\7a8f4
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\7a8f42124221142006.png
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\83063593_221583113.jpg
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\10-Vạn-Câu21401289.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\a2102271521583861.png
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\10-Vạn-Câu21450063.jpg
