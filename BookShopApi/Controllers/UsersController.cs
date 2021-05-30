@@ -360,7 +360,7 @@ namespace BookShopApi.Controllers
             {
                 user.BirthDay = Convert.ToDateTime(user.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
                 user.SumOrder = await GetSumOrder(user.Id);
-                user.Address = await GetAddress(user.Id);
+                //user.Address = await GetAddress(user.Id);
             }
             return Ok(users);
         }

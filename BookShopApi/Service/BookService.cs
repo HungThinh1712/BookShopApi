@@ -44,13 +44,14 @@ namespace BookShopApi.Service
                                 }).ToListAsync(); 
         }
 
-        public async Task<List<BooksViewModel>> GetByZoneAsync(int index, HttpRequest request,string zoneType)
+        public async Task<List<BooksViewModel>> GetByZoneAsync(int index, HttpRequest request,string zoneType,string tag)
         {
             //Get ten books first time
-            int size = 10;
-            int length = 10;
+            int size = 5;
+            int length = 5;
             //Get extra five books after first time
-            return await _books.Find(book => book.DeleteAt == null && book.ZoneType ==zoneType && book.Amount>0).Limit(index * size + length).Project(x =>
+            return await _books.Find(book => book.DeleteAt == null && book.ZoneType ==zoneType && book.Amount>0
+                    && book.Tag==tag).Limit(index * size + length).Project(x =>
                                    new BooksViewModel
                                    {
                                        Id = x.Id,
@@ -59,6 +60,7 @@ namespace BookShopApi.Service
                                        CoverPrice = x.CoverPrice.ToString(),
                                        ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, x.ImageName),
                                        Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
+                                       CountRating = x.Comments.Count,
                                        TypeId = x.TypeId
                                    }).ToListAsync();
         }
@@ -195,6 +197,29 @@ namespace BookShopApi.Service
             };
         }
 
+        public async Task  UpdateManyAsyns()
+        {
+            await _books.UpdateManyAsync(x => true, MongoDB.Driver.Builders<Book>.Update.Set(x => x.Tag, "Sách bán chạy trong ngày"));
+        }
 
+        public async Task<List<BooksViewModel>> GetByTypeAsync(int index, HttpRequest request, string type)
+        {
+            //Get ten books first time
+            int size = 5;
+            int length = 5;
+            //Get extra five books after first time
+            return await _books.Find(book => book.DeleteAt == null && book.TypeId == type && book.Amount > 0).Limit(index * size + length).Project(x =>
+                                     new BooksViewModel
+                                     {
+                                         Id = x.Id,
+                                         BookName = x.BookName,
+                                         Price = x.Price.ToString(),
+                                         CoverPrice = x.CoverPrice.ToString(),
+                                         ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, x.ImageName),
+                                         Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
+                                         CountRating = x.Comments.Count,
+                                         TypeId = x.TypeId
+                                     }).ToListAsync();
+        }
     }
 }

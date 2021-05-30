@@ -2,6 +2,7 @@
 using BookShopApi.Models;
 using BookShopApi.Models.ViewModels;
 using BookShopApi.Models.ViewModels.Books;
+using BookShopApi.Models.ViewModels.BookTypes;
 using BookShopApi.Service;
 using Mapster;
 using Microsoft.AspNetCore.Hosting;
@@ -51,12 +52,27 @@ namespace BookShopApi.Controllers
         [HttpGet("[action]")]
         public async Task<ActionResult<List<BooksViewModel>>> GetBookByZone(
             [FromQuery] int index ,
-            [FromQuery] string zoneType)
+            [FromQuery] string zoneType,
+            [FromQuery] string tag)
         {
-            var books = await _bookService.GetByZoneAsync(index, Request,zoneType);
+            var books = await _bookService.GetByZoneAsync(index, Request,zoneType,tag);
 
             return Ok(books);
         }
+        [HttpGet("[action]")]
+        public async Task<ActionResult<List<BooksViewModel>>> GetBookByType(
+            [FromQuery] int index,
+            [FromQuery] string type)
+        {
+            if (!string.IsNullOrEmpty(type))
+            {
+                var books = await _bookService.GetByTypeAsync(index, Request, type);
+
+                return Ok(books);
+            }
+            return Ok(new List<BooksViewModel>());
+        }
+
 
         [HttpGet("[action]")]
         public async Task<ActionResult<List<BooksViewModel>>> GetBookByTag(
@@ -76,15 +92,18 @@ namespace BookShopApi.Controllers
             var books = await _bookService.GetBooksByTypeIdAsync(typeId,Request);
 
             //Checked book exist in list
-            var checkedBook = GetBookExisted(bookId, books);
-            if (checkedBook != null)
-                //Remove itself
-                books.Remove(checkedBook);
-            else
+            if (books.Count > 0)
             {
-                //Remove last element
-                if (books.Count == 6)
-                    books.RemoveRange(6, 1);
+                var checkedBook = GetBookExisted(bookId, books);
+                if (checkedBook != null)
+                    //Remove itself
+                    books.Remove(checkedBook);
+                else
+                {
+                    //Remove last element
+                    if (books.Count == 6)
+                        books.RemoveRange(6, 1);
+                }
             }
             return Ok(books);
         }
@@ -195,6 +214,11 @@ namespace BookShopApi.Controllers
             book.DeleteAt = DateTime.UtcNow;
             await _bookService.UpdateAsync(id, book);
             return Ok("Delete sucessfully");
+        }
+        [HttpPut("[action]")]
+        public async Task UpdateMany()
+        {
+            await _bookService.UpdateManyAsyns();
         }
         private async Task<string> SaveImageAsync(IFormFile imageFile)
         {

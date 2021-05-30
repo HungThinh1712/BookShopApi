@@ -149,58 +149,29 @@ namespace BookShopApi.Controllers
         }
 
         [HttpPut("[action]")]
-        public async Task<IActionResult> UpdateAmountCartItemEqualsToDB(
-            [FromBody] JObject shoppingCart)
+        public async Task<IActionResult> UpdateAmountCartItemEqualsToDB()
         {
+            string message = "";
             var headerValues = Request.Headers["Authorization"];
             string userId = Authenticate.DecryptToken(headerValues.ToString());
             var shoppingCartInDB = await _shoppingCartService.GetByUserIdAsync(userId);
-            bool flag = false;
-            if (shoppingCart["shoppingCartData"] != null)
-            {
-                var shoppingCartInBody = shoppingCart["shoppingCartData"]["items"];
 
-                List<ItemInCart> itemInCarts = shoppingCartInBody
-                    .Select(sc =>
-                            new ItemInCart()
-                            {
-                                BookId = sc["bookId"].ToString(),
-                                Amount = int.Parse(sc["amount"].ToString()),
-                                Name = sc["name"].ToString(),
-                                Price = Convert.ToDecimal(sc["price"].ToString()),
-                                CoverPrice = Convert.ToDecimal(sc["coverPrice"].ToString()),
-                                AuthorName = sc["authorName"].ToString(),
-                                ImageSrc = sc["imageSrc"].ToString(),
-                            }
-                            ).ToList();
-                foreach (var itemInBody in itemInCarts)
+            foreach (var itemInDB in shoppingCartInDB.ItemInCart)
+            {
+                var book = await _bookService.GetAsync(itemInDB.BookId);
+                if (book.Amount < itemInDB.Amount)
                 {
-                    foreach (var itemInDB in shoppingCartInDB.ItemInCart)
-                    {
-                        if (itemInDB.BookId == itemInBody.BookId)
-                        {
-                            var book = await _bookService.GetAsync(itemInBody.BookId);
-                            if(book.Amount < itemInBody.Amount)
-                            {
-                                itemInDB.Amount = book.Amount;
-                                flag = true;
-                            }    
- 
-                        }
-
-                    }
-                   
+                    message = message + string.Format("Sản phẩm {0} hiện tại chỉ còn {1} sản phẩm. Vui lòng cập nhật lại số lượng", itemInDB.Name, book.Amount.ToString());
                 }
+
             }
-            if (flag == true)
+            if (message != "")
             {
-                await _shoppingCartService.UpdateAsync(userId, shoppingCartInDB);
-                flag = false;
-                return Ok(shoppingCartInDB.ItemInCart);
+                return BadRequest(message);
             }
             else
             {
-                return BadRequest("Nothing Updated");
+                return Ok("Pass");
             }
 
         }

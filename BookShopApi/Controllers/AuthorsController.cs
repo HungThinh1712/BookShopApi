@@ -56,7 +56,12 @@ namespace BookShopApi.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Create([FromForm]Models.Author author)
         {
-            author.ImageName = await SaveImageAsync(author.ImageFile);
+            if (author.ImageFile != null)
+            {
+                author.ImageName = await SaveImageAsync(author.ImageFile);
+            }
+            else
+                author.ImageName = "defaultAvatar.png";
             var createdAuthor = await _authorService.CreateAsync(author, Request);
             return Ok(createdAuthor);
 
