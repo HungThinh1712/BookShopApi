@@ -32,7 +32,7 @@ namespace BookShopApi.Service
                     Name = x.Name,
                     Description = x.Description,
                     BirthDay = x.BirthDay.ToLocalTime().ToString("yyyy-MM-dd"),
-                    ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, x.ImageName),
+                    ImgUrl = x.ImgUrl,
                 });
             int total = (int)await query.CountDocumentsAsync();
             query = query.SortByDescending(x => x.CreateAt).Skip((page - 1) * pageSize).Limit(pageSize);
@@ -50,7 +50,7 @@ namespace BookShopApi.Service
                Name = x.Name,
                Description = x.Description,
                BirthDay = x.BirthDay.ToLocalTime().ToString("yyyy-MM-dd"),
-               ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, x.ImageName),
+               ImgUrl = x.ImgUrl,
            }).FirstOrDefaultAsync();
         public async Task<Author> GetAsync(string id) =>
           await _authors.Find<Models.Author>(author => author.Id == id).FirstOrDefaultAsync();

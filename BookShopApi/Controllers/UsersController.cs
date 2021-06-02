@@ -63,7 +63,7 @@ namespace BookShopApi.Controllers
             )
         {
             var user = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
-            user.ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, user.ImageName);
+            user.ImgUrl = user.ImgUrl;
             if (user.ProvinceId != null && user.ProvinceId != "" &&user.IsAdmin==false)
             {
                 user.ProvinceName = (await _provinceService.GetByIdAsync(user.ProvinceId)).Name;
@@ -88,7 +88,7 @@ namespace BookShopApi.Controllers
             user.PassWord = BCrypt.Net.BCrypt.HashPassword(user.PassWord);
             user.IsActive = false;
             user.CodeActive = RandomCode();
-            user.ImageName = "defaultAvatar.png";
+            user.ImageUrl = "https://www.pphfoundation.ca/wp-content/uploads/2018/05/default-avatar.png";
             _queueService.QueueBackgroundWorkItem(async token =>
             {
                 await SendMailAsync(user.Email, user.CodeActive);
@@ -140,7 +140,7 @@ namespace BookShopApi.Controllers
                 returnedUser.DistrictName = (await _districtService.GetByIdAsync(returnedUser.DistrictId)).Name;
                 returnedUser.WardName = (await _wardService.GetByIdAsync(returnedUser.WardId)).Name;
             }
-            returnedUser.ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, returnedUser.ImageName);
+            returnedUser.ImgUrl =returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
             return Ok(returnedUser);
         }
@@ -195,7 +195,7 @@ namespace BookShopApi.Controllers
                 returnedUser.DistrictName = (await _districtService.GetByIdAsync(returnedUser.DistrictId)).Name;
                 returnedUser.WardName = (await _wardService.GetByIdAsync(returnedUser.WardId)).Name;
             }
-            returnedUser.ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, returnedUser.ImageName);
+            returnedUser.ImgUrl = returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
             return Ok(returnedUser);
         }
@@ -224,7 +224,7 @@ namespace BookShopApi.Controllers
             await _userService.UpdateProfileWithPassWordAsync(id, name, phone, sex, birthday, newPassword);
             //return user updated
             var returnedUser = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
-            returnedUser.ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, returnedUser.ImageName);
+            returnedUser.ImgUrl = returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
             return Ok(returnedUser);
         }
@@ -290,14 +290,9 @@ namespace BookShopApi.Controllers
             var headerValues = Request.Headers["Authorization"];
             string userId = Authenticate.DecryptToken(headerValues.ToString());
             var user = await _userService.GetAsync(userId);
-            updatedUser.ImageName = user.ImageName;
+            updatedUser.ImgUrl = user.ImageUrl;
             updatedUser.Id = userId;
-            if (updatedUser.ImageFile != null)
-            {
-                if(user.ImageName!= "defaultAvatar.png")
-                    DeleteImage(user.ImageName);
-                updatedUser.ImageName = await SaveImageAsync(updatedUser.ImageFile);
-            }
+            
 
             await _userService.UpdateAvatarAsync(updatedUser);
 
@@ -309,7 +304,7 @@ namespace BookShopApi.Controllers
                 returnedUser.DistrictName = (await _districtService.GetByIdAsync(returnedUser.DistrictId)).Name;
                 returnedUser.WardName = (await _wardService.GetByIdAsync(returnedUser.WardId)).Name;
             }
-            returnedUser.ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, returnedUser.ImageName);
+            returnedUser.ImgUrl = returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
             return Ok(returnedUser);
         }

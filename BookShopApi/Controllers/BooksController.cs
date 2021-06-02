@@ -162,7 +162,7 @@ namespace BookShopApi.Controllers
                 Description = book.Description,
                 Price = book.Price.ToString(),
                 CoverPrice = book.CoverPrice.ToString(),
-                ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, book.ImageName),
+                ImgUrl = book.ImgUrl,
                 Rating = Rouding.Adjust(Average.CountingAverage(book.Comments)),
                 BookTypeName = type.Name,
                 PublishingHouseName = publishingHouse.Name,
@@ -184,7 +184,6 @@ namespace BookShopApi.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Create([FromForm] Book book)
         {
-            book.ImageName = await SaveImageAsync(book.ImageFile);
             book.Alias = Unsign.convertToUnSign(book.BookName.ToLower());
             var createdBook = await _bookService.CreateAsync(book,Request);
             return Ok(createdBook);
@@ -193,14 +192,6 @@ namespace BookShopApi.Controllers
         [HttpPut("[action]")]
         public async Task<IActionResult> Update([FromForm] Book updatedBook)
         {
-            var book = await _bookService.GetAsync(updatedBook.Id);
-            updatedBook.ImageName = book.ImageName;
-
-            if (updatedBook.ImageFile != null)
-            {
-                DeleteImage(book.ImageName);
-                updatedBook.ImageName = await SaveImageAsync(updatedBook.ImageFile);
-            }
            
             await _bookService.UpdateBookAsync(updatedBook);
             return Ok(updatedBook);
@@ -219,23 +210,6 @@ namespace BookShopApi.Controllers
         public async Task UpdateMany()
         {
             await _bookService.UpdateManyAsyns();
-        }
-        private async Task<string> SaveImageAsync(IFormFile imageFile)
-        {
-            string imageName = new string(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
-            imageName = imageName + DateTime.Now.ToString("yymmssff") + Path.GetExtension(imageFile.FileName);
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Images", imageName);
-            using(var fileStream = new FileStream(imagePath,FileMode.Create))
-            {
-                await imageFile.CopyToAsync(fileStream);
-            }
-            return imageName;
-        }
-        private  void DeleteImage(string imageName)
-        {
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Images", imageName);
-            if (System.IO.File.Exists(imagePath))
-                System.IO.File.Delete(imagePath);
         }
         private BooksViewModel GetBookExisted(string bookId, List<BooksViewModel> books)
         {

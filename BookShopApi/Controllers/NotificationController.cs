@@ -60,11 +60,11 @@ namespace BookShopApi.Controllers
             {
                 if (notification.SenderId == null || notification.SenderId == "")
                 {
-                    notification.ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, "defaultAvatar.png");
+                    notification.UserId = "https://www.pphfoundation.ca/wp-content/uploads/2018/05/default-avatar.png";
                 }
                 else
                 {
-                    notification.ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, (await _userService.GetAsync(notification.SenderId)).ImageName);
+                    notification.ImgUrl = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, (await _userService.GetAsync(notification.SenderId)).ImageUrl);
                 }
 
             }

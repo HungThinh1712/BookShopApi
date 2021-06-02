@@ -12,7 +12,7 @@ namespace BookShopApi.Models.ViewModels
        
         public string CoverPrice { get; set; }
 
-        public string ImageSrc { get; set; }
+        public string ImgUrl { get; set; }
         public double Rating { get; set; }
         public int CountRating { get; set; }
         public string TypeId { get; set; }

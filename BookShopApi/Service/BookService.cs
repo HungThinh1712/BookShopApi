@@ -38,7 +38,7 @@ namespace BookShopApi.Service
                                     BookName = x.BookName, 
                                     Price = x.Price.ToString(),
                                     CoverPrice = x.CoverPrice.ToString(),
-                                    ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase,x.ImageName),
+                                    ImgUrl = x.ImgUrl,
                                     Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
                                     TypeId = x.TypeId
                                 }).ToListAsync(); 
@@ -58,7 +58,7 @@ namespace BookShopApi.Service
                                        BookName = x.BookName,
                                        Price = x.Price.ToString(),
                                        CoverPrice = x.CoverPrice.ToString(),
-                                       ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, x.ImageName),
+                                       ImgUrl = x.ImgUrl,
                                        Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
                                        CountRating = x.Comments.Count,
                                        TypeId = x.TypeId
@@ -78,7 +78,7 @@ namespace BookShopApi.Service
                                         BookName = x.BookName,
                                         Price = x.Price.ToString(),
                                         CoverPrice = x.CoverPrice.ToString(),
-                                        ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, x.ImageName),
+                                        ImgUrl = x.ImgUrl,
                                         Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
                                         TypeId = x.TypeId
                                     }).ToListAsync();
@@ -94,7 +94,7 @@ namespace BookShopApi.Service
                                        BookName = x.BookName,
                                        Price = x.Price.ToString(),
                                        CoverPrice = x.CoverPrice.ToString(),
-                                       ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, x.ImageName),
+                                       ImgUrl = x.ImgUrl,
                                        Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
                                        TypeId = x.TypeId
                                    }).ToListAsync();
@@ -117,7 +117,7 @@ namespace BookShopApi.Service
                                         BookName = x.BookName,
                                         Price = x.Price.ToString(),
                                         CoverPrice = x.CoverPrice.ToString(),
-                                        ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, x.ImageName),
+                                        ImgUrl = x.ImgUrl,
                                         Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
                                         TypeId = x.TypeId
                                     }).ToListAsync()
@@ -138,7 +138,7 @@ namespace BookShopApi.Service
                 BookName = book.BookName,
                 Price = book.Price.ToString(),
                 CoverPrice = book.CoverPrice.ToString(),
-                ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, book.ImageName),
+                ImgUrl = book.ImgUrl,
                 Rating = Rouding.Adjust(Average.CountingAverage(book.Comments)),
                 TypeId = book.TypeId
             };
@@ -161,7 +161,7 @@ namespace BookShopApi.Service
                                                 Set(x => x.Size, updatedBook.Size).
                                                 Set(x => x.CoverType, updatedBook.CoverType).
                                                 Set(x => x.ZoneType, updatedBook.ZoneType).
-                                                Set(x => x.ImageName, updatedBook.ImageName);
+                                                Set(x => x.ImgUrl, updatedBook.ImgUrl);
             await _books.UpdateOneAsync(filter, update);
         }
 
@@ -190,7 +190,7 @@ namespace BookShopApi.Service
                                         BookName = x.BookName,
                                         Price = x.Price.ToString(),
                                         CoverPrice = x.CoverPrice.ToString(),
-                                        ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, x.ImageName),
+                                        ImgUrl = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, x.ImgUrl),
                                         Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
                                         TypeId = x.TypeId
                                     }).ToListAsync()
@@ -215,7 +215,7 @@ namespace BookShopApi.Service
                                          BookName = x.BookName,
                                          Price = x.Price.ToString(),
                                          CoverPrice = x.CoverPrice.ToString(),
-                                         ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, x.ImageName),
+                                         ImgUrl = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, x.ImgUrl),
                                          Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
                                          CountRating = x.Comments.Count,
                                          TypeId = x.TypeId

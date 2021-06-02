@@ -22,7 +22,7 @@ namespace BookShopApi.Models
         [BsonIgnore]
         public int TotalRead { get; set; }
         [BsonIgnore]
-        public string  ImgSrc { get; set; }
+        public string  ImgUrl { get; set; }
         public int Status { get; set; }
         public string OrderId { get; set; }
         public string OrderCode { get; set; }

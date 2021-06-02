@@ -57,7 +57,7 @@ namespace BookShopApi.Controllers
                 UserId = comments.UserId,
                 BookId = comments.BookId,
                 Title = comments.Title,
-                ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, book.ImageName),
+                ImgUrl = book.ImgUrl,
                 Rate = comments.Rate,
                 Content = comments.Content,
                 CreateAt = Convert.ToDateTime(comments.CreateAt).ToString("yyyy-MM-dd")
@@ -149,7 +149,7 @@ namespace BookShopApi.Controllers
             {
                 var user = await _userService.GetAsync(comment.UserId);
                 comment.UserFullName = user.FullName;
-                comment.ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, user.ImageName);
+                comment.ImgUrl = user.ImageUrl;
             }
         }
     }

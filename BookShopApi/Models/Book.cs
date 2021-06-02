@@ -33,13 +33,7 @@ namespace BookShopApi.Models
 
         [BsonRepresentation(BsonType.Decimal128)]
         public decimal CoverPrice { get; set; }
-
-        public string ImageName { get; set; }
-
-        [BsonIgnore]
-        public IFormFile ImageFile { get; set; }
-        [BsonIgnore]
-        public string ImageSrc { get; set; }
+        public string ImgUrl { get; set; }
 
         public int Amount { get; set; }
 

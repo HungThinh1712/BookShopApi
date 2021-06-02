@@ -12,7 +12,6 @@ namespace BookShopApi.Models.ViewModels.Authors
         public string Name { get; set; }
         public string BirthDay { get; set; }
         public string Description { get; set; }
-        public string ImageSrc { get; set; }
-        public string ImageName { get; set; }
+        public string ImgUrl { get; set; }
     }
 }

@@ -56,12 +56,7 @@ namespace BookShopApi.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Create([FromForm]Models.Author author)
         {
-            if (author.ImageFile != null)
-            {
-                author.ImageName = await SaveImageAsync(author.ImageFile);
-            }
-            else
-                author.ImageName = "defaultAvatar.png";
+            
             var createdAuthor = await _authorService.CreateAsync(author, Request);
             return Ok(createdAuthor);
 
@@ -82,11 +77,7 @@ namespace BookShopApi.Controllers
             author.BirthDay = updatedAuthor.BirthDay;
             author.Name = updatedAuthor.Name;
 
-            if (updatedAuthor.ImageFile != null)
-            {
-                DeleteImage(author.ImageName);
-                author.ImageName = await SaveImageAsync(updatedAuthor.ImageFile);
-            }
+           
 
             var result = await _authorService.UpdateAsync(author);
             var authorRM = new AuthorsInAdminViewModel
@@ -95,7 +86,7 @@ namespace BookShopApi.Controllers
                 Name = result.Name,
                 Description = result.Description,
                 BirthDay = result.BirthDay.ToLocalTime().ToString("yyyy-MM-dd"),
-                ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, result.ImageName),
+                ImgUrl = result.ImgUrl,
             };
             return Ok(authorRM);
         }
