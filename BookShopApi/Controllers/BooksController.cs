@@ -27,17 +27,20 @@ namespace BookShopApi.Controllers
         private readonly TypeService _typeService;
         private readonly PublishingHouseService _publishingHouseService;
         private readonly AuthorService _authorService;
+        private readonly TagService _tagService;
         private readonly IWebHostEnvironment _hostEnvironment;
         public BooksController(BookService bookService, 
                                TypeService typeService,
                                PublishingHouseService publishingHouseService,
                                AuthorService authorService,
+                               TagService tagService,
                                IWebHostEnvironment hostEnvironment)
         {
             _bookService = bookService;
             _typeService = typeService;
             _publishingHouseService = publishingHouseService;
             _authorService = authorService;
+            _tagService = tagService;
             _hostEnvironment = hostEnvironment;
         }
 
@@ -153,6 +156,7 @@ namespace BookShopApi.Controllers
             var type = await _typeService.GetAsync(book.TypeId);
             var publishingHouse = await _publishingHouseService.GetAsync(book.PublishHouseId);
             var author = await _authorService.GetAsync(book.AuthorId,Request);
+            var tag = await _tagService.GetAsync(book.TagId);
 
 
             BookViewModel bookViewModel = new BookViewModel()
@@ -174,7 +178,8 @@ namespace BookShopApi.Controllers
                 AuthorId = author.Id,
                 PublishingHouseId = publishingHouse.Id,
                 TypeId = type.Id,
-                Tag = book.Tag,
+                TagId = book.TagId,
+                TagName = tag.Name,
                 Amount = book.Amount,
                 ZoneType = book.ZoneType
             };

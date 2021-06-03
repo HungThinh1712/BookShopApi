@@ -37,7 +37,8 @@ namespace BookShopApi.Models
 
         public int Amount { get; set; }
 
-        public string Tag { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string TagId { get; set; }
 
         public string ZoneType { get; set; }
 

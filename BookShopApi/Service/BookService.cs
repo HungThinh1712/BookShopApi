@@ -50,8 +50,8 @@ namespace BookShopApi.Service
             int size = 5;
             int length = 5;
             //Get extra five books after first time
-            return await _books.Find(book => book.DeleteAt == null && book.ZoneType ==zoneType && book.Amount>0
-                    && book.Tag==tag).Limit(index * size + length).Project(x =>
+            return await _books.Find(book => book.DeleteAt == null && book.ZoneType ==zoneType && book.TagId==tag && book.Amount > 0
+                    ).Limit(index * size + length).Project(x =>
                                    new BooksViewModel
                                    {
                                        Id = x.Id,
@@ -71,7 +71,7 @@ namespace BookShopApi.Service
             int size = 10;
             int length = 10;
             //Get extra five books after first time
-            return await _books.Find(book => book.DeleteAt == null && book.Tag == tag).Limit(index * size + length).Project(x =>
+            return await _books.Find(book => book.DeleteAt == null && book.TagId == tag).Limit(index * size + length).Project(x =>
                                     new BooksViewModel
                                     {
                                         Id = x.Id,
@@ -149,7 +149,7 @@ namespace BookShopApi.Service
         {
             var filter = Builders<Book>.Filter.Eq(x => x.Id, updatedBook.Id);
             var update = Builders<Book>.Update.Set(x => x.BookName, updatedBook.BookName).
-                                                Set(x => x.Tag, updatedBook.Tag).
+                                                Set(x => x.TagId, updatedBook.TagId).
                                                 Set(x => x.PublishHouseId, updatedBook.PublishHouseId).
                                                 Set(x => x.AuthorId, updatedBook.AuthorId).
                                                 Set(x => x.TypeId, updatedBook.TypeId).
@@ -190,7 +190,7 @@ namespace BookShopApi.Service
                                         BookName = x.BookName,
                                         Price = x.Price.ToString(),
                                         CoverPrice = x.CoverPrice.ToString(),
-                                        ImgUrl = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, x.ImgUrl),
+                                        ImgUrl = x.ImgUrl,
                                         Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
                                         TypeId = x.TypeId
                                     }).ToListAsync()
@@ -199,7 +199,7 @@ namespace BookShopApi.Service
 
         public async Task  UpdateManyAsyns()
         {
-            await _books.UpdateManyAsync(x => true, MongoDB.Driver.Builders<Book>.Update.Set(x => x.Tag, "Sách bán chạy trong ngày"));
+            await _books.UpdateManyAsync(x => true, MongoDB.Driver.Builders<Book>.Update.Set(x => x.TagId, "Sách bán chạy trong ngày"));
         }
 
         public async Task<List<BooksViewModel>> GetByTypeAsync(int index, HttpRequest request, string type)
@@ -215,7 +215,7 @@ namespace BookShopApi.Service
                                          BookName = x.BookName,
                                          Price = x.Price.ToString(),
                                          CoverPrice = x.CoverPrice.ToString(),
-                                         ImgUrl = String.Format("{0}://{1}{2}/Images/{3}", request.Scheme, request.Host, request.PathBase, x.ImgUrl),
+                                         ImgUrl = x.ImgUrl,
                                          Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
                                          CountRating = x.Comments.Count,
                                          TypeId = x.TypeId

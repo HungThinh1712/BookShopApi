@@ -64,7 +64,7 @@ namespace BookShopApi.Controllers
                 }
                 else
                 {
-                    notification.ImgUrl = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, (await _userService.GetAsync(notification.SenderId)).ImageUrl);
+                    notification.ImgUrl = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, (await _userService.GetAsync(notification.SenderId)).ImgUrl);
                 }
 
             }

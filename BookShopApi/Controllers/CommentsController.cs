@@ -149,7 +149,7 @@ namespace BookShopApi.Controllers
             {
                 var user = await _userService.GetAsync(comment.UserId);
                 comment.UserFullName = user.FullName;
-                comment.ImgUrl = user.ImageUrl;
+                comment.ImgUrl = user.ImgUrl;
             }
         }
     }

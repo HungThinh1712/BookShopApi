@@ -54,7 +54,7 @@ namespace BookShopApi.Service
 
             user.Email = email;
             user.FullName = fullName;
-            user.ImageUrl = "https://www.pphfoundation.ca/wp-content/uploads/2018/05/default-avatar.png";
+            user.ImgUrl = "https://www.pphfoundation.ca/wp-content/uploads/2018/05/default-avatar.png";
             await _users.InsertOneAsync(user);
             return user;
         }
@@ -125,7 +125,7 @@ namespace BookShopApi.Service
         public async Task  UpdateAvatarAsync(UpdateAvatarModel updatedUser)
         {
             var filter = Builders<User>.Filter.Eq(u => u.Id, updatedUser.Id);
-            var update = Builders<User>.Update.Set(u => u.ImageUrl, updatedUser.ImgUrl);
+            var update = Builders<User>.Update.Set(u => u.ImgUrl, updatedUser.ImgUrl);
             await _users.UpdateOneAsync(filter, update);
         }
 

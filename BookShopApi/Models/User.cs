@@ -29,7 +29,7 @@ namespace BookShopApi.Models
         public string WardId { get; set; }
         public int Sex { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string ImgUrl { get; set; }
 
         public DateTime BirthDay { get; set; }
 

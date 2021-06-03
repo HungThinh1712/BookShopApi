@@ -88,7 +88,7 @@ namespace BookShopApi.Controllers
             user.PassWord = BCrypt.Net.BCrypt.HashPassword(user.PassWord);
             user.IsActive = false;
             user.CodeActive = RandomCode();
-            user.ImageUrl = "https://www.pphfoundation.ca/wp-content/uploads/2018/05/default-avatar.png";
+            user.ImgUrl = "https://www.pphfoundation.ca/wp-content/uploads/2018/05/default-avatar.png";
             _queueService.QueueBackgroundWorkItem(async token =>
             {
                 await SendMailAsync(user.Email, user.CodeActive);
@@ -290,7 +290,7 @@ namespace BookShopApi.Controllers
             var headerValues = Request.Headers["Authorization"];
             string userId = Authenticate.DecryptToken(headerValues.ToString());
             var user = await _userService.GetAsync(userId);
-            updatedUser.ImgUrl = user.ImageUrl;
+            updatedUser.ImgUrl = user.ImgUrl;
             updatedUser.Id = userId;
             
 
@@ -329,23 +329,7 @@ namespace BookShopApi.Controllers
 
         }
 
-        private async Task<string> SaveImageAsync(IFormFile imageFile)
-        {
-            string imageName = new string(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
-            imageName = imageName + DateTime.Now.ToString("yymmssff") + Path.GetExtension(imageFile.FileName);
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Images", imageName);
-            using (var fileStream = new FileStream(imagePath, FileMode.Create))
-            {
-                await imageFile.CopyToAsync(fileStream);
-            }
-            return imageName;
-        }
-        private void DeleteImage(string imageName)
-        {
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Images", imageName);
-            if (System.IO.File.Exists(imagePath))
-                System.IO.File.Delete(imagePath);
-        }
+       
 
         [HttpGet("Admin/[action]")]
         public async Task<ActionResult<IEnumerable<User>>> GetUser([FromQuery] string name,int page)
@@ -355,7 +339,7 @@ namespace BookShopApi.Controllers
             {
                 user.BirthDay = Convert.ToDateTime(user.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
                 user.SumOrder = await GetSumOrder(user.Id);
-                //user.Address = await GetAddress(user.Id);
+                user.Address = await GetAddress(user.Id);
             }
             return Ok(users);
         }

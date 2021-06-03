@@ -8,7 +8,7 @@ namespace BookShopApi.Validator
     {
         public TagValidator()
         {
-            RuleFor(book => book.Tag).NotEmpty().WithMessage("Vui lòng nhập thẻ");
+            RuleFor(book => book.TagId).NotEmpty().WithMessage("Vui lòng nhập thẻ");
         }
     }
 }
