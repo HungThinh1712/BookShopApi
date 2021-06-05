@@ -50,7 +50,9 @@ namespace BookShopApi.Controllers
             var users = await _userService.GetAsync();
             foreach(var order in orders.Entities)
             {
-                order.UserName = users.Where(x=>x.Id==order.UserId).Select(x=>x.FullName).FirstOrDefault(); 
+                var user = users.Where(x => x.Id == order.UserId).FirstOrDefault();
+                order.UserName = user.FullName;
+                order.PhoneNumber = user.Phone;
             }
             return Ok(orders);
         }
