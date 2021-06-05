@@ -23,6 +23,8 @@ namespace BookShopApi.Models
         public int Rate { get; set; }
 
         public string Content { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string OrderId { get; set; }
 
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdateAt { get; set; } 

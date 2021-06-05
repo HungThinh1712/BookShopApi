@@ -36,8 +36,7 @@ namespace BookShopApi.Controllers
                                ProvinceId = sc["tinh_abc"].ToString()
                            }
                            ).ToList();
-            foreach (var item in lstDistrict)
-                await _districtService.CreateAsync(item);
+            await _districtService.CreateManyAsync(lstDistrict);
             return true;
         }
         [HttpGet]

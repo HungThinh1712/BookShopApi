@@ -18,14 +18,16 @@ namespace BookShopApi.Controllers
         private readonly CommentService _commentService;
         private readonly BookService _bookService;
         private readonly UserService _userService;
+        private readonly OrderService _orderService;
 
 
         public CommentsController(CommentService commentService, BookService bookService,
-            UserService userService)
+            UserService userService, OrderService orderService)
         {
             _commentService = commentService;
             _bookService = bookService;
             _userService = userService;
+            _orderService = orderService;
 
         }
 
@@ -68,7 +70,7 @@ namespace BookShopApi.Controllers
                 UserId = comments.UserId,
                 BookId = comments.BookId,
                 Title = comments.Title,
-                ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, book.ImageName),
+                ImgUrl = book.ImgUrl,
                 Rate = comments.Rate,
                 Content = comments.Content,
                 CreateAt = Convert.ToDateTime(comments.CreateAt).ToString("yyyy-MM-dd")
@@ -89,24 +91,25 @@ namespace BookShopApi.Controllers
         public async Task<IActionResult> Create(CommentUpdateModel createComment)
         {
             var comment = createComment.Adapt<Comment>();
-            var createdComment = await _commentService.CreateAsync(comment);
+             await _commentService.CreateAsync(comment);
 
             var bookRated = await _bookService.GetAsync(comment.BookId);
             bookRated.Comments.Add(comment);
 
             await _bookService.UpdateAsync(bookRated.Id, bookRated);
 
-            //Return comments and ratings
-            var commnets = await _commentService.GetAsync(bookRated.Id);
-            await GetCommentWithUserName(commnets);
-            var ratings = await _commentService.GetAmountRating(bookRated.Id);
-
-            var commentWithRating = new CommentRatingViewModel()
+            //Update status comment in order
+            var order =await _orderService.GetOrderAsync(comment.OrderId);
+            foreach(var item in order.Items)
             {
-                Comments = commnets,
-                Ratings = ratings
-            };
-            return Ok(commentWithRating);
+                if (item.BookId == comment.BookId)
+                {
+                    item.StatusRate = true;
+                }
+            }
+            await _orderService.UpdateStatusRateAsync(order);
+          
+            return Ok();
         }
         [HttpDelete]
         public async Task<ActionResult<List<CommentViewModel>>> Delete(
@@ -133,25 +136,25 @@ namespace BookShopApi.Controllers
         [HttpPut]
         public async Task<ActionResult<List<CommentViewModel>>> Update(CommentUpdateModel updatedCommentModel)
         {
-            var updatedComment = updatedCommentModel.Adapt<Comment>();
+            //var updatedComment = updatedCommentModel.Adapt<Comment>();
 
-            await _commentService.UpdateAsync(updatedComment.Id, updatedComment);
+            //await _commentService.UpdateAsync(updatedComment.Id, updatedComment);
 
-            var bookRated = await _bookService.GetAsync(updatedComment.BookId);
+            //var bookRated = await _bookService.GetAsync(updatedComment.BookId);
 
-            var newListComment = await _commentService.GetByIdAsync(updatedComment.BookId);
-            bookRated.Comments = newListComment;
-            await _bookService.UpdateAsync(bookRated.Id, bookRated);
+            //var newListComment = await _commentService.GetByIdAsync(updatedComment.BookId);
+            //bookRated.Comments = newListComment;
+            //await _bookService.UpdateAsync(bookRated.Id, bookRated);
 
-            var comments = await _commentService.GetAsync(updatedComment.BookId, updatedCommentModel.Page);
-            var ratings = await _commentService.GetAmountRating(updatedComment.BookId);
-            await GetCommentWithUserName(comments);
-            var commentWithRating = new CommentRatingViewModel()
-            {
-                Comments = comments,
-                Ratings = ratings
-            };
-            return Ok(commentWithRating);
+            //var comments = await _commentService.GetAsync(updatedComment.BookId, updatedCommentModel.Page);
+            //var ratings = await _commentService.GetAmountRating(updatedComment.BookId);
+            //await GetCommentWithUserName(comments);
+            //var commentWithRating = new CommentRatingViewModel()
+            //{
+            //    Comments = comments,
+            //    Ratings = ratings
+            //};
+            return Ok();
 
         }
         private async Task GetCommentWithUserName(EntityList<CommentViewModel> comments)
@@ -160,7 +163,7 @@ namespace BookShopApi.Controllers
             {
                 var user = await _userService.GetAsync(comment.UserId);
                 comment.UserFullName = user.FullName;
-                comment.ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, user.ImageName);
+                comment.ImgUrl = user.ImgUrl;
             }
         }
     }

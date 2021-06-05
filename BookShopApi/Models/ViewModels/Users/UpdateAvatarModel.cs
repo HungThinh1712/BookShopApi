@@ -9,7 +9,7 @@ namespace BookShopApi.Models.ViewModels.Users
     public class UpdateAvatarModel
     {
         public string Id { get; set; }
-        public IFormFile ImageFile { get; set; }
-        public string ImageName { get; set; }
+        
+        public string ImgUrl { get; set; }
     }
 }

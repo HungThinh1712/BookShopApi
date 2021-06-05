@@ -23,8 +23,7 @@ namespace BookShopApi.Models.ViewModels.Users
         public string DistrictName { get; set; }
         public string WardName { get; set; }
         public int Sex { get; set; }
-        public string ImgSrc { get; set; }
-        public string ImageName { get; set; }
+        public string ImgUrl { get; set; }
         public string BirthDay { get; set; } 
         public bool IsAdmin { get; set; }
     }

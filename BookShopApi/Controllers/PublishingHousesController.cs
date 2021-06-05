@@ -22,9 +22,12 @@ namespace BookShopApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.PublishingHouse>>> GetAll()
+        public async Task<ActionResult<IEnumerable<Models.PublishingHouse>>> GetAll(
+            [FromQuery] string name,
+            [FromQuery] int page,
+            [FromQuery] int pageSize)
         {
-            var publishingHouse = await _publishingHouseService.GetAsync();
+            var publishingHouse = await _publishingHouseService.GetAsync(name, page, pageSize, Request);
             return Ok(publishingHouse);
         }
 
@@ -49,13 +52,16 @@ namespace BookShopApi.Controllers
         }
 
         [HttpPut("[action]")]   
-        public async Task<IActionResult> Update(JObject updatedPublishHouse)
+        public async Task<IActionResult> Update(PublishingHouse publishingHouse)
         {
-            var publishHouse = updatedPublishHouse["updatedPublishHouse"];
-            string name = publishHouse["name"].ToString();
-            string id = publishHouse["id"].ToString();
-            await _publishingHouseService.UpdateAsync(id, name);
-            return Ok(updatedPublishHouse);
+            var result = await _publishingHouseService.UpdateAsync(publishingHouse);
+
+            return Ok(new PublishingHousesInAdminViewModel
+            {
+                Id = result.Id,
+                Name = result.Name,
+                CreateAt = result.CreateAt.ToLocalTime().ToString("yyyy-MM-dd"),
+            });
         }
 
         [HttpGet("Admin/[action]")]
@@ -67,6 +73,13 @@ namespace BookShopApi.Controllers
                 publishingHouse.CreateAt = Convert.ToDateTime(publishingHouse.CreateAt).ToLocalTime().ToString("yyyy-MM-dd");
             }
             return Ok(publishingHouses);
+        }
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> Delete(string id)
+        {
+             await _publishingHouseService.RemoveAsync(id);
+
+            return Ok();
         }
     }
 }

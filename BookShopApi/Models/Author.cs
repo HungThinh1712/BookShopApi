@@ -15,11 +15,8 @@ namespace BookShopApi.Models
         public string Name { get; set; }
         public DateTime BirthDay { get; set; }
         public string Description { get; set; }
-        public string ImageName { get; set; }
-        [BsonIgnore]
-        public IFormFile ImageFile { get; set; }
-        [BsonIgnore]
-        public string ImageSrc { get; set; }
+      
+        public string ImgUrl { get; set; }
 
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
 

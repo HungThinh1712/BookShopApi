@@ -35,7 +35,8 @@ namespace BookShopApi.Controllers
             
 
             var authors = await _authorService.GetAsync(name,page,pageSize,Request);
-            return Ok(authors);
+
+                return Ok(authors);
         }
 
 
@@ -55,9 +56,17 @@ namespace BookShopApi.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Create([FromForm]Models.Author author)
         {
-            author.ImageName = await SaveImageAsync(author.ImageFile);
+            
             var createdAuthor = await _authorService.CreateAsync(author, Request);
             return Ok(createdAuthor);
+
+        }
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> Delete(string id)
+        {
+
+            await _authorService.RemoveAsync(id);
+            return Ok();
 
         }
         [HttpPut("[action]")]
@@ -68,31 +77,19 @@ namespace BookShopApi.Controllers
             author.BirthDay = updatedAuthor.BirthDay;
             author.Name = updatedAuthor.Name;
 
-            if (updatedAuthor.ImageFile != null)
-            {
-                DeleteImage(author.ImageName);
-                author.ImageName = await SaveImageAsync(updatedAuthor.ImageFile);
-            }
+           
 
-            await _authorService.UpdateAsync(author);
-            return Ok(updatedAuthor);
-        }
-        private async Task<string> SaveImageAsync(IFormFile imageFile)
-        {
-            string imageName = new string(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
-            imageName = imageName + DateTime.Now.ToString("yymmssff") + Path.GetExtension(imageFile.FileName);
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Images", imageName);
-            using (var fileStream = new FileStream(imagePath, FileMode.Create))
+            var result = await _authorService.UpdateAsync(author);
+            var authorRM = new AuthorsInAdminViewModel
             {
-                await imageFile.CopyToAsync(fileStream);
-            }
-            return imageName;
+                Id = result.Id,
+                Name = result.Name,
+                Description = result.Description,
+                BirthDay = result.BirthDay.ToLocalTime().ToString("yyyy-MM-dd"),
+                ImgUrl = result.ImgUrl,
+            };
+            return Ok(authorRM);
         }
-        private void DeleteImage(string imageName)
-        {
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Images", imageName);
-            if (System.IO.File.Exists(imagePath))
-                System.IO.File.Delete(imagePath);
-        }
+       
     }
 }

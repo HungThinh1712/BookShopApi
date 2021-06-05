@@ -26,6 +26,11 @@ namespace BookShopApi.Service
             await _wards.InsertOneAsync(ward);
             return ward;
         }
+        public async Task<bool> CreateManyAsync(List<Ward> wards)
+        {
+            await _wards.InsertManyAsync(wards);
+            return true;
+        }
         public async Task<List<Ward>> GetByDistrictIdAsync(string id)
         {
             return await _wards.Find(x => x.DistrictId == id).ToListAsync();

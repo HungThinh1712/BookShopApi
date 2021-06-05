@@ -2,6 +2,18 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.1": {
+      "AspNetCore.Proxy/4.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.1/AspNetCore.Proxy.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/AspNetCore.Proxy.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "BCrypt.Net-Next/4.0.2": {
         "type": "package",
         "compile": {
@@ -2362,6 +2374,23 @@
     }
   },
   "libraries": {
+    "AspNetCore.Proxy/4.2.0": {
+      "sha512": "1ygys6uShLWS25RZy5s0CEojWUVbtsSaes+IOueBG/+/yeIe40Dd2f66p6pn+QegxnHbLHibRWd7CsK6Oi5EhQ==",
+      "type": "package",
+      "path": "aspnetcore.proxy/4.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "aspnetcore.proxy.4.2.0.nupkg.sha512",
+        "aspnetcore.proxy.nuspec",
+        "lib/net5.0/AspNetCore.Proxy.dll",
+        "lib/net5.0/AspNetCore.Proxy.xml",
+        "lib/netcoreapp3.1/AspNetCore.Proxy.dll",
+        "lib/netcoreapp3.1/AspNetCore.Proxy.xml",
+        "lib/netstandard2.0/AspNetCore.Proxy.dll",
+        "lib/netstandard2.0/AspNetCore.Proxy.xml"
+      ]
+    },
     "BCrypt.Net-Next/4.0.2": {
       "sha512": "LyNKpIpr4GraRD9+xlTviyxxbZpF6J4xJf7DvraC1mR8PSN/KonGc4rt8C/fjkD3vaEvgA7BcvsbHFCOjgczyQ==",
       "type": "package",
@@ -7666,6 +7695,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "AspNetCore.Proxy >= 4.2.0",
       "BCrypt.Net-Next >= 4.0.2",
       "FluentValidation.AspNetCore >= 9.2.0",
       "Hangfire >= 1.7.18",
@@ -7683,19 +7713,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\hongl\\.nuget\\packages\\": {}
+    "C:\\Users\\99hun\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Specialized Subjects\\II-2020-2021\\BookShopAPI\\BookShopApi\\BookShopApi.csproj",
+      "projectUniqueName": "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\BookShopApi.csproj",
       "projectName": "BookShopApi",
-      "projectPath": "F:\\Specialized Subjects\\II-2020-2021\\BookShopAPI\\BookShopApi\\BookShopApi.csproj",
-      "packagesPath": "C:\\Users\\hongl\\.nuget\\packages\\",
-      "outputPath": "F:\\Specialized Subjects\\II-2020-2021\\BookShopAPI\\BookShopApi\\obj\\",
+      "projectPath": "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\BookShopApi.csproj",
+      "packagesPath": "C:\\Users\\99hun\\.nuget\\packages\\",
+      "outputPath": "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\hongl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\99hun\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7721,6 +7751,10 @@
       "netcoreapp3.1": {
         "targetAlias": "netcoreapp3.1",
         "dependencies": {
+          "AspNetCore.Proxy": {
+            "target": "Package",
+            "version": "[4.2.0, )"
+          },
           "BCrypt.Net-Next": {
             "target": "Package",
             "version": "[4.0.2, )"
@@ -7796,8 +7830,16 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

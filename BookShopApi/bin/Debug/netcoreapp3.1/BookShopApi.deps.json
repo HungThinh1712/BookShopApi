@@ -8,7 +8,14 @@
       "TRACE",
       "DEBUG",
       "NETCOREAPP",
-      "NETCOREAPP3_1"
+      "NETCOREAPP3_1",
+      "NETCOREAPP1_0_OR_GREATER",
+      "NETCOREAPP1_1_OR_GREATER",
+      "NETCOREAPP2_0_OR_GREATER",
+      "NETCOREAPP2_1_OR_GREATER",
+      "NETCOREAPP2_2_OR_GREATER",
+      "NETCOREAPP3_0_OR_GREATER",
+      "NETCOREAPP3_1_OR_GREATER"
     ],
     "languageVersion": "8.0",
     "platform": "",
@@ -24,6 +31,7 @@
     ".NETCoreApp,Version=v3.1": {
       "BookShopApi/1.0.0": {
         "dependencies": {
+          "AspNetCore.Proxy": "4.2.0",
           "BCrypt.Net-Next": "4.0.2",
           "FluentValidation.AspNetCore": "9.2.0",
           "Hangfire": "1.7.18",
@@ -326,6 +334,17 @@
         },
         "compile": {
           "BookShopApi.dll": {}
+        }
+      },
+      "AspNetCore.Proxy/4.2.0": {
+        "runtime": {
+          "lib/netcoreapp3.1/AspNetCore.Proxy.dll": {
+            "assemblyVersion": "4.2.0.0",
+            "fileVersion": "4.2.0.0"
+          }
+        },
+        "compile": {
+          "lib/netcoreapp3.1/AspNetCore.Proxy.dll": {}
         }
       },
       "BCrypt.Net-Next/4.0.2": {
@@ -3748,6 +3767,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "AspNetCore.Proxy/4.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1ygys6uShLWS25RZy5s0CEojWUVbtsSaes+IOueBG/+/yeIe40Dd2f66p6pn+QegxnHbLHibRWd7CsK6Oi5EhQ==",
+      "path": "aspnetcore.proxy/4.2.0",
+      "hashPath": "aspnetcore.proxy.4.2.0.nupkg.sha512"
     },
     "BCrypt.Net-Next/4.0.2": {
       "type": "package",

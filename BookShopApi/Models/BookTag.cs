@@ -5,15 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BookShopApi.Models.ViewModels.BookTypes
+namespace BookShopApi.Models
 {
-    public class BookTypeViewModel
+    public class BookTag
     {
+
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-
         public string Name { get; set; }
-        public string CreateAt { get; set; }
     }
 }

@@ -45,7 +45,7 @@ namespace BookShopApi.Controllers
             var notification = await _notificationService.GetbyIdAsync(id);
             notification.Status = 1;
             await _notificationService.UpdateAsync(id, notification);
-           
+
 
             await _notificationHub.Clients.All.ReceiveMessage(notification);
         }
@@ -54,22 +54,22 @@ namespace BookShopApi.Controllers
         {
             // run some logic...
             List<Notification> notifications = new List<Notification>();
-            if (userId!=null)
-                 notifications = await _notificationService.GetAsync(userId);
-            foreach(var notification in notifications)
+            if (userId != null)
+                notifications = await _notificationService.GetAsync(userId);
+            foreach (var notification in notifications)
             {
                 if (notification.SenderId == null || notification.SenderId == "")
                 {
-                    notification.ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, "defaultAvatar.png");
+                    notification.ImgUrl = "https://img.icons8.com/bubbles/2x/admin-settings-male.png";
                 }
                 else
                 {
-                    notification.ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, (await _userService.GetAsync(notification.SenderId)).ImageName);
+                    notification.ImgUrl = (await _userService.GetAsync(notification.SenderId)).ImgUrl;
                 }
-               
+
             }
             return Ok(notifications);
-           
+
         }
 
         [HttpGet("DeleteNoti")]
@@ -78,7 +78,7 @@ namespace BookShopApi.Controllers
             // run some logic...
 
             var returedNotification = await _notificationService.GetbyIdAsync(id);
-           
+
             await _notificationService.RemoveAsync(id);
 
 
@@ -102,7 +102,7 @@ namespace BookShopApi.Controllers
 
                 await _notificationHub.Clients.All.ReceiveMessage(notification);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw e;
             }

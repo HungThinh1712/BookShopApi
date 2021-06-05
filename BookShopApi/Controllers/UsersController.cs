@@ -63,7 +63,7 @@ namespace BookShopApi.Controllers
             )
         {
             var user = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
-            user.ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, user.ImageName);
+            user.ImgUrl = user.ImgUrl;
             if (user.ProvinceId != null && user.ProvinceId != "" &&user.IsAdmin==false)
             {
                 user.ProvinceName = (await _provinceService.GetByIdAsync(user.ProvinceId)).Name;
@@ -88,7 +88,7 @@ namespace BookShopApi.Controllers
             user.PassWord = BCrypt.Net.BCrypt.HashPassword(user.PassWord);
             user.IsActive = false;
             user.CodeActive = RandomCode();
-            user.ImageName = "defaultAvatar.png";
+            user.ImgUrl = "https://www.pphfoundation.ca/wp-content/uploads/2018/05/default-avatar.png";
             _queueService.QueueBackgroundWorkItem(async token =>
             {
                 await SendMailAsync(user.Email, user.CodeActive);
@@ -134,13 +134,16 @@ namespace BookShopApi.Controllers
 
             ///Return updated user to update state in react
             var returnedUser = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
+            var provinces = await _provinceService.GetAllAsync();
+            var wards = await _wardService.GetByDistrictIdAsync(returnedUser.DistrictId);
+            var districts = await _districtService.GetByProvinceIdAsync(returnedUser.ProvinceId);
             if (returnedUser.ProvinceId != null)
             {
-                returnedUser.ProvinceName = (await _provinceService.GetByIdAsync(returnedUser.ProvinceId)).Name;
-                returnedUser.DistrictName = (await _districtService.GetByIdAsync(returnedUser.DistrictId)).Name;
-                returnedUser.WardName = (await _wardService.GetByIdAsync(returnedUser.WardId)).Name;
+                returnedUser.ProvinceName = provinces.Where(x => x.Id == returnedUser.ProvinceId).FirstOrDefault().Name;
+                returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
+                returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
             }
-            returnedUser.ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, returnedUser.ImageName);
+            returnedUser.ImgUrl =returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
             return Ok(returnedUser);
         }
@@ -168,7 +171,7 @@ namespace BookShopApi.Controllers
             {
                 smtpClient.Port = 587;
                 smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials = new System.Net.NetworkCredential("99hungthinh17.2019", "Koieuai1712");
+                smtpClient.Credentials = new System.Net.NetworkCredential("99hungthinh17.2019", "Koieuai1712@");
                 smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtpClient.EnableSsl = true;
                 smtpClient.Timeout = 30000;
@@ -189,13 +192,16 @@ namespace BookShopApi.Controllers
             await _userService.UpdateProfileAsync(id, name, phone, sex, birthday);
             //return user updated
             var returnedUser = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
-            if(returnedUser.ProvinceId!=null && returnedUser.WardId!=null && returnedUser.DistrictId != null)
+            var provinces = await _provinceService.GetAllAsync();
+            var wards = await _wardService.GetByDistrictIdAsync(returnedUser.DistrictId);
+            var districts = await _districtService.GetByProvinceIdAsync(returnedUser.ProvinceId);
+            if (returnedUser.ProvinceId != null)
             {
-                returnedUser.ProvinceName = (await _provinceService.GetByIdAsync(returnedUser.ProvinceId)).Name;
-                returnedUser.DistrictName = (await _districtService.GetByIdAsync(returnedUser.DistrictId)).Name;
-                returnedUser.WardName = (await _wardService.GetByIdAsync(returnedUser.WardId)).Name;
+                returnedUser.ProvinceName = provinces.Where(x => x.Id == returnedUser.ProvinceId).FirstOrDefault().Name;
+                returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
+                returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
             }
-            returnedUser.ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, returnedUser.ImageName);
+            returnedUser.ImgUrl = returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
             return Ok(returnedUser);
         }
@@ -224,7 +230,7 @@ namespace BookShopApi.Controllers
             await _userService.UpdateProfileWithPassWordAsync(id, name, phone, sex, birthday, newPassword);
             //return user updated
             var returnedUser = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
-            returnedUser.ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, returnedUser.ImageName);
+            returnedUser.ImgUrl = returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
             return Ok(returnedUser);
         }
@@ -290,26 +296,23 @@ namespace BookShopApi.Controllers
             var headerValues = Request.Headers["Authorization"];
             string userId = Authenticate.DecryptToken(headerValues.ToString());
             var user = await _userService.GetAsync(userId);
-            updatedUser.ImageName = user.ImageName;
             updatedUser.Id = userId;
-            if (updatedUser.ImageFile != null)
-            {
-                if(user.ImageName!= "defaultAvatar.png")
-                    DeleteImage(user.ImageName);
-                updatedUser.ImageName = await SaveImageAsync(updatedUser.ImageFile);
-            }
+            
 
             await _userService.UpdateAvatarAsync(updatedUser);
 
             ///Return updated user to update state in react
             var returnedUser = (await _userService.GetAsync(userId)).Adapt<UserViewModel>();
+            var provinces = await _provinceService.GetAllAsync();
+            var wards = await _wardService.GetByDistrictIdAsync(returnedUser.DistrictId);
+            var districts = await _districtService.GetByProvinceIdAsync(returnedUser.ProvinceId);
             if (returnedUser.ProvinceId != null)
             {
-                returnedUser.ProvinceName = (await _provinceService.GetByIdAsync(returnedUser.ProvinceId)).Name;
-                returnedUser.DistrictName = (await _districtService.GetByIdAsync(returnedUser.DistrictId)).Name;
-                returnedUser.WardName = (await _wardService.GetByIdAsync(returnedUser.WardId)).Name;
+                returnedUser.ProvinceName = provinces.Where(x => x.Id == returnedUser.ProvinceId).FirstOrDefault().Name;
+                returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
+                returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
             }
-            returnedUser.ImgSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, returnedUser.ImageName);
+            returnedUser.ImgUrl = returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
             return Ok(returnedUser);
         }
@@ -334,23 +337,7 @@ namespace BookShopApi.Controllers
 
         }
 
-        private async Task<string> SaveImageAsync(IFormFile imageFile)
-        {
-            string imageName = new string(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
-            imageName = imageName + DateTime.Now.ToString("yymmssff") + Path.GetExtension(imageFile.FileName);
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Images", imageName);
-            using (var fileStream = new FileStream(imagePath, FileMode.Create))
-            {
-                await imageFile.CopyToAsync(fileStream);
-            }
-            return imageName;
-        }
-        private void DeleteImage(string imageName)
-        {
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Images", imageName);
-            if (System.IO.File.Exists(imagePath))
-                System.IO.File.Delete(imagePath);
-        }
+       
 
         [HttpGet("Admin/[action]")]
         public async Task<ActionResult<IEnumerable<User>>> GetUser([FromQuery] string name,int page)
@@ -380,11 +367,14 @@ namespace BookShopApi.Controllers
         private async Task<string> GetAddress(string id)
         {
             var returnedUser = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
+            var provinces = await _provinceService.GetAllAsync();
+            var wards = await _wardService.GetByDistrictIdAsync(returnedUser.DistrictId);
+            var districts = await _districtService.GetByProvinceIdAsync(returnedUser.ProvinceId);
             if (returnedUser.ProvinceId != null)
             {
-                returnedUser.ProvinceName = (await _provinceService.GetByIdAsync(returnedUser.ProvinceId)).Name;
-                returnedUser.DistrictName = (await _districtService.GetByIdAsync(returnedUser.DistrictId)).Name;
-                returnedUser.WardName = (await _wardService.GetByIdAsync(returnedUser.WardId)).Name;
+                returnedUser.ProvinceName = provinces.Where(x=>x.Id==returnedUser.ProvinceId).FirstOrDefault().Name;
+                returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
+                returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
                 return returnedUser.SpecificAddress + ", " + returnedUser.WardName + ", " + returnedUser.DistrictName + ", " + returnedUser.ProvinceName;
             }
             else

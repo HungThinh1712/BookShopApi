@@ -47,12 +47,12 @@ namespace BookShopApi.Controllers
 
            
             var orders = await _orderService.GetAllAsync(page, pageSize,status);
+            var users = await _userService.GetAsync();
             foreach(var order in orders.Entities)
             {
-                var user = await _userService.GetAsync(order.UserId);
-                order.UserName = user.FullName; 
-                if(order.PaymentType==2)
-                    order.TotalMoney = 0.ToString();
+                var user = users.Where(x => x.Id == order.UserId).FirstOrDefault();
+                order.UserName = user.FullName;
+                order.PhoneNumber = user.Phone;
             }
             return Ok(orders);
         }
@@ -60,6 +60,16 @@ namespace BookShopApi.Controllers
         public async Task<ActionResult> ConfirmOrder(string orderId)
         {
             return Ok(await _orderService.ConfirmOrder(orderId));
+        }
+        [HttpGet("StatisticByMonth")]
+        public async Task<ActionResult> GetMonthsStatistic([FromQuery] int? year)
+        {
+            return Ok(await _orderService.StatisticRevenue(year));
+        }
+        [HttpGet("[action]")]
+        public async Task<ActionResult> GetOrder([FromQuery] string id)
+        {
+            return Ok(await _orderService.GetOrderAsync(id));
         }
     }
 }

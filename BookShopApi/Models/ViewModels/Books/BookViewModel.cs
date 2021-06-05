@@ -15,7 +15,7 @@ namespace BookShopApi.Models.ViewModels.Books
         public string Description { get; set; }
         public string Price { get; set; }
         public string CoverPrice { get; set; }
-        public string ImageSrc { get; set; }
+        public string ImgUrl { get; set; }
         public double Rating { get; set; }
         public int Amount { get; set; }
         public string BookTypeName { get; set; }
@@ -23,7 +23,8 @@ namespace BookShopApi.Models.ViewModels.Books
         public string PublishingHouseName { get; set; }
         public string Size { get; set; }
    
-        public string Tag { get; set; }
+        public string TagId { get; set; }
+        public string TagName { get; set; }
         public string AuthorId { get; set; }
         public string PublishingHouseId { get; set; }
 

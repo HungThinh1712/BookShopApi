@@ -2,6 +2,7 @@
 using BookShopApi.Models;
 using BookShopApi.Models.ViewModels;
 using BookShopApi.Models.ViewModels.Books;
+using BookShopApi.Models.ViewModels.BookTypes;
 using BookShopApi.Service;
 using Mapster;
 using Microsoft.AspNetCore.Hosting;
@@ -26,17 +27,20 @@ namespace BookShopApi.Controllers
         private readonly TypeService _typeService;
         private readonly PublishingHouseService _publishingHouseService;
         private readonly AuthorService _authorService;
+        private readonly TagService _tagService;
         private readonly IWebHostEnvironment _hostEnvironment;
         public BooksController(BookService bookService, 
                                TypeService typeService,
                                PublishingHouseService publishingHouseService,
                                AuthorService authorService,
+                               TagService tagService,
                                IWebHostEnvironment hostEnvironment)
         {
             _bookService = bookService;
             _typeService = typeService;
             _publishingHouseService = publishingHouseService;
             _authorService = authorService;
+            _tagService = tagService;
             _hostEnvironment = hostEnvironment;
         }
 
@@ -51,12 +55,27 @@ namespace BookShopApi.Controllers
         [HttpGet("[action]")]
         public async Task<ActionResult<List<BooksViewModel>>> GetBookByZone(
             [FromQuery] int index ,
-            [FromQuery] string zoneType)
+            [FromQuery] string zoneType,
+            [FromQuery] string tag)
         {
-            var books = await _bookService.GetByZoneAsync(index, Request,zoneType);
+            var books = await _bookService.GetByZoneAsync(index, Request,zoneType,tag);
 
             return Ok(books);
         }
+        [HttpGet("[action]")]
+        public async Task<ActionResult<List<BooksViewModel>>> GetBookByType(
+            [FromQuery] int index,
+            [FromQuery] string type)
+        {
+            if (!string.IsNullOrEmpty(type))
+            {
+                var books = await _bookService.GetByTypeAsync(index, Request, type);
+
+                return Ok(books);
+            }
+            return Ok(new List<BooksViewModel>());
+        }
+
 
         [HttpGet("[action]")]
         public async Task<ActionResult<List<BooksViewModel>>> GetBookByTag(
@@ -76,15 +95,18 @@ namespace BookShopApi.Controllers
             var books = await _bookService.GetBooksByTypeIdAsync(typeId,Request);
 
             //Checked book exist in list
-            var checkedBook = GetBookExisted(bookId, books);
-            if (checkedBook != null)
-                //Remove itself
-                books.Remove(checkedBook);
-            else
+            if (books.Count > 0)
             {
-                //Remove last element
-                if (books.Count == 6)
-                    books.RemoveRange(6, 1);
+                var checkedBook = GetBookExisted(bookId, books);
+                if (checkedBook != null)
+                    //Remove itself
+                    books.Remove(checkedBook);
+                else
+                {
+                    //Remove last element
+                    if (books.Count == 6)
+                        books.RemoveRange(6, 1);
+                }
             }
             return Ok(books);
         }
@@ -134,6 +156,7 @@ namespace BookShopApi.Controllers
             var type = await _typeService.GetAsync(book.TypeId);
             var publishingHouse = await _publishingHouseService.GetAsync(book.PublishHouseId);
             var author = await _authorService.GetAsync(book.AuthorId,Request);
+            var tag = await _tagService.GetAsync(book.TagId);
 
 
             BookViewModel bookViewModel = new BookViewModel()
@@ -143,7 +166,7 @@ namespace BookShopApi.Controllers
                 Description = book.Description,
                 Price = book.Price.ToString(),
                 CoverPrice = book.CoverPrice.ToString(),
-                ImageSrc = String.Format("{0}://{1}{2}/Images/{3}", Request.Scheme, Request.Host, Request.PathBase, book.ImageName),
+                ImgUrl = book.ImgUrl,
                 Rating = Rouding.Adjust(Average.CountingAverage(book.Comments)),
                 BookTypeName = type.Name,
                 PublishingHouseName = publishingHouse.Name,
@@ -155,7 +178,8 @@ namespace BookShopApi.Controllers
                 AuthorId = author.Id,
                 PublishingHouseId = publishingHouse.Id,
                 TypeId = type.Id,
-                Tag = book.Tag,
+                TagId = book.TagId,
+                TagName = tag.Name,
                 Amount = book.Amount,
                 ZoneType = book.ZoneType
             };
@@ -165,7 +189,6 @@ namespace BookShopApi.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Create([FromForm] Book book)
         {
-            book.ImageName = await SaveImageAsync(book.ImageFile);
             book.Alias = Unsign.convertToUnSign(book.BookName.ToLower());
             var createdBook = await _bookService.CreateAsync(book,Request);
             return Ok(createdBook);
@@ -174,14 +197,6 @@ namespace BookShopApi.Controllers
         [HttpPut("[action]")]
         public async Task<IActionResult> Update([FromForm] Book updatedBook)
         {
-            var book = await _bookService.GetAsync(updatedBook.Id);
-            updatedBook.ImageName = book.ImageName;
-
-            if (updatedBook.ImageFile != null)
-            {
-                DeleteImage(book.ImageName);
-                updatedBook.ImageName = await SaveImageAsync(updatedBook.ImageFile);
-            }
            
             await _bookService.UpdateBookAsync(updatedBook);
             return Ok(updatedBook);
@@ -196,22 +211,10 @@ namespace BookShopApi.Controllers
             await _bookService.UpdateAsync(id, book);
             return Ok("Delete sucessfully");
         }
-        private async Task<string> SaveImageAsync(IFormFile imageFile)
+        [HttpPut("[action]")]
+        public async Task UpdateMany()
         {
-            string imageName = new string(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
-            imageName = imageName + DateTime.Now.ToString("yymmssff") + Path.GetExtension(imageFile.FileName);
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Images", imageName);
-            using(var fileStream = new FileStream(imagePath,FileMode.Create))
-            {
-                await imageFile.CopyToAsync(fileStream);
-            }
-            return imageName;
-        }
-        private  void DeleteImage(string imageName)
-        {
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Images", imageName);
-            if (System.IO.File.Exists(imagePath))
-                System.IO.File.Delete(imagePath);
+            await _bookService.UpdateManyAsyns();
         }
         private BooksViewModel GetBookExisted(string bookId, List<BooksViewModel> books)
         {

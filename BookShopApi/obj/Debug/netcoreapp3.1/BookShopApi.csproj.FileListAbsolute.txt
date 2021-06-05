@@ -209,7 +209,6 @@ F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\
 F:\Specialized Subjects\I-2020-2021\TieuLuanChuyenNganh\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.genruntimeconfig.cache
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\appsettings.Development.json
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\appsettings.json
-F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\snappy32.dll
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\snappy64.dll
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\libzstd.dll
@@ -338,12 +337,8 @@ F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\runtimes\win
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll
-F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.csprojAssemblyReference.cache
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.AssemblyInfoInputs.cache
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.AssemblyInfo.cs
-F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.csproj.CoreCompileInputs.cache
-F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.MvcApplicationPartsAssemblyInfo.cs
-F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.MvcApplicationPartsAssemblyInfo.cache
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.RazorTargetAssemblyInfo.cache
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.csproj.CopyComplete
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\staticwebassets\BookShopApi.StaticWebAssets.Manifest.cache
@@ -351,6 +346,7 @@ F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\staticwebass
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.dll
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.pdb
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.genruntimeconfig.cache
+<<<<<<< HEAD
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Oxford-Thư21095250.jpg
 F:\Specialized Subjects\II-2020-2021\BookShopAPI\BookShopApi\bin\Debug\netcoreapp3.1\appsettings.Development.json
 F:\Specialized Subjects\II-2020-2021\BookShopAPI\BookShopApi\bin\Debug\netcoreapp3.1\snappy32.dll
@@ -628,3 +624,31 @@ F:\Specialized Subjects\II-2020-2021\BookShopAPI\BookShopApi\bin\Debug\netcoreap
 F:\Specialized Subjects\II-2020-2021\BookShopAPI\BookShopApi\bin\Debug\netcoreapp3.1\Images\Đọc-Vị-Bất20274095.jpg
 F:\Specialized Subjects\II-2020-2021\BookShopAPI\BookShopApi\bin\Debug\netcoreapp3.1\Images\Đời Ngắn Đừng Ngủ Dài.jpg
 F:\Specialized Subjects\II-2020-2021\BookShopAPI\BookShopApi\bin\Debug\netcoreapp3.1\Images\Ứng Dụng 6000 Từ Vựng Tiếng Anh Thông Dụng....jpg
+=======
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\AspNetCore.Proxy.dll
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.csproj.CoreCompileInputs.cache
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.MvcApplicationPartsAssemblyInfo.cs
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.MvcApplicationPartsAssemblyInfo.cache
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\defaultAvatar.png
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\10-Vạn-Câu21282044.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Báo-cáo-21291206.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Bá-Tước-Mo21322209.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Cân-Bằng-C21335468.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\download21180546.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_English-21342378.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Factfuln21353740.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Flipped221361260.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_Look-5-S21345009.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_No-Filte21355427.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\E_The-Body21351104.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\nguyennhat21164519.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Đàn-ông-s21333247.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Đọc-Vị-Bất21324918.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\a2132361521381091.png
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.csproj.AssemblyReference.cache
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\scopedcss\bundle\BookShopApi.styles.css
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Ngôi-Làng-21015571.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Tony-Buổi-21024542.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Tôi-Tự-Học21022212.jpg
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Images\Tường-Lửa221012986.jpg
+>>>>>>> origin/develop
