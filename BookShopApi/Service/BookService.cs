@@ -23,34 +23,35 @@ namespace BookShopApi.Service
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
             _books = database.GetCollection<Book>(settings.BooksCollectionName);
-            
+
         }
 
-        public async Task<List<BooksViewModel>> GetAsync(int index,HttpRequest request)
+        public async Task<List<BooksViewModel>> GetAsync(int index, HttpRequest request)
         {
             //Get ten books first time
             int size = 10;
             int length = 10;
             //Get extra five books after first time
-            return await _books.Find(book => book.DeleteAt ==null && book.Amount>0).Limit(index*size + length).Project(x => 
-                                new BooksViewModel { 
-                                    Id = x.Id, 
-                                    BookName = x.BookName, 
-                                    Price = x.Price.ToString(),
-                                    CoverPrice = x.CoverPrice.ToString(),
-                                    ImgUrl = x.ImgUrl,
-                                    Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
-                                    TypeId = x.TypeId
-                                }).ToListAsync(); 
+            return await _books.Find(book => book.DeleteAt == null && book.Amount > 0).Limit(index * size + length).Project(x =>
+                                     new BooksViewModel
+                                     {
+                                         Id = x.Id,
+                                         BookName = x.BookName,
+                                         Price = x.Price.ToString(),
+                                         CoverPrice = x.CoverPrice.ToString(),
+                                         ImgUrl = x.ImgUrl,
+                                         Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
+                                         TypeId = x.TypeId
+                                     }).ToListAsync();
         }
 
-        public async Task<List<BooksViewModel>> GetByZoneAsync(int index, HttpRequest request,string zoneType,string tag)
+        public async Task<List<BooksViewModel>> GetByZoneAsync(int index, HttpRequest request, string zoneType, string tag)
         {
             //Get ten books first time
             int size = 5;
             int length = 5;
             //Get extra five books after first time
-            return await _books.Find(book => book.DeleteAt == null && book.ZoneType ==zoneType && book.TagId==tag && book.Amount > 0
+            return await _books.Find(book => book.DeleteAt == null && book.ZoneType == zoneType && book.TagId == tag && book.Amount > 0
                     ).Limit(index * size + length).Project(x =>
                                    new BooksViewModel
                                    {
@@ -87,26 +88,26 @@ namespace BookShopApi.Service
         public async Task<List<BooksViewModel>> GetBooksByTypeIdAsync(string typeId, HttpRequest request)
         {
             int size = 6;  //Get ten books first time
-            return await _books.Find(book => book.TypeId == typeId ).Limit(size).Project(x =>
-                                   new BooksViewModel
-                                   {
-                                       Id = x.Id,
-                                       BookName = x.BookName,
-                                       Price = x.Price.ToString(),
-                                       CoverPrice = x.CoverPrice.ToString(),
-                                       ImgUrl = x.ImgUrl,
-                                       Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
-                                       TypeId = x.TypeId
-                                   }).ToListAsync();
+            return await _books.Find(book => book.TypeId == typeId).Limit(size).Project(x =>
+                                  new BooksViewModel
+                                  {
+                                      Id = x.Id,
+                                      BookName = x.BookName,
+                                      Price = x.Price.ToString(),
+                                      CoverPrice = x.CoverPrice.ToString(),
+                                      ImgUrl = x.ImgUrl,
+                                      Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
+                                      TypeId = x.TypeId
+                                  }).ToListAsync();
         }
 
-        public async Task<EntityList<BooksViewModel>> SearchBooksAsync(FilterDefinition<Book> filter = null, SortDefinition<Book> sort=null,HttpRequest request =null,int page = 1)
+        public async Task<EntityList<BooksViewModel>> SearchBooksAsync(FilterDefinition<Book> filter = null, SortDefinition<Book> sort = null, HttpRequest request = null, int page = 1)
         {
             int pageSize = 10;
             var query = _books.Find(filter);
             var total = await query.CountDocumentsAsync();
             query = query.Skip((page - 1) * pageSize).Limit(pageSize).Sort(sort);
-                                
+
             return new EntityList<BooksViewModel>
             {
                 Total = (int)total,
@@ -128,7 +129,7 @@ namespace BookShopApi.Service
            await _books.Find<Book>(book => book.Id == id).FirstOrDefaultAsync();
 
 
-        public async Task<BooksViewModel> CreateAsync(Book book,HttpRequest request)
+        public async Task<BooksViewModel> CreateAsync(Book book, HttpRequest request)
         {
             book.Code = DateTime.Now.ToString("yymmssff") + book.PublishDate.DayOfYear.ToString().PadLeft(3, '0');
             await _books.InsertOneAsync(book);
@@ -142,7 +143,7 @@ namespace BookShopApi.Service
                 Rating = Rouding.Adjust(Average.CountingAverage(book.Comments)),
                 TypeId = book.TypeId
             };
-            
+
         }
 
         public async Task UpdateBookAsync(Book updatedBook)
@@ -167,7 +168,7 @@ namespace BookShopApi.Service
 
         public async Task UpdateAsync(string id, Book bookIn) =>
            await _books.ReplaceOneAsync(book => book.Id == id, bookIn);
-     
+
 
         public async Task RemoveAsync(string id) =>
            await _books.DeleteOneAsync(book => book.Id == id);
@@ -197,7 +198,7 @@ namespace BookShopApi.Service
             };
         }
 
-        public async Task  UpdateManyAsyns()
+        public async Task UpdateManyAsyns()
         {
             await _books.UpdateManyAsync(x => true, MongoDB.Driver.Builders<Book>.Update.Set(x => x.TagId, "Sách bán chạy trong ngày"));
         }

@@ -29,7 +29,7 @@ namespace BookShopApi.Controllers
         private readonly AuthorService _authorService;
         private readonly TagService _tagService;
         private readonly IWebHostEnvironment _hostEnvironment;
-        public BooksController(BookService bookService, 
+        public BooksController(BookService bookService,
                                TypeService typeService,
                                PublishingHouseService publishingHouseService,
                                AuthorService authorService,
@@ -54,11 +54,11 @@ namespace BookShopApi.Controllers
         }
         [HttpGet("[action]")]
         public async Task<ActionResult<List<BooksViewModel>>> GetBookByZone(
-            [FromQuery] int index ,
+            [FromQuery] int index,
             [FromQuery] string zoneType,
             [FromQuery] string tag)
         {
-            var books = await _bookService.GetByZoneAsync(index, Request,zoneType,tag);
+            var books = await _bookService.GetByZoneAsync(index, Request, zoneType, tag);
 
             return Ok(books);
         }
@@ -92,7 +92,7 @@ namespace BookShopApi.Controllers
             [FromQuery] string typeId,
             [FromQuery] string bookId)
         {
-            var books = await _bookService.GetBooksByTypeIdAsync(typeId,Request);
+            var books = await _bookService.GetBooksByTypeIdAsync(typeId, Request);
 
             //Checked book exist in list
             if (books.Count > 0)
@@ -113,7 +113,7 @@ namespace BookShopApi.Controllers
 
         [HttpGet("[action]")]
         public async Task<ActionResult<EntityList<BooksViewModel>>> SearchBookByName(
-            [FromQuery] string name,   
+            [FromQuery] string name,
             [FromQuery] string typeId,
             [FromQuery] string sortPrice,
             [FromQuery] string publishHouseId,
@@ -136,12 +136,12 @@ namespace BookShopApi.Controllers
             if (sortPrice == "desc")
                 sortDefinition = Builders<Book>.Sort.Descending(x => x.Price);
             else
-                sortDefinition = Builders<Book>.Sort.Ascending(x=>x.Price);
-            var books = await _bookService.SearchBooksAsync(filter,sortDefinition,Request,page);
+                sortDefinition = Builders<Book>.Sort.Ascending(x => x.Price);
+            var books = await _bookService.SearchBooksAsync(filter, sortDefinition, Request, page);
             return Ok(books);
         }
-           
-        
+
+
 
         [HttpGet("[action]")]
         public async Task<ActionResult<BookViewModel>> Get(
@@ -155,7 +155,7 @@ namespace BookShopApi.Controllers
             }
             var type = await _typeService.GetAsync(book.TypeId);
             var publishingHouse = await _publishingHouseService.GetAsync(book.PublishHouseId);
-            var author = await _authorService.GetAsync(book.AuthorId,Request);
+            var author = await _authorService.GetAsync(book.AuthorId, Request);
             var tag = await _tagService.GetAsync(book.TagId);
 
 
@@ -183,25 +183,25 @@ namespace BookShopApi.Controllers
                 Amount = book.Amount,
                 ZoneType = book.ZoneType
             };
-            
+
             return Ok(bookViewModel);
         }
         [HttpPost("[action]")]
         public async Task<IActionResult> Create([FromForm] Book book)
         {
             book.Alias = Unsign.convertToUnSign(book.BookName.ToLower());
-            var createdBook = await _bookService.CreateAsync(book,Request);
+            var createdBook = await _bookService.CreateAsync(book, Request);
             return Ok(createdBook);
 
         }
         [HttpPut("[action]")]
         public async Task<IActionResult> Update([FromForm] Book updatedBook)
         {
-           
+
             await _bookService.UpdateBookAsync(updatedBook);
             return Ok(updatedBook);
         }
-        
+
 
         [HttpDelete("[action]")]
         public async Task<IActionResult> Delete(string id)
@@ -232,7 +232,7 @@ namespace BookShopApi.Controllers
         {
             var filter = Builders<Book>.Filter.Regex("Alias", new BsonRegularExpression(Unsign.convertToUnSign(name).ToLower()))
                           & Builders<Book>.Filter.Eq("DeleteAt", BsonNull.Value);
-            var books = await _bookService.SearchBooksAdminAsync(filter, Request,page);
+            var books = await _bookService.SearchBooksAdminAsync(filter, Request, page);
             return Ok(books);
         }
 
