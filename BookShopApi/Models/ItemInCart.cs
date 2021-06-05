@@ -21,5 +21,6 @@ namespace BookShopApi.Models
         public decimal CoverPrice { get; set; }
         public string AuthorName { get; set; }
         public string ImageSrc { get; set; }
+        public bool StatusRate { get; set; } = false;
     }
 }

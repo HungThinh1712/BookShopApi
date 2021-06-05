@@ -134,11 +134,14 @@ namespace BookShopApi.Controllers
 
             ///Return updated user to update state in react
             var returnedUser = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
+            var provinces = await _provinceService.GetAllAsync();
+            var wards = await _wardService.GetByDistrictIdAsync(returnedUser.DistrictId);
+            var districts = await _districtService.GetByProvinceIdAsync(returnedUser.ProvinceId);
             if (returnedUser.ProvinceId != null)
             {
-                returnedUser.ProvinceName = (await _provinceService.GetByIdAsync(returnedUser.ProvinceId)).Name;
-                returnedUser.DistrictName = (await _districtService.GetByIdAsync(returnedUser.DistrictId)).Name;
-                returnedUser.WardName = (await _wardService.GetByIdAsync(returnedUser.WardId)).Name;
+                returnedUser.ProvinceName = provinces.Where(x => x.Id == returnedUser.ProvinceId).FirstOrDefault().Name;
+                returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
+                returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
             }
             returnedUser.ImgUrl =returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
@@ -189,11 +192,14 @@ namespace BookShopApi.Controllers
             await _userService.UpdateProfileAsync(id, name, phone, sex, birthday);
             //return user updated
             var returnedUser = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
-            if(returnedUser.ProvinceId!=null && returnedUser.WardId!=null && returnedUser.DistrictId != null)
+            var provinces = await _provinceService.GetAllAsync();
+            var wards = await _wardService.GetByDistrictIdAsync(returnedUser.DistrictId);
+            var districts = await _districtService.GetByProvinceIdAsync(returnedUser.ProvinceId);
+            if (returnedUser.ProvinceId != null)
             {
-                returnedUser.ProvinceName = (await _provinceService.GetByIdAsync(returnedUser.ProvinceId)).Name;
-                returnedUser.DistrictName = (await _districtService.GetByIdAsync(returnedUser.DistrictId)).Name;
-                returnedUser.WardName = (await _wardService.GetByIdAsync(returnedUser.WardId)).Name;
+                returnedUser.ProvinceName = provinces.Where(x => x.Id == returnedUser.ProvinceId).FirstOrDefault().Name;
+                returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
+                returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
             }
             returnedUser.ImgUrl = returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
@@ -290,7 +296,6 @@ namespace BookShopApi.Controllers
             var headerValues = Request.Headers["Authorization"];
             string userId = Authenticate.DecryptToken(headerValues.ToString());
             var user = await _userService.GetAsync(userId);
-            updatedUser.ImgUrl = user.ImgUrl;
             updatedUser.Id = userId;
             
 
@@ -298,11 +303,14 @@ namespace BookShopApi.Controllers
 
             ///Return updated user to update state in react
             var returnedUser = (await _userService.GetAsync(userId)).Adapt<UserViewModel>();
+            var provinces = await _provinceService.GetAllAsync();
+            var wards = await _wardService.GetByDistrictIdAsync(returnedUser.DistrictId);
+            var districts = await _districtService.GetByProvinceIdAsync(returnedUser.ProvinceId);
             if (returnedUser.ProvinceId != null)
             {
-                returnedUser.ProvinceName = (await _provinceService.GetByIdAsync(returnedUser.ProvinceId)).Name;
-                returnedUser.DistrictName = (await _districtService.GetByIdAsync(returnedUser.DistrictId)).Name;
-                returnedUser.WardName = (await _wardService.GetByIdAsync(returnedUser.WardId)).Name;
+                returnedUser.ProvinceName = provinces.Where(x => x.Id == returnedUser.ProvinceId).FirstOrDefault().Name;
+                returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
+                returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
             }
             returnedUser.ImgUrl = returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
@@ -359,11 +367,14 @@ namespace BookShopApi.Controllers
         private async Task<string> GetAddress(string id)
         {
             var returnedUser = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
+            var provinces = await _provinceService.GetAllAsync();
+            var wards = await _wardService.GetByDistrictIdAsync(returnedUser.DistrictId);
+            var districts = await _districtService.GetByProvinceIdAsync(returnedUser.ProvinceId);
             if (returnedUser.ProvinceId != null)
             {
-                returnedUser.ProvinceName = (await _provinceService.GetByIdAsync(returnedUser.ProvinceId)).Name;
-                returnedUser.DistrictName = (await _districtService.GetByIdAsync(returnedUser.DistrictId)).Name;
-                returnedUser.WardName = (await _wardService.GetByIdAsync(returnedUser.WardId)).Name;
+                returnedUser.ProvinceName = provinces.Where(x=>x.Id==returnedUser.ProvinceId).FirstOrDefault().Name;
+                returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
+                returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
                 return returnedUser.SpecificAddress + ", " + returnedUser.WardName + ", " + returnedUser.DistrictName + ", " + returnedUser.ProvinceName;
             }
             else

@@ -158,9 +158,6 @@ namespace BookShopApi.Service
             return user ;
         }
 
-        internal Task GetAllUserAsync(string name)
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 }

@@ -24,10 +24,8 @@ namespace BookShopApi.Models.ViewModels.Comments
         public int Rate { get; set; }
 
         public string Content { get; set; }
-        public int Page { get; set; }
+        public string OrderId { get; set; }
 
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdateAt { get; set; }
-        public DateTime? DeleteAt { get; set; }
     }
 }

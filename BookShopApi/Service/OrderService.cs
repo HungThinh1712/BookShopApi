@@ -63,6 +63,9 @@ namespace BookShopApi.Service
         public async Task UpdateAsync(string id, Order orderIn) =>
            await _orders.ReplaceOneAsync(order => order.Id == id, orderIn);
 
+        public async Task<Order> GetOrderAsync(string id) =>
+          await _orders.Find(order => order.Id == id).FirstOrDefaultAsync();
+
 
         public async Task RemoveAsync(string id) =>
            await _orders.DeleteOneAsync(order => order.Id == id);
@@ -81,6 +84,13 @@ namespace BookShopApi.Service
             await _orders.UpdateOneAsync(filter,update);
             return true;
         }
+
+        public async Task UpdateStatusRateAsync(Order order)
+        {
+            var update = Builders<Order>.Update.Set(x => x.Items, order.Items);
+            await _orders.UpdateOneAsync(x => x.Id == order.Id, update);
+        }
+
         private string GetDescription(List<ItemInCart> items)
         {
             string count = items.Count >= 2 ? (items.Count - 1).ToString() : string.Empty;
@@ -94,6 +104,7 @@ namespace BookShopApi.Service
         public async Task<EntityList<OrdersViewModel>> GetAllAsync(int page = 1, int pageSize = 10,int status=0)
         {
             var query = _orders.Find(order => true);
+            
             
             if (status == 1)
             {

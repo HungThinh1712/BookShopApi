@@ -14,5 +14,7 @@ namespace BookShopApi.Models.ViewModels
         public string CoverPrice { get; set; }
         public string AuthorName { get; set; }
         public string ImageSrc { get; set; }
+        public bool StatusRate { get; set; }
+
     }
 }
