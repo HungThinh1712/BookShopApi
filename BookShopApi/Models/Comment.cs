@@ -27,8 +27,8 @@ namespace BookShopApi.Models
         public string OrderId { get; set; }
 
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdateAt { get; set; } 
-        public DateTime? DeleteAt { get; set; } 
+        public DateTime? UpdateAt { get; set; }
+        public DateTime? DeleteAt { get; set; }
     }
     public class CommentWithUserFullName : Comment
     {

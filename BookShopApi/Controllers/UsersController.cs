@@ -64,7 +64,7 @@ namespace BookShopApi.Controllers
         {
             var user = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
             user.ImgUrl = user.ImgUrl;
-            if (user.ProvinceId != null && user.ProvinceId != "" &&user.IsAdmin==false)
+            if (user.ProvinceId != null && user.ProvinceId != "" && user.IsAdmin == false)
             {
                 user.ProvinceName = (await _provinceService.GetByIdAsync(user.ProvinceId)).Name;
                 user.DistrictName = (await _districtService.GetByIdAsync(user.DistrictId)).Name;
@@ -113,7 +113,7 @@ namespace BookShopApi.Controllers
 
         [HttpPut("[action]")]
         public async Task<IActionResult> UpdateAddress(JObject updatedUser)
-        {  
+        {
 
             var user = updatedUser["updatedUser"];
 
@@ -128,7 +128,7 @@ namespace BookShopApi.Controllers
             string phone = user["phone"].ToString();
 
             string id = user["id"].ToString();
-            var tempUser = await _userService.GetAsync(id);            
+            var tempUser = await _userService.GetAsync(id);
 
             await _userService.UpdateAddressAsync(id, name, phone, province, district, ward, address);
 
@@ -143,7 +143,7 @@ namespace BookShopApi.Controllers
                 returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
                 returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
             }
-            returnedUser.ImgUrl =returnedUser.ImgUrl;
+            returnedUser.ImgUrl = returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
             return Ok(returnedUser);
         }
@@ -188,7 +188,7 @@ namespace BookShopApi.Controllers
             int sex = Convert.ToInt32(user["sex"].ToString());
             string id = user["id"].ToString();
             DateTime birthday = Convert.ToDateTime(user["birthday"].ToString());
-        
+
             await _userService.UpdateProfileAsync(id, name, phone, sex, birthday);
             //return user updated
             var returnedUser = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
@@ -291,13 +291,13 @@ namespace BookShopApi.Controllers
             return code;
         }
         [HttpPut("[action]")]
-        public async Task<IActionResult> UpdateAvatarUser([FromForm] UpdateAvatarModel updatedUser )
+        public async Task<IActionResult> UpdateAvatarUser([FromForm] UpdateAvatarModel updatedUser)
         {
             var headerValues = Request.Headers["Authorization"];
             string userId = Authenticate.DecryptToken(headerValues.ToString());
             var user = await _userService.GetAsync(userId);
             updatedUser.Id = userId;
-            
+
 
             await _userService.UpdateAvatarAsync(updatedUser);
 
@@ -337,13 +337,13 @@ namespace BookShopApi.Controllers
 
         }
 
-       
+
 
         [HttpGet("Admin/[action]")]
-        public async Task<ActionResult<IEnumerable<User>>> GetUser([FromQuery] string name,int page)
+        public async Task<ActionResult<IEnumerable<User>>> GetUser([FromQuery] string name, int page)
         {
             var users = await _userService.GetAllAsync(name);
-            foreach(var user in users.Entities)
+            foreach (var user in users.Entities)
             {
                 user.BirthDay = Convert.ToDateTime(user.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
                 user.SumOrder = await GetSumOrder(user.Id);
@@ -372,7 +372,7 @@ namespace BookShopApi.Controllers
             var districts = await _districtService.GetByProvinceIdAsync(returnedUser.ProvinceId);
             if (returnedUser.ProvinceId != null)
             {
-                returnedUser.ProvinceName = provinces.Where(x=>x.Id==returnedUser.ProvinceId).FirstOrDefault().Name;
+                returnedUser.ProvinceName = provinces.Where(x => x.Id == returnedUser.ProvinceId).FirstOrDefault().Name;
                 returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
                 returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
                 return returnedUser.SpecificAddress + ", " + returnedUser.WardName + ", " + returnedUser.DistrictName + ", " + returnedUser.ProvinceName;
@@ -405,14 +405,14 @@ namespace BookShopApi.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> CreateUserFacebook(string email,string fullName)
+        public async Task<IActionResult> CreateUserFacebook(string email, string fullName)
         {
             //Hash password        
             var user = await _userService.GetUserByEmailAsync(email);
             if (user != null)
             {
                 return Ok(Authenticate.GetToken(user.Id, user.IsAdmin));
-            }   
+            }
 
             else
             {

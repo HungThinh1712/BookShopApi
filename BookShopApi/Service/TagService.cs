@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BookShopApi.Service
 {
-  
+
     public class TagService
     {
         private readonly IMongoCollection<BookTag> _tags;
@@ -25,7 +25,7 @@ namespace BookShopApi.Service
         {
             return await _tags.Find<BookTag>(x => true).ToListAsync();
         }
-        
+
         public async Task<bool> CreateAsync(BookTag tag)
         {
             await _tags.InsertOneAsync(tag);
@@ -33,8 +33,8 @@ namespace BookShopApi.Service
         }
         public async Task<BookTag> GetAsync(string id)
         {
-            return await _tags.Find<BookTag>(x=>x.Id==id).FirstOrDefaultAsync();
-            
+            return await _tags.Find<BookTag>(x => x.Id == id).FirstOrDefaultAsync();
+
         }
 
     }

@@ -53,10 +53,10 @@ namespace BookShopApi.Models
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
 
         [BsonIgnoreIfNull]
-        public DateTime ? UpdateAt { get; set; }
+        public DateTime? UpdateAt { get; set; }
 
         [BsonIgnoreIfNull]
-        public DateTime ? DeleteAt { get; set; } 
+        public DateTime? DeleteAt { get; set; }
 
         public string Code { get; set; }
 
@@ -64,5 +64,5 @@ namespace BookShopApi.Models
         public List<Comment> Comments { get; set; } = new List<Comment>();
 
     }
-    
+
 }
