@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\BookShopApi.csproj": {}
+    "F:\\Specialized Subjects\\II-2020-2021\\BookShopAPI\\BookShopApi\\BookShopApi.csproj": {}
   },
   "projects": {
-    "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\BookShopApi.csproj": {
+    "F:\\Specialized Subjects\\II-2020-2021\\BookShopAPI\\BookShopApi\\BookShopApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\BookShopApi.csproj",
+        "projectUniqueName": "F:\\Specialized Subjects\\II-2020-2021\\BookShopAPI\\BookShopApi\\BookShopApi.csproj",
         "projectName": "BookShopApi",
-        "projectPath": "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\BookShopApi.csproj",
-        "packagesPath": "C:\\Users\\99hun\\.nuget\\packages\\",
-        "outputPath": "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\obj\\",
+        "projectPath": "F:\\Specialized Subjects\\II-2020-2021\\BookShopAPI\\BookShopApi\\BookShopApi.csproj",
+        "packagesPath": "C:\\Users\\hongl\\.nuget\\packages\\",
+        "outputPath": "F:\\Specialized Subjects\\II-2020-2021\\BookShopAPI\\BookShopApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\99hun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\hongl\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -119,7 +119,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

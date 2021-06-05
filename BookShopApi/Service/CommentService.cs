@@ -15,6 +15,7 @@ namespace BookShopApi.Service
     {
         private readonly IMongoCollection<Comment> _comments;
         private readonly IMongoCollection<User> _users;
+        private readonly IMongoCollection<Book> _book;
 
         public CommentService(IBookShopDatabaseSettings settings)
         {
@@ -23,6 +24,36 @@ namespace BookShopApi.Service
 
             _comments = database.GetCollection<Comment>(settings.CommentsCollectionName);
             _users = database.GetCollection<User>(settings.UsersCollectionName);
+            _book = database.GetCollection<Book>(settings.BooksCollectionName);
+        }
+
+        public async Task<EntityList<CommentViewModel>> GetAsyncManage(string userId, int page = 1, int pageSize = 4)
+        {
+            var query = _comments.Find(comment => comment.UserId == userId);
+
+            var total = await query.CountDocumentsAsync();
+            query = query.SortByDescending(x => x.CreateAt).Skip((page - 1) * pageSize).Limit(pageSize);
+            return new EntityList<CommentViewModel>()
+            {
+                Total = (int)total,
+                Entities = await query.Project(x =>
+                                     new CommentViewModel
+                                     {
+                                         Id = x.Id,
+                                         CreateAt = Convert.ToDateTime(x.CreateAt).ToString("dd-MM-yyyy"),
+                                         Content = x.Content,
+                                         Rate = x.Rate,
+                                         Title = x.Title,
+                                         BookId = x.BookId,
+                                         BookName = GetBookName(x.BookId)
+                                     }).ToListAsync()
+            };
+        }
+
+        private string GetBookName(string id)
+        {
+            var books = _book.Find<Book>(book => book.Id == id).FirstOrDefault();
+            return books.BookName;
         }
 
         public async Task<Comment> GetByUserIdAsync(string id) =>
