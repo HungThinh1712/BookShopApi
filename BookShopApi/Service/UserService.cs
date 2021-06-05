@@ -27,7 +27,6 @@ namespace BookShopApi.Service
         public async Task<User> GetUserbyEmailAsync(string email) =>
             await _users.Find<User>(user => user.Email == email).FirstOrDefaultAsync();
         
-
         public async Task<List<User>> GetAsync() =>
             await _users.Find(user => true).ToListAsync();
 

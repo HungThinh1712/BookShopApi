@@ -19,7 +19,6 @@ namespace BookShopApi.Service
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
-
             _orders = database.GetCollection<Order>(settings.OrdersCollectionName);
         }
 
@@ -80,6 +79,7 @@ namespace BookShopApi.Service
             await _orders.UpdateOneAsync(filter,update);
             return true;
         }
+
         private string GetDescription(List<ItemInCart> items)
         {
             string count = items.Count >= 2 ? (items.Count - 1).ToString() : string.Empty;
@@ -87,9 +87,8 @@ namespace BookShopApi.Service
                 return items[0].Name + " và " + count.ToString() + " cuốn sách khác...";
             else
                 return items[0].Name;
-
-
         }
+
         public async Task<EntityList<OrdersViewModel>> GetAllAsync(int page = 1, int pageSize = 10,int status=0)
         {
             var query = _orders.Find(order => true);

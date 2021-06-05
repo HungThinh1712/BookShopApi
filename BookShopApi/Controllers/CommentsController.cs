@@ -29,6 +29,17 @@ namespace BookShopApi.Controllers
 
         }
 
+        [HttpGet("[action]")]
+        public async Task<ActionResult<EntityList<CommentViewModel>>> GetComents([FromQuery] int page, [FromQuery] int pageSize)
+        {
+
+            var headerValues = Request.Headers["Authorization"];
+            string userId = Authenticate.DecryptToken(headerValues.ToString());
+            var comments = await _commentService.GetAsyncManage(userId, page, pageSize);
+
+            return Ok(comments);
+        }
+
         [HttpGet]
         public async Task<ActionResult<EntityList<CommentViewModel>>> GetComments(
             [FromQuery] string bookId, int page)

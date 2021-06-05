@@ -38,9 +38,9 @@ namespace BookShopApi.Controllers
                 if (order.PaymentType == 2)
                     order.TotalMoney = 0.ToString();
             }
-            
             return Ok(orders);
         }
+
         [HttpGet("Admin")]
         public async Task<ActionResult<EntityList<OrdersViewModel>>> GetAllOrder([FromQuery] int page, [FromQuery] int pageSize,int status)
         {
