@@ -97,6 +97,7 @@ namespace BookShopApi.Service
                                       CoverPrice = x.CoverPrice.ToString(),
                                       ImgUrl = x.ImgUrl,
                                       Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
+                                      CountRating = x.Comments.Count,
                                       TypeId = x.TypeId
                                   }).ToListAsync();
         }
@@ -120,6 +121,7 @@ namespace BookShopApi.Service
                                         CoverPrice = x.CoverPrice.ToString(),
                                         ImgUrl = x.ImgUrl,
                                         Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
+                                        CountRating = x.Comments.Count,
                                         TypeId = x.TypeId
                                     }).ToListAsync()
             };
