@@ -45,7 +45,9 @@
           "MongoDB.Driver.GridFS": "2.11.0",
           "Newtonsoft.Json": "12.0.3",
           "Swashbuckle.AspNetCore": "5.6.1",
+          "System.Device.Location.Portable": "1.0.0",
           "System.IdentityModel.Tokens.Jwt": "6.8.0",
+          "gmaps-api-net": "0.32.0",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "3.1.0.0",
@@ -408,6 +410,20 @@
         },
         "compile": {
           "lib/netstandard2.0/FluentValidation.DependencyInjectionExtensions.dll": {}
+        }
+      },
+      "gmaps-api-net/0.32.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "runtime": {
+          "lib/netstandard1.3/Google.Maps.dll": {
+            "assemblyVersion": "0.32.0.0",
+            "fileVersion": "0.32.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard1.3/Google.Maps.dll": {}
         }
       },
       "Hangfire/1.7.18": {
@@ -1533,6 +1549,17 @@
         },
         "compile": {
           "ref/netstandard2.0/System.Data.SqlClient.dll": {}
+        }
+      },
+      "System.Device.Location.Portable/1.0.0": {
+        "runtime": {
+          "lib/System.Device.Portable.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/System.Device.Portable.dll": {}
         }
       },
       "System.Diagnostics.Debug/4.3.0": {
@@ -3810,6 +3837,13 @@
       "path": "fluentvalidation.dependencyinjectionextensions/9.2.0",
       "hashPath": "fluentvalidation.dependencyinjectionextensions.9.2.0.nupkg.sha512"
     },
+    "gmaps-api-net/0.32.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1NpLt91KY0/AqGIpKmNbCNOj6uZjPbirdsnQJAGFHVLR3xHT2BrPsbVSy0LX2GZbaYuhijvourud9eQ4Q9QTyw==",
+      "path": "gmaps-api-net/0.32.0",
+      "hashPath": "gmaps-api-net.0.32.0.nupkg.sha512"
+    },
     "Hangfire/1.7.18": {
       "type": "package",
       "serviceable": true,
@@ -4411,6 +4445,13 @@
       "sha512": "sha512-fxb9ghn1k1Ua7FFdlvtiBOD4/PsQvD/fk2KnhS+FK7VC6OggEx6P+lP1P0+KMb5V2dqS1+FbR7HCenoqzJMNIA==",
       "path": "system.data.sqlclient/4.4.0",
       "hashPath": "system.data.sqlclient.4.4.0.nupkg.sha512"
+    },
+    "System.Device.Location.Portable/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-VttxozXEleYcK2NiMo7xKMhDCCJbKtjnxcWDmqu703DeceLTI/9jopfEblyZKL0DWHGyOYLEan06yk6Hcv2cXw==",
+      "path": "system.device.location.portable/1.0.0",
+      "hashPath": "system.device.location.portable.1.0.0.nupkg.sha512"
     },
     "System.Diagnostics.Debug/4.3.0": {
       "type": "package",

@@ -97,12 +97,7 @@ namespace BookShopApi
             app.UseRouting();
             app.UseCors("AllowAllOriginsPolicy");
             app.UseAuthorization();
-            app.UseSession();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Images")),
-                RequestPath = "/Images"
-            });
+            app.UseSession();       
           
             app.UseEndpoints(endpoints =>
             {

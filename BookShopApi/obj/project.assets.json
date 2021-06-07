@@ -70,6 +70,18 @@
           "lib/netstandard2.0/FluentValidation.DependencyInjectionExtensions.dll": {}
         }
       },
+      "gmaps-api-net/0.32.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "10.0.3"
+        },
+        "compile": {
+          "lib/netstandard1.3/Google.Maps.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Google.Maps.dll": {}
+        }
+      },
       "Hangfire/1.7.18": {
         "type": "package",
         "dependencies": {
@@ -1411,6 +1423,15 @@
           }
         }
       },
+      "System.Device.Location.Portable/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/System.Device.Portable.dll": {}
+        },
+        "runtime": {
+          "lib/System.Device.Portable.dll": {}
+        }
+      },
       "System.Diagnostics.Debug/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -2487,6 +2508,19 @@
         "fluentvalidation.dependencyinjectionextensions.nuspec",
         "lib/netstandard2.0/FluentValidation.DependencyInjectionExtensions.dll",
         "lib/netstandard2.0/FluentValidation.DependencyInjectionExtensions.xml"
+      ]
+    },
+    "gmaps-api-net/0.32.0": {
+      "sha512": "1NpLt91KY0/AqGIpKmNbCNOj6uZjPbirdsnQJAGFHVLR3xHT2BrPsbVSy0LX2GZbaYuhijvourud9eQ4Q9QTyw==",
+      "type": "package",
+      "path": "gmaps-api-net/0.32.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "gmaps-api-net.0.32.0.nupkg.sha512",
+        "gmaps-api-net.nuspec",
+        "lib/net461/Google.Maps.dll",
+        "lib/netstandard1.3/Google.Maps.dll"
       ]
     },
     "Hangfire/1.7.18": {
@@ -4699,6 +4733,18 @@
         "system.data.sqlclient.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "System.Device.Location.Portable/1.0.0": {
+      "sha512": "VttxozXEleYcK2NiMo7xKMhDCCJbKtjnxcWDmqu703DeceLTI/9jopfEblyZKL0DWHGyOYLEan06yk6Hcv2cXw==",
+      "type": "package",
+      "path": "system.device.location.portable/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/System.Device.Portable.dll",
+        "system.device.location.portable.1.0.0.nupkg.sha512",
+        "system.device.location.portable.nuspec"
       ]
     },
     "System.Diagnostics.Debug/4.3.0": {
@@ -7709,7 +7755,9 @@
       "MongoDB.Driver.GridFS >= 2.11.0",
       "Newtonsoft.Json >= 12.0.3",
       "Swashbuckle.AspNetCore >= 5.6.1",
-      "System.IdentityModel.Tokens.Jwt >= 6.8.0"
+      "System.Device.Location.Portable >= 1.0.0",
+      "System.IdentityModel.Tokens.Jwt >= 6.8.0",
+      "gmaps-api-net >= 0.32.0"
     ]
   },
   "packageFolders": {
@@ -7807,9 +7855,17 @@
             "target": "Package",
             "version": "[5.6.1, )"
           },
+          "System.Device.Location.Portable": {
+            "target": "Package",
+            "version": "[1.0.0, )"
+          },
           "System.IdentityModel.Tokens.Jwt": {
             "target": "Package",
             "version": "[6.8.0, )"
+          },
+          "gmaps-api-net": {
+            "target": "Package",
+            "version": "[0.32.0, )"
           }
         },
         "imports": [
@@ -7833,5 +7889,17 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Device.Location.Portable 1.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "System.Device.Location.Portable",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
 }

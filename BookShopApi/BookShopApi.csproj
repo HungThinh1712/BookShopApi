@@ -4,10 +4,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>a28c884e-b9c0-4ab0-acdd-8d7a8973e583</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.Proxy" Version="4.2.0" />
+    <PackageReference Include="System.Device.Location.Portable" Version="1.0.0" />
+    <PackageReference Include="gmaps-api-net" Version="0.32.0" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
     <PackageReference Include="Hangfire" Version="1.7.18" />
@@ -22,12 +25,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Images\*">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
 

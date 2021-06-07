@@ -32,10 +32,12 @@ namespace BookShopApi.Models
         public string ImgUrl { get; set; }
 
         public DateTime BirthDay { get; set; }
+        [BsonIgnoreIfNull]
+        public string? Distance { get; set; }
 
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
 
-        [BsonIgnoreIfNull]
+   
         public DateTime? UpdateAt { get; set; }
 
         [BsonIgnoreIfNull]

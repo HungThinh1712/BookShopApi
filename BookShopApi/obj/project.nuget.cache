@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "aS1WJaklvcyU4C2y+lMGRksphCTweqV/nxp2XIHeJTjqHGxsA9OCRwc4A8gJG0gPkayWyt0X7s3Kb3U5xYVudA==",
+  "dgSpecHash": "SwJ1h7oug4jCSfGPsTS5kmfA8fUDjzWeggEed4ZAfn04Sai2bC+OngyLtN/76IbPaO7i6y2ENWKmiTq+MPljag==",
   "success": true,
   "projectFilePath": "F:\\TLCN\\BookShopApi\\BookShopApi\\BookShopApi\\BookShopApi.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,7 @@
     "C:\\Users\\99hun\\.nuget\\packages\\fluentvalidation\\9.2.0\\fluentvalidation.9.2.0.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\fluentvalidation.aspnetcore\\9.2.0\\fluentvalidation.aspnetcore.9.2.0.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\9.2.0\\fluentvalidation.dependencyinjectionextensions.9.2.0.nupkg.sha512",
+    "C:\\Users\\99hun\\.nuget\\packages\\gmaps-api-net\\0.32.0\\gmaps-api-net.0.32.0.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\hangfire\\1.7.18\\hangfire.1.7.18.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\hangfire.aspnetcore\\1.7.18\\hangfire.aspnetcore.1.7.18.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\hangfire.core\\1.7.18\\hangfire.core.1.7.18.nupkg.sha512",
@@ -96,6 +97,7 @@
     "C:\\Users\\99hun\\.nuget\\packages\\system.composition.typedparts\\1.0.31\\system.composition.typedparts.1.0.31.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\system.console\\4.3.0\\system.console.4.3.0.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\system.data.sqlclient\\4.4.0\\system.data.sqlclient.4.4.0.nupkg.sha512",
+    "C:\\Users\\99hun\\.nuget\\packages\\system.device.location.portable\\1.0.0\\system.device.location.portable.1.0.0.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\system.diagnostics.debug\\4.3.0\\system.diagnostics.debug.4.3.0.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.3.0\\system.diagnostics.diagnosticsource.4.3.0.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\system.diagnostics.tools\\4.3.0\\system.diagnostics.tools.4.3.0.nupkg.sha512",
@@ -153,5 +155,16 @@
     "C:\\Users\\99hun\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\99hun\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Device.Location.Portable 1.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "System.Device.Location.Portable",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
 }

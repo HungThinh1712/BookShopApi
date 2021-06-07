@@ -117,10 +117,23 @@ namespace BookShopApi.Controllers
 
             var user = updatedUser["updatedUser"];
 
+            //General info
             string province = user["provinceId"].ToString();
             string district = user["districtId"].ToString();
             string ward = user["wardId"].ToString();
             string address = user["address"].ToString();
+            var provinces = await _provinceService.GetAllAsync();
+            var districts = await _districtService.GetByProvinceIdAsync(province);
+            var wards = await _wardService.GetByDistrictIdAsync(district);
+
+
+            var provinceName = provinces.Where(x => x.Id == province).FirstOrDefault().Name;
+            var districtName =  districts.Where(x => x.Id == district).FirstOrDefault().Name;
+            var wardName =   wards.Where(x => x.Id == ward).FirstOrDefault().Name;
+
+            string destination = string.Format("{0}, {1}, {2}, {3}", address, wardName, districtName, provinceName);
+            var distance = ShippingFee.GetDistance(destination);
+
             if (province == "0" || ward == "0" || district == "0" || address == "")
                 return BadRequest("Vui lòng nhập đầy đủ thông tin");
 
@@ -130,18 +143,16 @@ namespace BookShopApi.Controllers
             string id = user["id"].ToString();
             var tempUser = await _userService.GetAsync(id);
 
-            await _userService.UpdateAddressAsync(id, name, phone, province, district, ward, address);
+            await _userService.UpdateAddressAsync(id, name, phone, province, district, ward, address,distance);
 
             ///Return updated user to update state in react
             var returnedUser = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
-            var provinces = await _provinceService.GetAllAsync();
-            var wards = await _wardService.GetByDistrictIdAsync(returnedUser.DistrictId);
-            var districts = await _districtService.GetByProvinceIdAsync(returnedUser.ProvinceId);
+           
             if (returnedUser.ProvinceId != null)
             {
-                returnedUser.ProvinceName = provinces.Where(x => x.Id == returnedUser.ProvinceId).FirstOrDefault().Name;
-                returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
-                returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
+                returnedUser.ProvinceName = provinceName;
+                returnedUser.DistrictName = districtName;
+                returnedUser.WardName = wardName;
             }
             returnedUser.ImgUrl = returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
