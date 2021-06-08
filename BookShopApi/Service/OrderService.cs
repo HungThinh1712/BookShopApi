@@ -39,7 +39,8 @@ namespace BookShopApi.Service
                                          Id = x.Id,
                                          OrderId = x.OrderId,
                                          CreateAt = Convert.ToDateTime(x.CreateAt).ToString("dd-MM-yyyy"),
-                                         TotalMoney = GetTotalMoney(x.Items),
+                                         TotalMoney = x.TotalMoney,
+                                         ShippingFee = x.ShippingFee,
                                          Description = GetDescription(x.Items),
                                          Items = x.Items.Adapt<List<ItemInCartViewModel>>(),
                                          Status = x.Status,
@@ -48,11 +49,13 @@ namespace BookShopApi.Service
              };
         } 
 
-        public async Task<Order> CreateAsync(string userId, int paymentType, List<ItemInCart> items)
+        public async Task<Order> CreateAsync(string userId, int paymentType, List<ItemInCart> items,decimal shipingFee,decimal totalMoney)
         {
             var order = new Order();
             order.UserId = userId;
             order.Items = items;
+            order.ShippingFee = shipingFee;
+            order.TotalMoney = totalMoney;
             order.PaymentType = paymentType;
             order.OrderId = DateTime.Now.ToString("yymmssff");
             order.Status = "Đang chờ xác nhận";
@@ -126,11 +129,12 @@ namespace BookShopApi.Service
                                          Id = x.Id,
                                          OrderId = x.OrderId,
                                          CreateAt = Convert.ToDateTime(x.CreateAt).ToString("dd-MM-yyyy"),
-                                         TotalMoney = GetTotalMoney(x.Items),
+                                         TotalMoney = x.TotalMoney,
                                          Description = GetDescription(x.Items),
                                          Items = x.Items.Adapt<List<ItemInCartViewModel>>(),
                                          Status = x.Status,
                                          UserId = x.UserId,
+                                         ShippingFee = x.ShippingFee,
                                          PaymentType = x.PaymentType
                                      }).ToListAsync()
             };

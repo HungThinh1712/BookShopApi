@@ -41,12 +41,7 @@ namespace BookShopApi.Controllers
             var headerValues = Request.Headers["Authorization"];
             string userId = Authenticate.DecryptToken(headerValues.ToString());
             var orders = await _orderService.GetAsync(userId,page,pageSize);
-            foreach(var order in orders.Entities)
-            {
-                //Payment with momo
-                if (order.PaymentType == 2)
-                    order.TotalMoney = 0.ToString();
-            }
+            
             
             return Ok(orders);
         }

@@ -14,7 +14,8 @@ namespace BookShopApi.Models.ViewModels.Orders
         public string Id { get; set; }      
         public string OrderId { get; set; }
         public string Description { get; set; }
-        public string TotalMoney { get; set; }
+        public decimal TotalMoney { get; set; }
+        public decimal ShippingFee { get; set; }
         public string CreateAt { get; set; }
         public List<Models.ViewModels.ItemInCartViewModel> Items { get; set; }
         public string Status { get; set; }
