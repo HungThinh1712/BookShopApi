@@ -131,6 +131,7 @@ F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\runtimes\win
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.csproj.AssemblyReference.cache
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.AssemblyInfoInputs.cache
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.AssemblyInfo.cs
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.csproj.CoreCompileInputs.cache

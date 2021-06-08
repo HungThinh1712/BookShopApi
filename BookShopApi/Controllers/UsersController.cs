@@ -5,7 +5,6 @@ using BookShopApi.Models.ViewModels.Users;
 using BookShopApi.Service;
 using Mapster;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System;

@@ -1,4 +1,5 @@
 ﻿using BookShopApi.Functions;
+using BookShopApi.Service;
 using Google.Maps;
 using Google.Maps.DistanceMatrix;
 using Microsoft.AspNetCore.Mvc;
@@ -10,25 +11,23 @@ namespace BookShopApi.Controllers
     [ApiController]
     public class DistanceController: ControllerBase
     {
+        private readonly UserService _userService;
+        public DistanceController(UserService userService)
+        {
+            _userService = userService;
+        }
         [HttpGet]
-        public  ActionResult GetAll()        
+        public async Task<ActionResult> GetDistanceAndShippingFee()        
         {
-            DistanceMatrixRequest requestDistanceMatrix = new DistanceMatrixRequest();
-            requestDistanceMatrix.AddOrigin(new Location("35 Lê Văn Chí, Linh Trung, Thủ Đức"));
-            requestDistanceMatrix.Mode = TravelMode.driving;
+            var headerValues = Request.Headers["Authorization"];
+            string userId = Authenticate.DecryptToken(headerValues.ToString());
+            var distance =(await _userService.GetAsync(userId)).Distance;
+            var shippingFee = ShippingFee.CalculateShippingFee(distance);
 
-            requestDistanceMatrix.AddDestination(new Location("Số 1, Võ Văn Ngân, Linh Trung, Thủ Đức"));
-            var response = new DistanceMatrixService(new GoogleSigned("AIzaSyAts2fdjTVxp2RIdtf3K8kVd-LV2qJY22o"))
-                   .GetResponse(requestDistanceMatrix);
+            return Ok(new { distance= distance, shippingFee = shippingFee });
 
-            var message = response.Rows[0].Elements[0].distance.Value;
-            return Ok(message);
-        }
-        [HttpPost]
-        public ActionResult GetShippingFee(string distance)
-        {
             
-            return Ok(ShippingFee.CalculateShippingFee(distance));
         }
+        
     }
 }
