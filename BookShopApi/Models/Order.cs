@@ -19,7 +19,7 @@ namespace BookShopApi.Models
         public decimal ShippingFee { get; set; }
         public decimal TotalMoney { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
-        public int Status { get; set; }
+        public string Status { get; set; }
         public int PaymentType { get; set; }
 
        
@@ -28,12 +28,5 @@ namespace BookShopApi.Models
     {
         public User[] User { get; set; }
     }
-    public enum OrderStatus : byte
-    {
-        DangChoXacNhan,
-        DaXacNhan,
-        DangGiaoHang,
-        DaGiaoHang,
-        Huy
-    }
+    
 }
