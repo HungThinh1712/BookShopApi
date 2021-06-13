@@ -16,9 +16,9 @@ namespace BookShopApi.Functions
             const decimal unit = 500;
             var distanceString = Regex.Match(distance, @"(\d+(\.\d+)?)|(\.\d+)").Value;
             var distanceDecimal = decimal.Parse(distanceString);     
-            if(distanceDecimal > 20 )
+            if(distanceDecimal > 10 )
             {
-                return (distanceDecimal - 20) * unit + basicFee ;
+                return (distanceDecimal - 10) * unit + basicFee ;
             }
              
             return basicFee;
@@ -32,7 +32,8 @@ namespace BookShopApi.Functions
             requestDistanceMatrix.AddDestination(new Location(address));
             var response = new DistanceMatrixService(new GoogleSigned("AIzaSyAts2fdjTVxp2RIdtf3K8kVd-LV2qJY22o"))
                    .GetResponse(requestDistanceMatrix);
-
+            if (response.ErrorMessage != null)
+                throw new Exception("Địa chỉ k hợp lệ");
             return response.Rows[0].Elements[0].distance.Text;
         }
     }

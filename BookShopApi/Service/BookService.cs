@@ -47,10 +47,8 @@ namespace BookShopApi.Service
 
         public async Task<List<BooksViewModel>> GetByZoneAsync(int index, HttpRequest request, string zoneType, string tag)
         {
-            //Get ten books first time
             int size = 5;
             int length = 5;
-            //Get extra five books after first time
             return await _books.Find(book => book.DeleteAt == null && book.ZoneType == zoneType && book.TagId == tag && book.Amount > 0
                     ).Limit(index * size + length).Project(x =>
                                    new BooksViewModel
