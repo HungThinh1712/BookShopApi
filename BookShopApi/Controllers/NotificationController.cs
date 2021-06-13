@@ -58,9 +58,13 @@ namespace BookShopApi.Controllers
                 notifications = await _notificationService.GetAsync(userId);
             foreach (var notification in notifications)
             {
-                if (notification.SenderId == null || notification.SenderId == "")
+                if ((notification.SenderId == null || notification.SenderId == "") && notification.Type=="Confirm")
                 {
                     notification.ImgUrl = "https://img.icons8.com/bubbles/2x/admin-settings-male.png";
+                }
+                else if ((notification.SenderId == null || notification.SenderId == "") && notification.Type == "Delivery")
+                {
+                    notification.ImgUrl = "https://www.pngitem.com/pimgs/m/485-4853792_white-motorbike-icon-delivery-png-transparent-png.png";
                 }
                 else
                 {

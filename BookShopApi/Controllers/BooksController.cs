@@ -105,7 +105,7 @@ namespace BookShopApi.Controllers
                 {
                     //Remove last element
                     if (books.Count == 6)
-                        books.RemoveRange(6, 1);
+                        books.RemoveRange(5, 1);
                 }
             }
             return Ok(books);

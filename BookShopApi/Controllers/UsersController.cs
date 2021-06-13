@@ -411,7 +411,7 @@ namespace BookShopApi.Controllers
 
         private async Task<int> GetSumOrder(string id)
         {
-            return (await _orderService.GetAsync(id)).Total;
+            return (await _orderService.GetOrdersAsync(id)).Count;
         }
 
         [HttpGet("[action]")]

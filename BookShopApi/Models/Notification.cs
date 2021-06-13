@@ -19,6 +19,7 @@ namespace BookShopApi.Models
         public string UserId { get; set; }
         public string SenderId { get; set; }
         public string TimeAgo { get; set; }
+        public string Type { get; set; }
         [BsonIgnore]
         public int TotalRead { get; set; }
         [BsonIgnore]

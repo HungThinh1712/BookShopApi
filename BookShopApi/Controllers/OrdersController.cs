@@ -35,18 +35,18 @@ namespace BookShopApi.Controllers
     
 
         [HttpGet]
-        public async Task<ActionResult<EntityList<OrdersViewModel>>> Get([FromQuery] int page, [FromQuery] int pageSize)
+        public async Task<ActionResult<EntityList<OrdersViewModel>>> Get([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] OrderStatus status)
         {
 
             var headerValues = Request.Headers["Authorization"];
             string userId = Authenticate.DecryptToken(headerValues.ToString());
-            var orders = await _orderService.GetAsync(userId,page,pageSize);
+            var orders = await _orderService.GetAsync(userId,page,pageSize,status);
             
             
             return Ok(orders);
         }
         [HttpGet("Admin")]
-        public async Task<ActionResult<EntityList<OrdersViewModel>>> GetAllOrder([FromQuery] int page, [FromQuery] int pageSize,int status)
+        public async Task<ActionResult<EntityList<OrdersViewModel>>> GetAllOrder([FromQuery] int page, [FromQuery] int pageSize,OrderStatus? status)
         {
 
            
@@ -62,9 +62,9 @@ namespace BookShopApi.Controllers
             return Ok(orders);
         }
         [HttpGet("Admin/ConfirmOrder")]
-        public async Task<ActionResult> ConfirmOrder(string orderId)
+        public async Task<ActionResult> ConfirmOrder(string orderId,OrderStatus status)
         {
-            return Ok(await _orderService.ConfirmOrder(orderId));
+            return Ok(await _orderService.ConfirmOrder(orderId,status));
         }
         [HttpGet("StatisticByMonth")]
         public async Task<ActionResult> GetMonthsStatistic([FromQuery] int? year)

@@ -24,9 +24,9 @@ namespace BookShopApi.Service
             _orders = database.GetCollection<Order>(settings.OrdersCollectionName);
         }
 
-        public async Task<EntityList<OrdersViewModel>> GetAsync(string userId, int page = 1, int pageSize = 4)
+        public async Task<EntityList<OrdersViewModel>> GetAsync(string userId, int page, int pageSize, OrderStatus status)
         {
-            var query = _orders.Find(order => order.UserId == userId);
+            var query = _orders.Find(order => order.UserId == userId && order.Status==status);
 
             var total = await query.CountDocumentsAsync();
             query = query.SortByDescending(x=>x.CreateAt).Skip((page - 1) * pageSize).Limit(pageSize);
@@ -58,7 +58,7 @@ namespace BookShopApi.Service
             order.TotalMoney = totalMoney;
             order.PaymentType = paymentType;
             order.OrderId = DateTime.Now.ToString("yymmssff");
-            order.Status = "Đang chờ xác nhận";
+            order.Status = OrderStatus.DangChoXacNhan;
             await _orders.InsertOneAsync(order);
             return order;
         }
@@ -68,6 +68,8 @@ namespace BookShopApi.Service
 
         public async Task<Order> GetOrderAsync(string id) =>
           await _orders.Find(order => order.Id == id).FirstOrDefaultAsync();
+        public async Task<List<Order>> GetOrdersAsync(string id) =>
+          await _orders.Find(order => order.UserId == id).ToListAsync();
 
 
         public async Task RemoveAsync(string id) =>
@@ -80,10 +82,10 @@ namespace BookShopApi.Service
                 total += item.Price *item.Amount;
             return total.ToString();
         }
-        public async Task<bool> ConfirmOrder(string id)
+        public async Task<bool> ConfirmOrder(string id,OrderStatus  status)
         {
             var filter = Builders<Order>.Filter.Eq(x => x.Id, id);
-            var update = Builders<Order>.Update.Set(x => x.Status, "Đã xác nhận");
+            var update = Builders<Order>.Update.Set(x => x.Status, status);
             await _orders.UpdateOneAsync(filter,update);
             return true;
         }
@@ -104,20 +106,17 @@ namespace BookShopApi.Service
 
 
         }
-        public async Task<EntityList<OrdersViewModel>> GetAllAsync(int page = 1, int pageSize = 10,int status=0)
+        public async Task<EntityList<OrdersViewModel>> GetAllAsync(int page, int pageSize,OrderStatus? status)
         {
             var query = _orders.Find(order => true);
-            
-            
-            if (status == 1)
-            {
-                query = _orders.Find(order => order.Status =="Đã xác nhận");
-            }
-            else if(status==2)
-            {
-                query = _orders.Find(order => order.Status == "Đang chờ xác nhận");
-            }    
 
+
+            if (status != null)
+            {
+                query = _orders.Find(order => order.Status == status);
+            }
+            
+                            
             var total = await query.CountDocumentsAsync();
             query = query.SortByDescending(x=>x.CreateAt).Skip((page - 1) * pageSize).Limit(pageSize);
             return new EntityList<OrdersViewModel>()
@@ -143,7 +142,7 @@ namespace BookShopApi.Service
         {
             DateTime startDate =year!=null ? new DateTime((int)year, 1, 1) : DateTime.MinValue;
             DateTime endDate = year != null ? new DateTime((int)year + 1, 1, 1) : DateTime.MaxValue;
-            var query = _orders.Aggregate().Match(x => x.Status == "Đã xác nhận"
+            var query = _orders.Aggregate().Match(x => x.Status == OrderStatus.DaGiaoHang
             && (year==null || (x.CreateAt >=startDate && x.CreateAt < endDate))).
                 Group(x => x.CreateAt.Month, x => new
                 {
