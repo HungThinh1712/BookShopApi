@@ -66,6 +66,14 @@ namespace BookShopApi.Service
         public async Task UpdateAsync(string id, Order orderIn) =>
            await _orders.ReplaceOneAsync(order => order.Id == id, orderIn);
 
+        public async Task  CancelOrder(string orderId, string reason)
+        {
+            var filter = Builders<Order>.Filter.Eq(x => x.Id , orderId);
+            var update = Builders<Order>.Update.Set(x => x.Status, OrderStatus.Huy)
+                                                .Set(x => x.CancelReason , reason);
+            await _orders.UpdateOneAsync(filter, update);
+        }
+
         public async Task<Order> GetOrderAsync(string id) =>
           await _orders.Find(order => order.Id == id).FirstOrDefaultAsync();
         public async Task<List<Order>> GetOrdersAsync(string id) =>
@@ -82,10 +90,29 @@ namespace BookShopApi.Service
                 total += item.Price *item.Amount;
             return total.ToString();
         }
-        public async Task<bool> ConfirmOrder(string id,OrderStatus  status)
+        public async Task<bool> ConfirmOrder(string id,OrderStatus  status,bool IsAdmin)
         {
             var filter = Builders<Order>.Filter.Eq(x => x.Id, id);
+            var order = await _orders.Find(filter).FirstOrDefaultAsync();
             var update = Builders<Order>.Update.Set(x => x.Status, status);
+            if (status == OrderStatus.DaGiaoHang)
+            {
+                if (order.ConfirmStatus ==ConfirmStatus.None)
+                {
+                    if (IsAdmin)
+                        update = Builders<Order>.Update.Set(x => x.ConfirmStatus, ConfirmStatus.Seller);
+                    else
+                    {
+                        update = Builders<Order>.Update.Set(x => x.Status, status).
+                        Set(x => x.ConfirmStatus, ConfirmStatus.Both);
+                    }   
+                }
+                else
+                {
+                     update = Builders<Order>.Update.Set(x => x.Status, status).
+                        Set(x=>x.ConfirmStatus,ConfirmStatus.Both);
+                }
+            }
             await _orders.UpdateOneAsync(filter,update);
             return true;
         }
@@ -132,6 +159,7 @@ namespace BookShopApi.Service
                                          Description = GetDescription(x.Items),
                                          Items = x.Items.Adapt<List<ItemInCartViewModel>>(),
                                          Status = x.Status,
+                                         ConfirmStatus = x.ConfirmStatus,
                                          UserId = x.UserId,
                                          ShippingFee = x.ShippingFee,
                                          PaymentType = x.PaymentType

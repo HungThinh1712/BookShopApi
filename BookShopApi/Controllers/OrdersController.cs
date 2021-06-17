@@ -57,14 +57,23 @@ namespace BookShopApi.Controllers
                 var user = users.Where(x => x.Id == order.UserId).FirstOrDefault();
                 order.UserName = user.FullName;
                 order.PhoneNumber = user.Phone;
-                order.UserAddress = await GetAddress(user);
+                order.UserAddress = user.SpecificAddress;
             }
             return Ok(orders);
         }
         [HttpGet("Admin/ConfirmOrder")]
         public async Task<ActionResult> ConfirmOrder(string orderId,OrderStatus status)
         {
-            return Ok(await _orderService.ConfirmOrder(orderId,status));
+            var headerValues = Request.Headers["Authorization"];
+            string userId = Authenticate.DecryptToken(headerValues.ToString());
+            var user = await _userService.GetAsync(userId);
+            return Ok(await _orderService.ConfirmOrder(orderId,status,user.IsAdmin));
+        }
+        [HttpGet("CancelOrder")]
+        public async Task<ActionResult> CancelOrder(string orderId, string reason)
+        {
+            await _orderService.CancelOrder(orderId, reason);
+            return Ok();
         }
         [HttpGet("StatisticByMonth")]
         public async Task<ActionResult> GetMonthsStatistic([FromQuery] int? year)
@@ -76,23 +85,6 @@ namespace BookShopApi.Controllers
         {
             return Ok(await _orderService.GetOrderAsync(id));
         }
-        private async Task<string> GetAddress(User user)
-        {
-            var returnedUser = user.Adapt<UserViewModel>();
-            var provinces = await _provinceService.GetAllAsync();
-            var wards = await _wardService.GetByDistrictIdAsync(returnedUser.DistrictId);
-            var districts = await _districtService.GetByProvinceIdAsync(returnedUser.ProvinceId);
-            if (returnedUser.ProvinceId != null)
-            {
-                returnedUser.ProvinceName = provinces.Where(x => x.Id == returnedUser.ProvinceId).FirstOrDefault().Name;
-                returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
-                returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
-                return returnedUser.SpecificAddress + ", " + returnedUser.WardName + ", " + returnedUser.DistrictName + ", " + returnedUser.ProvinceName;
-            }
-            else
-            {
-                return "Chưa cập nhật địa chỉ giao hàng";
-            }
-        }
+      
     }
 }

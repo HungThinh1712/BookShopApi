@@ -12,7 +12,7 @@ namespace BookShopApi.Models.ViewModels.Users
         public string FullName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public string Address { get; set; }
+        public string SpecificAddress { get; set; }
         public int Sex { get; set; }
         public string BirthDay { get; set; }
         public int SumOrder { get; set; }

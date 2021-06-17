@@ -50,12 +50,13 @@ namespace BookShopApi.Controllers
             await _notificationHub.Clients.All.ReceiveMessage(notification);
         }
         [HttpGet]
-        public async Task<ActionResult> Get([FromQuery] string userId)
+        public async Task<ActionResult> Get()
         {
             // run some logic...
             List<Notification> notifications = new List<Notification>();
-            if (userId != null)
-                notifications = await _notificationService.GetAsync(userId);
+            var headerValues = Request.Headers["Authorization"];
+            string userId = Authenticate.DecryptToken(headerValues.ToString());
+            notifications = await _notificationService.GetAsync(userId);
             foreach (var notification in notifications)
             {
                 if ((notification.SenderId == null || notification.SenderId == "") && notification.Type=="Confirm")
@@ -65,6 +66,14 @@ namespace BookShopApi.Controllers
                 else if ((notification.SenderId == null || notification.SenderId == "") && notification.Type == "Delivery")
                 {
                     notification.ImgUrl = "https://www.pngitem.com/pimgs/m/485-4853792_white-motorbike-icon-delivery-png-transparent-png.png";
+                }
+                else if ((notification.SenderId == null || notification.SenderId == "") && notification.Type == "ConfirmDelivery")
+                {
+                    notification.ImgUrl = "https://c8.alamy.com/comp/2AP68RG/package-delivery-color-icon-courier-service-parcel-delivering-deliveryman-with-box-and-invoice-postman-holding-cardboard-package-postal-service-2AP68RG.jpg";
+                }
+                else if ((notification.SenderId == null || notification.SenderId == "") && notification.Type == "Cancel")
+                {
+                    notification.ImgUrl = "https://png.pngtree.com/png-clipart/20190614/original/pngtree-cancel-icon-wood-png-image_3604377.jpg";
                 }
                 else
                 {

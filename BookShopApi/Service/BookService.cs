@@ -17,12 +17,12 @@ namespace BookShopApi.Service
     public class BookService
     {
         private readonly IMongoCollection<Book> _books;
-        public IGridFSBucket GridFsBucket { get; set; }
         public BookService(IBookShopDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
             _books = database.GetCollection<Book>(settings.BooksCollectionName);
+            _books.Indexes.CreateOne(new CreateIndexModel<Book>(Builders<Book>.IndexKeys.Text(x => x.BookName)));
 
         }
 
@@ -127,6 +127,16 @@ namespace BookShopApi.Service
 
         public async Task<Book> GetAsync(string id) =>
            await _books.Find<Book>(book => book.Id == id).FirstOrDefaultAsync();
+        public async Task<List<Book>> GetAllBooksAsync() =>
+          await _books.Find<Book>(book => true).ToListAsync();
+        public async Task DeleteManyAsync()
+        {
+            await _books.DeleteManyAsync(x => true);
+        }
+        public async Task AddManyAsync(List<Book> books)
+        {
+            await _books.InsertManyAsync(books);
+        }
 
 
         public async Task<BooksViewModel> CreateAsync(Book book, HttpRequest request)

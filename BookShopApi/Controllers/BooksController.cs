@@ -122,8 +122,7 @@ namespace BookShopApi.Controllers
             [FromQuery] int page
         )
         {
-            var filter = Builders<Book>.Filter.Regex("Alias", new BsonRegularExpression(Unsign.convertToUnSign(name).ToLower()))
-                          & Builders<Book>.Filter.Eq("DeleteAt", BsonNull.Value);
+            var filter = Builders<Book>.Filter.Text(name);
             if (typeId != null)
                 filter = filter & Builders<Book>.Filter.Eq("TypeId", typeId);
             if (publishHouseId != null)
@@ -137,6 +136,7 @@ namespace BookShopApi.Controllers
                 sortDefinition = Builders<Book>.Sort.Descending(x => x.Price);
             else
                 sortDefinition = Builders<Book>.Sort.Ascending(x => x.Price);
+            filter = filter & Builders<Book>.Filter.Eq("DeleteAt", BsonNull.Value);
             var books = await _bookService.SearchBooksAsync(filter, sortDefinition, Request, page);
             return Ok(books);
         }
@@ -235,6 +235,13 @@ namespace BookShopApi.Controllers
             var books = await _bookService.SearchBooksAdminAsync(filter, Request, page);
             return Ok(books);
         }
-
+        [HttpGet("[action]")]
+        public async Task<ActionResult> CorrectDataBook()
+        {
+            var books = await _bookService.GetAllBooksAsync();
+            await _bookService.DeleteManyAsync();
+            await _bookService.AddManyAsync(books);
+            return Ok();
+        }
     }
 }

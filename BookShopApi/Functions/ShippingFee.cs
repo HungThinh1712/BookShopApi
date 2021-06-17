@@ -30,7 +30,7 @@ namespace BookShopApi.Functions
             requestDistanceMatrix.Mode = TravelMode.driving;
 
             requestDistanceMatrix.AddDestination(new Location(address));
-            var response = new DistanceMatrixService(new GoogleSigned("AIzaSyAts2fdjTVxp2RIdtf3K8kVd-LV2qJY22o"))
+            var response = new DistanceMatrixService(new GoogleSigned("AIzaSyAJrP7CBH0mvbrwWCXb3jgIWXfCcQmkl_s"))
                    .GetResponse(requestDistanceMatrix);
             if (response.ErrorMessage != null)
                 throw new Exception("Địa chỉ k hợp lệ");

@@ -20,6 +20,7 @@ namespace BookShopApi.Models
         public decimal TotalMoney { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
         public OrderStatus Status { get; set; }
+        public ConfirmStatus ConfirmStatus { get; set; } = Models.ConfirmStatus.None;
         public int PaymentType { get; set; }
         public string CancelReason { get; set; } = null;
 
@@ -36,5 +37,12 @@ namespace BookShopApi.Models
         DangGiaoHang,
         DaGiaoHang,
         Huy
+    }
+    public enum ConfirmStatus : byte
+    {
+        None,
+        Seller,
+        Buyer,
+        Both
     }
 }

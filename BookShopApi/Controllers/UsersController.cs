@@ -63,12 +63,12 @@ namespace BookShopApi.Controllers
         {
             var user = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
             user.ImgUrl = user.ImgUrl;
-            if (user.ProvinceId != null && user.ProvinceId != "" && user.IsAdmin == false)
-            {
-                user.ProvinceName = (await _provinceService.GetByIdAsync(user.ProvinceId)).Name;
-                user.DistrictName = (await _districtService.GetByIdAsync(user.DistrictId)).Name;
-                user.WardName = (await _wardService.GetByIdAsync(user.WardId)).Name;
-            }
+            //if (user.ProvinceId != null && user.ProvinceId != "" && user.IsAdmin == false)
+            //{
+            //    user.ProvinceName = (await _provinceService.GetByIdAsync(user.ProvinceId)).Name;
+            //    user.DistrictName = (await _districtService.GetByIdAsync(user.DistrictId)).Name;
+            //    user.WardName = (await _wardService.GetByIdAsync(user.WardId)).Name;
+            //}
             if (user.IsAdmin == false)
             {
                 user.BirthDay = Convert.ToDateTime(user.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
@@ -117,24 +117,24 @@ namespace BookShopApi.Controllers
             var user = updatedUser["updatedUser"];
 
             //General info
-            string province = user["provinceId"].ToString();
-            string district = user["districtId"].ToString();
-            string ward = user["wardId"].ToString();
-            string address = user["address"].ToString();
-            var provinces = await _provinceService.GetAllAsync();
-            var districts = await _districtService.GetByProvinceIdAsync(province);
-            var wards = await _wardService.GetByDistrictIdAsync(district);
+            //string province = user["provinceId"].ToString();
+            //string district = user["districtId"].ToString();
+            //string ward = user["wardId"].ToString();
+            string address = user["tempAddress"].ToString();
+            //var provinces = await _provinceService.GetAllAsync();
+            //var districts = await _districtService.GetByProvinceIdAsync(province);
+            //var wards = await _wardService.GetByDistrictIdAsync(district);
 
 
-            var provinceName = provinces.Where(x => x.Id == province).FirstOrDefault().Name;
-            var districtName =  districts.Where(x => x.Id == district).FirstOrDefault().Name;
-            var wardName =   wards.Where(x => x.Id == ward).FirstOrDefault().Name;
+            //var provinceName = provinces.Where(x => x.Id == province).FirstOrDefault().Name;
+            //var districtName =  districts.Where(x => x.Id == district).FirstOrDefault().Name;
+            //var wardName =   wards.Where(x => x.Id == ward).FirstOrDefault().Name;
 
-            string destination = string.Format("{0}, {1}, {2}, {3}", address, wardName, districtName, provinceName);
+            string destination = string.Format(address);
             var distance = ShippingFee.GetDistance(destination);
 
-            if (province == "0" || ward == "0" || district == "0" || address == "")
-                return BadRequest("Vui lòng nhập đầy đủ thông tin");
+            //if (province == "0" || ward == "0" || district == "0" || address == "")
+            //    return BadRequest("Vui lòng nhập đầy đủ thông tin");
 
             string name = user["name"].ToString();
             string phone = user["phone"].ToString();
@@ -142,17 +142,17 @@ namespace BookShopApi.Controllers
             string id = user["id"].ToString();
             var tempUser = await _userService.GetAsync(id);
 
-            await _userService.UpdateAddressAsync(id, name, phone, province, district, ward, address,distance);
+            await _userService.UpdateAddressAsync(id, name, phone, address,distance);
 
             ///Return updated user to update state in react
             var returnedUser = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
            
-            if (returnedUser.ProvinceId != null)
-            {
-                returnedUser.ProvinceName = provinceName;
-                returnedUser.DistrictName = districtName;
-                returnedUser.WardName = wardName;
-            }
+            //if (returnedUser.ProvinceId != null)
+            //{
+            //    returnedUser.ProvinceName = provinceName;
+            //    returnedUser.DistrictName = districtName;
+            //    returnedUser.WardName = wardName;
+            //}
             returnedUser.ImgUrl = returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
             return Ok(returnedUser);
@@ -202,15 +202,15 @@ namespace BookShopApi.Controllers
             await _userService.UpdateProfileAsync(id, name, phone, sex, birthday);
             //return user updated
             var returnedUser = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
-            var provinces = await _provinceService.GetAllAsync();
-            var wards = await _wardService.GetByDistrictIdAsync(returnedUser.DistrictId);
-            var districts = await _districtService.GetByProvinceIdAsync(returnedUser.ProvinceId);
-            if (returnedUser.ProvinceId != null)
-            {
-                returnedUser.ProvinceName = provinces.Where(x => x.Id == returnedUser.ProvinceId).FirstOrDefault().Name;
-                returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
-                returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
-            }
+            //var provinces = await _provinceService.GetAllAsync();
+            //var wards = await _wardService.GetByDistrictIdAsync(returnedUser.DistrictId);
+            //var districts = await _districtService.GetByProvinceIdAsync(returnedUser.ProvinceId);
+            //if (returnedUser.ProvinceId != null)
+            //{
+            //    returnedUser.ProvinceName = provinces.Where(x => x.Id == returnedUser.ProvinceId).FirstOrDefault().Name;
+            //    returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
+            //    returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
+            //}
             returnedUser.ImgUrl = returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
             return Ok(returnedUser);
@@ -313,15 +313,15 @@ namespace BookShopApi.Controllers
 
             ///Return updated user to update state in react
             var returnedUser = (await _userService.GetAsync(userId)).Adapt<UserViewModel>();
-            var provinces = await _provinceService.GetAllAsync();
-            var wards = await _wardService.GetByDistrictIdAsync(returnedUser.DistrictId);
-            var districts = await _districtService.GetByProvinceIdAsync(returnedUser.ProvinceId);
-            if (returnedUser.ProvinceId != null)
-            {
-                returnedUser.ProvinceName = provinces.Where(x => x.Id == returnedUser.ProvinceId).FirstOrDefault().Name;
-                returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
-                returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
-            }
+            //var provinces = await _provinceService.GetAllAsync();
+            //var wards = await _wardService.GetByDistrictIdAsync(returnedUser.DistrictId);
+            //var districts = await _districtService.GetByProvinceIdAsync(returnedUser.ProvinceId);
+            //if (returnedUser.ProvinceId != null)
+            //{
+            //    returnedUser.ProvinceName = provinces.Where(x => x.Id == returnedUser.ProvinceId).FirstOrDefault().Name;
+            //    returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
+            //    returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
+            //}
             returnedUser.ImgUrl = returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
             return Ok(returnedUser);
@@ -357,58 +357,14 @@ namespace BookShopApi.Controllers
             {
                 user.BirthDay = Convert.ToDateTime(user.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
                 user.SumOrder = await GetSumOrder(user.Id);
-                user.Address = await GetAddress(user.Id);
+                user.SpecificAddress = user.SpecificAddress;
             }
             return Ok(users);
         }
 
-        //[HttpGet("Admin/[action]")]
-        //public async Task<ActionResult<IEnumerable<User>>> GetAllUser([FromQuery] string name, int page)
-        //{
-        //    var users = await _userService.GetAllUserAsync(name);
-        //    foreach (var user in users.Entities)
-        //    {
-        //        user.BirthDay = Convert.ToDateTime(user.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
-        //        user.Address = await GetAddressUser(user.Id);
-        //    }
-        //    return Ok(users);
-        //}
+       
 
-        private async Task<string> GetAddress(string id)
-        {
-            var returnedUser = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
-            var provinces = await _provinceService.GetAllAsync();
-            var wards = await _wardService.GetByDistrictIdAsync(returnedUser.DistrictId);
-            var districts = await _districtService.GetByProvinceIdAsync(returnedUser.ProvinceId);
-            if (returnedUser.ProvinceId != null)
-            {
-                returnedUser.ProvinceName = provinces.Where(x => x.Id == returnedUser.ProvinceId).FirstOrDefault().Name;
-                returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
-                returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
-                return returnedUser.SpecificAddress + ", " + returnedUser.WardName + ", " + returnedUser.DistrictName + ", " + returnedUser.ProvinceName;
-            }
-            else
-            {
-                return "Chưa cập nhật địa chỉ giao hàng";
-            }
-        }
-
-        private async Task<string> GetAddressUser(string id)
-        {
-            var returnedUser = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
-            if (returnedUser.ProvinceId != null)
-            {
-                returnedUser.ProvinceName = (await _provinceService.GetByIdAsync(returnedUser.ProvinceId)).Name;
-                returnedUser.DistrictName = (await _districtService.GetByIdAsync(returnedUser.DistrictId)).Name;
-                returnedUser.WardName = (await _wardService.GetByIdAsync(returnedUser.WardId)).Name;
-                return returnedUser.SpecificAddress + ", " + returnedUser.WardName + ", " + returnedUser.DistrictName + ", " + returnedUser.ProvinceName;
-            }
-            else
-            {
-                return "Tài khoản chưa cập nhật địa chỉ";
-            }
-        }
-
+        
         private async Task<int> GetSumOrder(string id)
         {
             return (await _orderService.GetOrdersAsync(id)).Count;

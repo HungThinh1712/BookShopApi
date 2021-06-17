@@ -118,11 +118,11 @@ namespace BookShopApi.Controllers
                 book.Amount = book.Amount - item.Amount;
                 await _bookService.UpdateAsync(book.Id, book);
             }
-            await _orderService.CreateAsync(userId, paymentType, shoppingcart.ItemInCart,shippingFee,totalMoney);
+            var order = await _orderService.CreateAsync(userId, paymentType, shoppingcart.ItemInCart,shippingFee,totalMoney);
             shoppingcart.ItemInCart.Clear();
             await _shoppingCartService.UpdateAsync(userId, shoppingcart);
 
-            return Ok("Thanh toán thành công");
+            return Ok(order);
         }
         [HttpPost("[action]")]
         public async Task<ActionResult> UpdateAmountItemInCart([FromBody] JObject body)
