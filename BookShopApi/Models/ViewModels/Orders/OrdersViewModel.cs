@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PromotionModel = BookShopApi.Models.Promotion;
 
 namespace BookShopApi.Models.ViewModels.Orders
 {
@@ -20,6 +21,8 @@ namespace BookShopApi.Models.ViewModels.Orders
         public List<Models.ViewModels.ItemInCartViewModel> Items { get; set; }
         public OrderStatus Status { get; set; }
         public ConfirmStatus ConfirmStatus { get; set; }
+        public decimal DiscountMoney { get; set; }
+        public string PromotionCode { get; set; }
 
         public string PhoneNumber { get; set; }
         public string UserId { get; set; }

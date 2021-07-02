@@ -44,6 +44,11 @@ namespace BookShopApi.Service
                                          TypeId = x.TypeId
                                      }).ToListAsync();
         }
+        public async Task<List<Book>> GetAllAsync()
+        {
+
+            return await _books.Find(book => book.DeleteAt == null && book.Amount > 0).ToListAsync();
+        }
 
         public async Task<List<BooksViewModel>> GetByZoneAsync(int index, HttpRequest request, string zoneType, string tag)
         {

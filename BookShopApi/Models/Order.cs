@@ -17,14 +17,19 @@ namespace BookShopApi.Models
         public string OrderId { get; set; }
         public List<ItemInCart> Items { get; set; }
         public decimal ShippingFee { get; set; }
+        [BsonRepresentation(BsonType.Decimal128)]
         public decimal TotalMoney { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
         public OrderStatus Status { get; set; }
         public ConfirmStatus ConfirmStatus { get; set; } = Models.ConfirmStatus.None;
         public int PaymentType { get; set; }
         public string CancelReason { get; set; } = null;
+        [BsonRepresentation(BsonType.Decimal128)]
+        public decimal DiscountMoney { get; set; }
+        public string PromotionCode { get; set; }
 
-       
+
     }
     public class OrderWithUserName : Order
     {

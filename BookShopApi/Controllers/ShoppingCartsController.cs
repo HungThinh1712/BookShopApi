@@ -18,16 +18,18 @@ namespace BookShopApi.Controllers
     public class ShoppingCartsController : ControllerBase
     {
         private readonly ShoppingCartService _shoppingCartService;
+        private readonly PromotionService _promotionService;
         private readonly BookService _bookService;
         private readonly OrderService _orderService;
 
         public ShoppingCartsController(ShoppingCartService shoppingCartService,
             BookService bookService,
-            OrderService orderService)
+            OrderService orderService, PromotionService promotionService)
         {
             _shoppingCartService = shoppingCartService;
             _bookService = bookService;
             _orderService = orderService;
+            _promotionService = promotionService;
         }
 
        
@@ -105,11 +107,17 @@ namespace BookShopApi.Controllers
             return Ok("Delete successfull");
         }
         [HttpGet("[action]")]
-        public async Task<ActionResult> PayForCart(int paymentType,decimal shippingFee, decimal totalMoney)
+        public async Task<ActionResult> PayForCart(int paymentType,decimal shippingFee, decimal totalMoney,string promotionCode)
         {
             var headerValues = Request.Headers["Authorization"];
             string userId = Authenticate.DecryptToken(headerValues.ToString());
             var shoppingcart = await _shoppingCartService.GetByUserIdAsync(userId);
+            Promotion promotion = null;
+            if(promotionCode != null)
+            {
+                promotion = await _promotionService.GetAsync(promotionCode);
+                await _promotionService.UpdatePromotionAfterApply(userId, promotionCode);
+            }
 
             foreach (var item in shoppingcart.ItemInCart)
             {
@@ -118,7 +126,7 @@ namespace BookShopApi.Controllers
                 book.Amount = book.Amount - item.Amount;
                 await _bookService.UpdateAsync(book.Id, book);
             }
-            var order = await _orderService.CreateAsync(userId, paymentType, shoppingcart.ItemInCart,shippingFee,totalMoney);
+            var order = await _orderService.CreateAsync(userId, paymentType, shoppingcart.ItemInCart,shippingFee,totalMoney, promotion);
             shoppingcart.ItemInCart.Clear();
             await _shoppingCartService.UpdateAsync(userId, shoppingcart);
 
@@ -189,7 +197,7 @@ namespace BookShopApi.Controllers
         }
 
         [HttpGet("[action]")]
-        public  ActionResult PayByMomo(string totalMoney)
+        public  ActionResult PayByMomo(string totalMoney, string shippingFee, string promotionCode)
         {         
             string endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor";
             string partnerCode = "MOMOBKUN20180529";
@@ -197,6 +205,11 @@ namespace BookShopApi.Controllers
             string serectkey = "at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa";
             string orderInfo = "Thanh toán đơn hàng";
             string returnUrl = "http://localhost:3000/order_success_page";
+            returnUrl = returnUrl + string.Format("?shippingFee={0}", shippingFee);
+            if (promotionCode != null)
+            {
+                returnUrl = returnUrl + string.Format("&promotionCode={0}", promotionCode);
+            }
             string notifyurl = "https://momo.vn/notify";
             string amount = totalMoney;
             string orderid = Guid.NewGuid().ToString();

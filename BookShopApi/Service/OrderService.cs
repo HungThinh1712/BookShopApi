@@ -49,7 +49,7 @@ namespace BookShopApi.Service
              };
         } 
 
-        public async Task<Order> CreateAsync(string userId, int paymentType, List<ItemInCart> items,decimal shipingFee,decimal totalMoney)
+        public async Task<Order> CreateAsync(string userId, int paymentType, List<ItemInCart> items,decimal shipingFee,decimal totalMoney,Promotion promotion)
         {
             var order = new Order();
             order.UserId = userId;
@@ -57,14 +57,44 @@ namespace BookShopApi.Service
             order.ShippingFee = shipingFee;
             order.TotalMoney = totalMoney;
             order.PaymentType = paymentType;
+            order.DiscountMoney = promotion !=null ? promotion.DiscountMoney : 0;
+            order.PromotionCode = promotion != null ? promotion.PromotionCode : null;
             order.OrderId = DateTime.Now.ToString("yymmssff");
             order.Status = OrderStatus.DangChoXacNhan;
+            if(promotion != null  && promotion.PromotionType == PromotionType.FreeShip){
+                order.ShippingFee = 0;
+            }
+            //pay with momo
+            if (paymentType == 2)
+            {
+                if (promotion.PromotionType == PromotionType.Discount)
+                {
+                    order.TotalMoney = totalMoney - promotion.DiscountMoney;
+                }
+                else
+                {
+                    order.TotalMoney = totalMoney - shipingFee;
+                }
+            }
             await _orders.InsertOneAsync(order);
             return order;
         }
 
         public async Task UpdateAsync(string id, Order orderIn) =>
            await _orders.ReplaceOneAsync(order => order.Id == id, orderIn);
+
+        public async Task UpdateStatusOrderAsync()
+        {
+            var orders = await _orders.Find(x => x.Status == OrderStatus.DangGiaoHang).ToListAsync();
+            foreach(var order in orders)
+            {
+                if ( (DateTime.UtcNow - order.UpdatedAt).TotalDays == 2 )
+                {
+                    order.ConfirmStatus = ConfirmStatus.Both;
+                }
+                await _orders.ReplaceOneAsync(x => x.Id == order.Id, order);
+            }
+        }
 
         public async Task  CancelOrder(string orderId, string reason)
         {
@@ -94,23 +124,24 @@ namespace BookShopApi.Service
         {
             var filter = Builders<Order>.Filter.Eq(x => x.Id, id);
             var order = await _orders.Find(filter).FirstOrDefaultAsync();
-            var update = Builders<Order>.Update.Set(x => x.Status, status);
+            var update = Builders<Order>.Update.Set(x => x.Status, status).Set(x => x.UpdatedAt, DateTime.UtcNow);
             if (status == OrderStatus.DaGiaoHang)
             {
                 if (order.ConfirmStatus ==ConfirmStatus.None)
                 {
                     if (IsAdmin)
-                        update = Builders<Order>.Update.Set(x => x.ConfirmStatus, ConfirmStatus.Seller);
+                        update = Builders<Order>.Update.Set(x => x.ConfirmStatus, ConfirmStatus.Seller)
+                                                        .Set(x=>x.UpdatedAt,DateTime.UtcNow);
                     else
                     {
                         update = Builders<Order>.Update.Set(x => x.Status, status).
-                        Set(x => x.ConfirmStatus, ConfirmStatus.Both);
+                        Set(x => x.ConfirmStatus, ConfirmStatus.Both).Set(x => x.UpdatedAt, DateTime.UtcNow);
                     }   
                 }
                 else
                 {
                      update = Builders<Order>.Update.Set(x => x.Status, status).
-                        Set(x=>x.ConfirmStatus,ConfirmStatus.Both);
+                        Set(x=>x.ConfirmStatus,ConfirmStatus.Both).Set(x => x.UpdatedAt, DateTime.UtcNow);
                 }
             }
             await _orders.UpdateOneAsync(filter,update);

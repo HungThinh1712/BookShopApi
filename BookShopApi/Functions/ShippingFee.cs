@@ -26,11 +26,11 @@ namespace BookShopApi.Functions
         public static string GetDistance(string address)
         {
             DistanceMatrixRequest requestDistanceMatrix = new DistanceMatrixRequest();
-            requestDistanceMatrix.AddOrigin(new Location("Số 1, Võ Văn Ngân, Linh Trung, Thủ Đức"));
+            requestDistanceMatrix.AddOrigin(new Location("Số 1, Võ Văn Ngân, Linh Chiểu, Thủ Đức"));
             requestDistanceMatrix.Mode = TravelMode.driving;
 
             requestDistanceMatrix.AddDestination(new Location(address));
-            var response = new DistanceMatrixService(new GoogleSigned("AIzaSyD-bnhN-LidYXjNatuSyAZo14IpFeXeyj4"))
+            var response = new DistanceMatrixService(new GoogleSigned("AIzaSyCiz3hHe4n_DUtzlTwMebrAw3i8pgCNi_Y"))
                    .GetResponse(requestDistanceMatrix);
             if (response.ErrorMessage != null)
                 throw new Exception("Địa chỉ k hợp lệ");

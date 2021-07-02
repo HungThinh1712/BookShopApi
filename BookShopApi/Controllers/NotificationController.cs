@@ -34,6 +34,22 @@ namespace BookShopApi.Controllers
             // run some logic...
             notification.CreateAt = DateTime.UtcNow;
             notification.Status = 0;
+            if (notification.Type == "Confirm")
+            {
+                notification.ImgUrl = "https://img.icons8.com/bubbles/2x/admin-settings-male.png";
+            }
+            else if (notification.Type == "Delivery")
+            {
+                notification.ImgUrl = "https://www.pngitem.com/pimgs/m/485-4853792_white-motorbike-icon-delivery-png-transparent-png.png";
+            }
+            else if (notification.Type == "ConfirmDelivery")
+            {
+                notification.ImgUrl = "https://c8.alamy.com/comp/2AP68RG/package-delivery-color-icon-courier-service-parcel-delivering-deliveryman-with-box-and-invoice-postman-holding-cardboard-package-postal-service-2AP68RG.jpg";
+            }
+            else if (notification.Type == "Cancel")
+            {
+                notification.ImgUrl = "https://png.pngtree.com/png-clipart/20190614/original/pngtree-cancel-icon-wood-png-image_3604377.jpg";
+            }
             await _notificationService.CreateAsync(notification);
 
             await _notificationHub.Clients.All.ReceiveMessage(notification);
@@ -45,9 +61,7 @@ namespace BookShopApi.Controllers
             var notification = await _notificationService.GetbyIdAsync(id);
             notification.Status = 1;
             await _notificationService.UpdateAsync(id, notification);
-
-
-            await _notificationHub.Clients.All.ReceiveMessage(notification);
+            //await _notificationHub.Clients.All.ReceiveMessage(notification);
         }
         [HttpGet]
         public async Task<ActionResult> Get()
@@ -57,30 +71,7 @@ namespace BookShopApi.Controllers
             var headerValues = Request.Headers["Authorization"];
             string userId = Authenticate.DecryptToken(headerValues.ToString());
             notifications = await _notificationService.GetAsync(userId);
-            foreach (var notification in notifications)
-            {
-                if ((notification.SenderId == null || notification.SenderId == "") && notification.Type=="Confirm")
-                {
-                    notification.ImgUrl = "https://img.icons8.com/bubbles/2x/admin-settings-male.png";
-                }
-                else if ((notification.SenderId == null || notification.SenderId == "") && notification.Type == "Delivery")
-                {
-                    notification.ImgUrl = "https://www.pngitem.com/pimgs/m/485-4853792_white-motorbike-icon-delivery-png-transparent-png.png";
-                }
-                else if ((notification.SenderId == null || notification.SenderId == "") && notification.Type == "ConfirmDelivery")
-                {
-                    notification.ImgUrl = "https://c8.alamy.com/comp/2AP68RG/package-delivery-color-icon-courier-service-parcel-delivering-deliveryman-with-box-and-invoice-postman-holding-cardboard-package-postal-service-2AP68RG.jpg";
-                }
-                else if ((notification.SenderId == null || notification.SenderId == "") && notification.Type == "Cancel")
-                {
-                    notification.ImgUrl = "https://png.pngtree.com/png-clipart/20190614/original/pngtree-cancel-icon-wood-png-image_3604377.jpg";
-                }
-                else
-                {
-                    notification.ImgUrl = (await _userService.GetAsync(notification.SenderId)).ImgUrl;
-                }
-
-            }
+            
             return Ok(notifications);
 
         }
@@ -109,7 +100,8 @@ namespace BookShopApi.Controllers
                 notification.UserId = userAdmin.Id;
                 notification.CreateAt = DateTime.UtcNow;
                 notification.Status = 0;
-
+                notification.ImgUrl = (await _userService.GetAsync(notification.SenderId)).ImgUrl;
+               
 
                 await _notificationService.CreateAsync(notification);
 

@@ -112,6 +112,16 @@ namespace BookShopApi.Controllers
         }
 
         [HttpGet("[action]")]
+        public async Task<ActionResult<IEnumerable<BooksViewModel>>> GetAllBook()
+        {
+            var books = await _bookService.GetAllAsync();
+
+            //Checked book exist in list
+          
+            return Ok(books);
+        }
+
+        [HttpGet("[action]")]
         public async Task<ActionResult<EntityList<BooksViewModel>>> SearchBookByName(
             [FromQuery] string name,
             [FromQuery] string typeId,

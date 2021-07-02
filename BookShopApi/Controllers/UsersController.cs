@@ -52,7 +52,7 @@ namespace BookShopApi.Controllers
         [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<User>>> GetAll()
         {
-            var user = await _userService.GetAsync();
+            var user = await _userService.GetAllAsync();
             return Ok(user);
         }
 
@@ -116,26 +116,13 @@ namespace BookShopApi.Controllers
 
             var user = updatedUser["updatedUser"];
 
-            //General info
-            //string province = user["provinceId"].ToString();
-            //string district = user["districtId"].ToString();
-            //string ward = user["wardId"].ToString();
+        
             string address = user["tempAddress"].ToString();
-            //var provinces = await _provinceService.GetAllAsync();
-            //var districts = await _districtService.GetByProvinceIdAsync(province);
-            //var wards = await _wardService.GetByDistrictIdAsync(district);
-
-
-            //var provinceName = provinces.Where(x => x.Id == province).FirstOrDefault().Name;
-            //var districtName =  districts.Where(x => x.Id == district).FirstOrDefault().Name;
-            //var wardName =   wards.Where(x => x.Id == ward).FirstOrDefault().Name;
-
+         
             string destination = string.Format(address);
             var distance = ShippingFee.GetDistance(destination);
 
-            //if (province == "0" || ward == "0" || district == "0" || address == "")
-            //    return BadRequest("Vui lòng nhập đầy đủ thông tin");
-
+          
             string name = user["name"].ToString();
             string phone = user["phone"].ToString();
 
@@ -147,12 +134,7 @@ namespace BookShopApi.Controllers
             ///Return updated user to update state in react
             var returnedUser = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
            
-            //if (returnedUser.ProvinceId != null)
-            //{
-            //    returnedUser.ProvinceName = provinceName;
-            //    returnedUser.DistrictName = districtName;
-            //    returnedUser.WardName = wardName;
-            //}
+          
             returnedUser.ImgUrl = returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
             return Ok(returnedUser);
@@ -202,15 +184,7 @@ namespace BookShopApi.Controllers
             await _userService.UpdateProfileAsync(id, name, phone, sex, birthday);
             //return user updated
             var returnedUser = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
-            //var provinces = await _provinceService.GetAllAsync();
-            //var wards = await _wardService.GetByDistrictIdAsync(returnedUser.DistrictId);
-            //var districts = await _districtService.GetByProvinceIdAsync(returnedUser.ProvinceId);
-            //if (returnedUser.ProvinceId != null)
-            //{
-            //    returnedUser.ProvinceName = provinces.Where(x => x.Id == returnedUser.ProvinceId).FirstOrDefault().Name;
-            //    returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
-            //    returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
-            //}
+        
             returnedUser.ImgUrl = returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
             return Ok(returnedUser);
@@ -313,15 +287,7 @@ namespace BookShopApi.Controllers
 
             ///Return updated user to update state in react
             var returnedUser = (await _userService.GetAsync(userId)).Adapt<UserViewModel>();
-            //var provinces = await _provinceService.GetAllAsync();
-            //var wards = await _wardService.GetByDistrictIdAsync(returnedUser.DistrictId);
-            //var districts = await _districtService.GetByProvinceIdAsync(returnedUser.ProvinceId);
-            //if (returnedUser.ProvinceId != null)
-            //{
-            //    returnedUser.ProvinceName = provinces.Where(x => x.Id == returnedUser.ProvinceId).FirstOrDefault().Name;
-            //    returnedUser.DistrictName = districts.Where(x => x.Id == returnedUser.DistrictId).FirstOrDefault().Name;
-            //    returnedUser.WardName = wards.Where(x => x.Id == returnedUser.WardId).FirstOrDefault().Name;
-            //}
+           
             returnedUser.ImgUrl = returnedUser.ImgUrl;
             returnedUser.BirthDay = Convert.ToDateTime(returnedUser.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
             return Ok(returnedUser);
@@ -355,9 +321,9 @@ namespace BookShopApi.Controllers
             var users = await _userService.GetAllAsync(name);
             foreach (var user in users.Entities)
             {
-                user.BirthDay = Convert.ToDateTime(user.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
-                user.SumOrder = await GetSumOrder(user.Id);
-                user.SpecificAddress = user.SpecificAddress;
+                user.BirthDay = Convert.ToDateTime(user.BirthDay).ToLocalTime().ToString("dd-MM-yyyy");
+
+                //user.SumOrder = await GetSumOrder(user.Id);
             }
             return Ok(users);
         }

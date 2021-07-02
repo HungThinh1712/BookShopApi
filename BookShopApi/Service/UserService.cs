@@ -29,7 +29,9 @@ namespace BookShopApi.Service
         
 
         public async Task<List<User>> GetAsync() =>
-            await _users.Find(user => true).ToListAsync();
+            await _users.Find(user => true && user.IsAdmin==false && user.IsActive==true).ToListAsync();
+        public async Task<List<AllUserVM>> GetAllAsync() =>
+           (await _users.Find(user => true && user.IsAdmin == false && user.IsActive == true).ToListAsync()).Adapt<List<AllUserVM>>();
 
         public async Task<User> GetAsync(string id) =>
            await _users.Find<User>(user => user.Id == id).FirstOrDefaultAsync();
@@ -53,6 +55,7 @@ namespace BookShopApi.Service
             var user = new User();
 
             user.Email = email;
+            user.IsActive = true;
             user.FullName = fullName;
             user.ImgUrl = "https://www.pphfoundation.ca/wp-content/uploads/2018/05/default-avatar.png";
             await _users.InsertOneAsync(user);

@@ -21,6 +21,7 @@ namespace BookShopApi.DatabaseSettings
         public string EnteredInvoicesCollectionName { get; set; }
         public string ProvincesCollectionName { get; set; }
         public string WardsCollectionName { get; set; }
+        public string PromotionsCollectionName { get; set; }
         public string DistrictsCollectionName { get; set; }
         public string NotificationsCollectionName { get; set; }
         public string ConnectionString { get; set; }
@@ -30,6 +31,7 @@ namespace BookShopApi.DatabaseSettings
     public interface IBookShopDatabaseSettings
     {
         string BooksCollectionName { get; set; }
+        string PromotionsCollectionName { get; set; }
         string TypesCollectionName { get; set; }
         string TagsCollectionName { get; set; }
         string UsersCollectionName { get; set; }

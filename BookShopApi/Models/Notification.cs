@@ -22,7 +22,6 @@ namespace BookShopApi.Models
         public string Type { get; set; }
         [BsonIgnore]
         public int TotalRead { get; set; }
-        [BsonIgnore]
         public string ImgUrl { get; set; }
         public int Status { get; set; }
         public string OrderId { get; set; }

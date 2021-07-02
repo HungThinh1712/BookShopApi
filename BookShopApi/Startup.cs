@@ -63,6 +63,7 @@ namespace BookShopApi
             services.AddSingleton<WardService>();
             services.AddSingleton<NotificationService>();
             services.AddSingleton<TagService>();
+            services.AddSingleton<PromotionService>();
 
             services.AddAuthentication();
             services.AddMvc().AddSessionStateTempDataProvider();
