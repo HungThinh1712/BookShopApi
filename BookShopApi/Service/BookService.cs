@@ -130,6 +130,15 @@ namespace BookShopApi.Service
             };
         }
 
+        public async Task<int> CountBooks(FilterDefinition<Book> filter = null)
+        {
+           
+            var query = _books.Find(filter);
+            var total = await query.CountDocumentsAsync();
+            return (int)total;
+           
+        }
+
         public async Task<Book> GetAsync(string id) =>
            await _books.Find<Book>(book => book.Id == id).FirstOrDefaultAsync();
         public async Task<List<Book>> GetAllBooksAsync() =>

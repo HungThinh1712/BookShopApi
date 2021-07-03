@@ -33,12 +33,17 @@ namespace BookShopApi.Functions
         }
         public static string DecryptToken(string token, string type = "sub")
         {
-            //Bỏ phần Bearer 
-            token = token.Replace("Bearer ", "");
-            //Lấy id của user đăng nhập
-            var encode = new JwtSecurityToken(jwtEncodedString: token);
-            string userId = encode.Claims.First(c => c.Type == type).Value;
-            return userId;
+            if (!string.IsNullOrEmpty(token))
+            {
+                //Bỏ phần Bearer 
+                token = token.Replace("Bearer ", "");
+                //Lấy id của user đăng nhập
+                var encode = new JwtSecurityToken(jwtEncodedString: token);
+                string userId = encode.Claims.First(c => c.Type == type).Value;
+                return userId;
+            }
+            else
+                return null;
         }
 
     }

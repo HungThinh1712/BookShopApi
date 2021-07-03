@@ -88,7 +88,7 @@ namespace BookShopApi.Service
             var orders = await _orders.Find(x => x.Status == OrderStatus.DangGiaoHang).ToListAsync();
             foreach(var order in orders)
             {
-                if ( (DateTime.UtcNow - order.UpdatedAt).TotalDays == 2 )
+                if ( (DateTime.UtcNow - order.UpdatedAt).TotalDays == 2  && order.ConfirmStatus ==ConfirmStatus.Seller)
                 {
                     order.ConfirmStatus = ConfirmStatus.Both;
                 }

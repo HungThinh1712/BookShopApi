@@ -133,8 +133,17 @@ namespace BookShopApi.Controllers
         )
         {
             var filter = Builders<Book>.Filter.Text(name);
+            filter = filter & Builders<Book>.Filter.Eq(x => x.DeleteAt, null) & Builders<Book>.Filter.Gt(x => x.Amount, 0);
+            var checkTotal = await _bookService.CountBooks(filter);
+            
+            if(checkTotal == 0)
+            {
+                filter = Builders<Book>.Filter.Regex("Alias", new BsonRegularExpression(name, "i")) ;
+                filter = filter & Builders<Book>.Filter.Eq(x => x.DeleteAt, null) & Builders<Book>.Filter.Gt(x => x.Amount, 0);
+            }
             if (typeId != null)
                 filter = filter & Builders<Book>.Filter.Eq("TypeId", typeId);
+
             if (publishHouseId != null)
                 filter = filter & Builders<Book>.Filter.Eq("PublishHouseId", publishHouseId);
             if (authorId != null)

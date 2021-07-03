@@ -32,18 +32,25 @@ namespace BookShopApi.Controllers
             await _promotion.UpdateAsync(promotion);
             return Ok(true);
         }
+        [HttpGet("Cancel")]
+        public async Task<ActionResult> Cancel([FromQuery] string id)
+        {
+            await _promotion.CancelPromotionAsync(id);
+            return Ok(true);
+        }
         [HttpGet("Detail")]
         public async Task<ActionResult> GetDetail([FromQuery] string id)
         {
-            
-            return Ok(await _promotion.GetPromotionByIdAsync(id));
+            var promotion = await _promotion.GetPromotionByIdAsync(id);
+            return Ok(promotion);
         }
 
         [HttpGet]
         public async Task<ActionResult> GetAll([FromQuery] int page, [FromQuery] int pageSize,[FromQuery] PromotionStatus status)
         {
+            var promotions = await _promotion.GetAsync(page, pageSize, status);
             
-            return Ok(await _promotion.GetAsync(page,pageSize,status));
+            return Ok(promotions);
         }
         [HttpPost("Apply")]
         public async Task<ActionResult> ApplyPromotion([FromBody] ApplyPromotionModel promotion)

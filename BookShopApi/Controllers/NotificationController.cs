@@ -70,7 +70,10 @@ namespace BookShopApi.Controllers
             List<Notification> notifications = new List<Notification>();
             var headerValues = Request.Headers["Authorization"];
             string userId = Authenticate.DecryptToken(headerValues.ToString());
-            notifications = await _notificationService.GetAsync(userId);
+            if (!string.IsNullOrEmpty(userId))
+            {
+                notifications = await _notificationService.GetAsync(userId);
+            }
             
             return Ok(notifications);
 

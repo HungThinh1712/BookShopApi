@@ -91,6 +91,8 @@ namespace BookShopApi.Service
                 return false;
             }
             promotion.Status = PromotionStatus.InActive;
+            promotion.StartDate = promotion.StartDate.Date;
+            promotion.EndDate = promotion.EndDate.Date;
             if (promotion.PromotionType == PromotionType.FreeShip) promotion.DiscountMoney = 0;
             await _promotions.InsertOneAsync(promotion);
             return true;
@@ -100,23 +102,36 @@ namespace BookShopApi.Service
         {
             var promotionInDb =await _promotions.Find(x => x.Id == promotion.Id).FirstOrDefaultAsync();
             promotion = promotion.Adapt(promotionInDb);
-           
-            await _promotions.ReplaceOneAsync(x=>x.Id==promotion.Id, promotion);
+            promotion.StartDate = promotion.StartDate.Date;
+            promotion.EndDate = promotion.EndDate.Date;
+            try
+            {
+                await _promotions.ReplaceOneAsync(x => x.Id == promotion.Id, promotion);
+            }
+            catch(Exception e)
+            {
+               throw e;
+            }
+            return true;
+        }
+        public async Task<bool> CancelPromotionAsync(string id)
+        {
+            var update = Builders<Promotion>.Update.Set(x => x.Status , PromotionStatus.Canceled);
+            await _promotions.UpdateOneAsync(x => x.Id == id, update);
             return true;
         }
 
         public async Task<bool> UpdateStatusAsync()
         {
-            var minNow = DateTime.UtcNow.AddHours(7).Date;
-            var maxNow = DateTime.UtcNow.AddHours(7).Date.AddDays(1);
+            var now = DateTime.UtcNow.AddHours(7).Date;
             var promotions = await _promotions.Find(x => x.Status != PromotionStatus.Expired ).ToListAsync();
             foreach(var promotion in promotions)
             {
-                if(promotion.StartDate <= minNow && promotion.EndDate > maxNow && promotion.Status ==PromotionStatus.Active)
+                if(promotion.StartDate <= now && promotion.EndDate > now && promotion.Status ==PromotionStatus.Active)
                 {
                     promotion.Status = PromotionStatus.OnGoing;
                 }
-                if(promotion.EndDate <= maxNow)
+                if(promotion.EndDate <  now)
                 {
                     promotion.Status = PromotionStatus.Expired;
                 }
@@ -128,8 +143,7 @@ namespace BookShopApi.Service
 
         public async Task<List<Promotion>> GetPromotionByMe(string userId, decimal totalMoney, List<string> bookIds)
         {
-            var promotions = await _promotions.Find(promotion =>promotion.StartDate <= DateTime.UtcNow.Date
-                  && promotion.EndDate > DateTime.UtcNow.Date
+            var promotions = await _promotions.Find(promotion => promotion.Status == PromotionStatus.OnGoing
                   && bookIds.All(x => promotion.BookIds.Contains(x))
                   && promotion.CustomerIds.Contains(userId)
                   && promotion.MinMoney <= totalMoney
