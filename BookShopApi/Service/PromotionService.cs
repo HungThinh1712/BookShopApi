@@ -102,8 +102,8 @@ namespace BookShopApi.Service
         {
             var promotionInDb =await _promotions.Find(x => x.Id == promotion.Id).FirstOrDefaultAsync();
             promotion = promotion.Adapt(promotionInDb);
-            promotion.StartDate = promotion.StartDate.Date;
-            promotion.EndDate = promotion.EndDate.Date;
+            promotion.StartDate = promotion.StartDate.AddHours(7);
+            promotion.EndDate = promotion.EndDate.AddHours(7);
             try
             {
                 await _promotions.ReplaceOneAsync(x => x.Id == promotion.Id, promotion);
@@ -116,7 +116,7 @@ namespace BookShopApi.Service
         }
         public async Task<bool> CancelPromotionAsync(string id)
         {
-            var update = Builders<Promotion>.Update.Set(x => x.Status , PromotionStatus.Canceled);
+            var update = Builders<Promotion>.Update.Set(x => x.Status , PromotionStatus.InActive);
             await _promotions.UpdateOneAsync(x => x.Id == id, update);
             return true;
         }

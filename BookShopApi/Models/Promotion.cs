@@ -40,7 +40,6 @@ namespace BookShopApi.Models
         InActive,
         Active,
         OnGoing,
-        Canceled,
         Expired
     }
 }

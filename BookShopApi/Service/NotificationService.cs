@@ -64,6 +64,9 @@ namespace BookShopApi.Service
         public async Task UpdateAsync(string id, Notification notificationIn) =>
            await _nofitications.ReplaceOneAsync(notification => notification.Id == id, notificationIn);
 
+        public async Task MarkAsAllReadAsync() =>
+          await _nofitications.UpdateManyAsync(x=>true, Builders<Notification>.Update.Set(x=>x.Status,1));
+
 
         public async Task RemoveAsync(string id) =>
            await _nofitications.DeleteOneAsync(notification => notification.Id == id);

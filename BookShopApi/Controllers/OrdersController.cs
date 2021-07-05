@@ -45,20 +45,18 @@ namespace BookShopApi.Controllers
             
             return Ok(orders);
         }
+        [HttpGet("Admin/GetTopFives")]
+        public async Task<ActionResult<EntityList<OrdersViewModel>>> Get([FromQuery] int month, int year)
+        {       
+            var result = await _orderService.GetTopFiveBooks(month,year);
+            return Ok(result);
+        }
         [HttpGet("Admin")]
         public async Task<ActionResult<EntityList<OrdersViewModel>>> GetAllOrder([FromQuery] int page, [FromQuery] int pageSize,OrderStatus? status)
         {
 
            
             var orders = await _orderService.GetAllAsync(page, pageSize,status);
-            var users = await _userService.GetAsync();
-            foreach(var order in orders.Entities)
-            {
-                var user = users.Where(x => x.Id == order.UserId).FirstOrDefault();
-                order.UserName = user.FullName;
-                order.PhoneNumber = user.Phone;
-                order.UserAddress = user.SpecificAddress;
-            }
             return Ok(orders);
         }
         [HttpGet("Admin/ConfirmOrder")]

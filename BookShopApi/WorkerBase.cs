@@ -13,7 +13,6 @@ namespace BookShopApi
         protected readonly ILogger _logger;
         protected readonly IServiceProvider _services;
         protected readonly IConfiguration _configuration;
-        protected virtual int Interval { get; } = 10;
 
         public WorkerBase(IServiceProvider services, ILogger logger, IConfiguration configuration)
         {
@@ -44,7 +43,9 @@ namespace BookShopApi
 
                 _logger.LogInformation("WorkerBase running at: {time}", DateTimeOffset.Now);
 
-                await Task.Delay(Interval * 1000 * _configuration.GetValue<int>("Delay"), stoppingToken);
+
+                //One minute
+                await Task.Delay(5000, stoppingToken);
             }
         }
     }

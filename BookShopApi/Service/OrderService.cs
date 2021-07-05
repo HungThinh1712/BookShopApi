@@ -49,10 +49,16 @@ namespace BookShopApi.Service
              };
         } 
 
-        public async Task<Order> CreateAsync(string userId, int paymentType, List<ItemInCart> items,decimal shipingFee,decimal totalMoney,Promotion promotion)
+        public async Task<Order> CreateAsync(User user, int paymentType, List<ItemInCart> items,decimal shipingFee,decimal totalMoney,Promotion promotion)
         {
             var order = new Order();
-            order.UserId = userId;
+            order.UserId = user.Id;
+            order.OrderAddress = new OrderAddress()
+            {
+                FullName = user.FullName,
+                Address = user.SpecificAddress,
+                PhoneNumber = user.Phone
+            };
             order.Items = items;
             order.ShippingFee = shipingFee;
             order.TotalMoney = totalMoney;
@@ -91,6 +97,7 @@ namespace BookShopApi.Service
                 if ( (DateTime.UtcNow - order.UpdatedAt).TotalDays == 2  && order.ConfirmStatus ==ConfirmStatus.Seller)
                 {
                     order.ConfirmStatus = ConfirmStatus.Both;
+                    order.Status = OrderStatus.DaGiaoHang;
                 }
                 await _orders.ReplaceOneAsync(x => x.Id == order.Id, order);
             }
@@ -124,27 +131,37 @@ namespace BookShopApi.Service
         {
             var filter = Builders<Order>.Filter.Eq(x => x.Id, id);
             var order = await _orders.Find(filter).FirstOrDefaultAsync();
-            var update = Builders<Order>.Update.Set(x => x.Status, status).Set(x => x.UpdatedAt, DateTime.UtcNow);
+            order.Status = status;
+            order.UpdatedAt = DateTime.UtcNow;
             if (status == OrderStatus.DaGiaoHang)
             {
                 if (order.ConfirmStatus ==ConfirmStatus.None)
                 {
                     if (IsAdmin)
-                        update = Builders<Order>.Update.Set(x => x.ConfirmStatus, ConfirmStatus.Seller)
-                                                        .Set(x=>x.UpdatedAt,DateTime.UtcNow);
+                    {
+                        order.Status = OrderStatus.DangGiaoHang;
+                        order.ConfirmStatus = ConfirmStatus.Seller;
+                    }    
                     else
                     {
-                        update = Builders<Order>.Update.Set(x => x.Status, status).
-                        Set(x => x.ConfirmStatus, ConfirmStatus.Both).Set(x => x.UpdatedAt, DateTime.UtcNow);
+                        order.ConfirmStatus = ConfirmStatus.Both;
+                        order.Status = OrderStatus.DaGiaoHang;
                     }   
                 }
                 else
                 {
-                     update = Builders<Order>.Update.Set(x => x.Status, status).
-                        Set(x=>x.ConfirmStatus,ConfirmStatus.Both).Set(x => x.UpdatedAt, DateTime.UtcNow);
+                    order.ConfirmStatus = ConfirmStatus.Both;
+                    order.Status = OrderStatus.DaGiaoHang;
                 }
             }
-            await _orders.UpdateOneAsync(filter,update);
+            try
+            {
+                await _orders.ReplaceOneAsync(filter, order);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
             return true;
         }
 
@@ -190,6 +207,7 @@ namespace BookShopApi.Service
                                          Description = GetDescription(x.Items),
                                          Items = x.Items.Adapt<List<ItemInCartViewModel>>(),
                                          Status = x.Status,
+                                         OrderAddress = x.OrderAddress,
                                          ConfirmStatus = x.ConfirmStatus,
                                          UserId = x.UserId,
                                          ShippingFee = x.ShippingFee,
@@ -201,7 +219,7 @@ namespace BookShopApi.Service
         {
             DateTime startDate =year!=null ? new DateTime((int)year, 1, 1) : DateTime.MinValue;
             DateTime endDate = year != null ? new DateTime((int)year + 1, 1, 1) : DateTime.MaxValue;
-            var query = _orders.Aggregate().Match(x => x.Status == OrderStatus.DaGiaoHang
+            var query = _orders.Aggregate().Match(x => (x.Status == OrderStatus.DaGiaoHang || x.Status ==OrderStatus.DaXacNhan || x.Status ==OrderStatus.DangGiaoHang)
             && (year==null || (x.CreateAt >=startDate && x.CreateAt < endDate))).
                 Group(x => x.CreateAt.Month, x => new
                 {
@@ -218,8 +236,26 @@ namespace BookShopApi.Service
             }
             return orders.OrderBy(x => x.month).Select(x=>x.TotalPrice).ToList();
                 
-        } 
+        }
+        public async Task<List<TopFiveBooks>> GetTopFiveBooks(int? month, int? year)
+        {
+            DateTime startDate = year != null ? new DateTime((int)year, (int)month, 1) : DateTime.MinValue;
+            DateTime endDate = year != null ? new DateTime((int)year, (int)month+1, 1) : DateTime.MaxValue;
+            var query =  _orders.Find(x => (x.Status == OrderStatus.DaGiaoHang || x.Status == OrderStatus.DaXacNhan || x.Status == OrderStatus.DangGiaoHang)
+            && (year == null || (x.CreateAt >= startDate && x.CreateAt < endDate))).Project(x => x.Items);
+            var items = new List<ItemInCart>();
+            foreach(var item in  await query.ToListAsync())
+            {
+                items.AddRange(item);
+            }
 
-      
+            var results = from i in items
+                          group i.Amount by i.Name into g
+                          select new TopFiveBooks { BookName = g.Key, Sum = g.Sum() };
+            return results.OrderByDescending(x=>x.Sum).Take(5).ToList();
+
+        }
+
+
     }
 }

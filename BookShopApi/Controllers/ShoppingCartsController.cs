@@ -21,15 +21,17 @@ namespace BookShopApi.Controllers
         private readonly PromotionService _promotionService;
         private readonly BookService _bookService;
         private readonly OrderService _orderService;
+        private readonly UserService _userService;
 
         public ShoppingCartsController(ShoppingCartService shoppingCartService,
             BookService bookService,
-            OrderService orderService, PromotionService promotionService)
+            OrderService orderService, PromotionService promotionService,UserService userService)
         {
             _shoppingCartService = shoppingCartService;
             _bookService = bookService;
             _orderService = orderService;
             _promotionService = promotionService;
+            _userService = userService;
         }
 
        
@@ -126,7 +128,8 @@ namespace BookShopApi.Controllers
                 book.Amount = book.Amount - item.Amount;
                 await _bookService.UpdateAsync(book.Id, book);
             }
-            var order = await _orderService.CreateAsync(userId, paymentType, shoppingcart.ItemInCart,shippingFee,totalMoney, promotion);
+            var user = await _userService.GetAsync(userId);
+            var order = await _orderService.CreateAsync(user, paymentType, shoppingcart.ItemInCart,shippingFee,totalMoney, promotion);
             shoppingcart.ItemInCart.Clear();
             await _shoppingCartService.UpdateAsync(userId, shoppingcart);
 

@@ -28,12 +28,9 @@ namespace BookShopApi.Models
         [BsonRepresentation(BsonType.Decimal128)]
         public decimal DiscountMoney { get; set; }
         public string PromotionCode { get; set; }
+        public OrderAddress OrderAddress { get; set; }
 
 
-    }
-    public class OrderWithUserName : Order
-    {
-        public User[] User { get; set; }
     }
     public enum OrderStatus : byte
     {

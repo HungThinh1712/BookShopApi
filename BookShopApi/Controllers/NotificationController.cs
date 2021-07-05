@@ -63,6 +63,14 @@ namespace BookShopApi.Controllers
             await _notificationService.UpdateAsync(id, notification);
             //await _notificationHub.Clients.All.ReceiveMessage(notification);
         }
+        [HttpPost("MarkAsAllRead")]
+        public async Task<IActionResult> MarkAsAllRead()
+        {
+            
+           
+            await _notificationService.MarkAsAllReadAsync();
+            return Ok();
+        }
         [HttpGet]
         public async Task<ActionResult> Get()
         {

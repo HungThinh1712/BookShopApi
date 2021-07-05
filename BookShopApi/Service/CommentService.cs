@@ -96,7 +96,19 @@ namespace BookShopApi.Service
                                            Amount = x.count
                                        }).ToListAsync();
 
-            return result;
+            var keys = result.Select(x => x.Value).ToList();
+            var rateCase = new List<int>() { 1, 2, 3, 4, 5 };
+            var exceptList = rateCase.Except(keys).ToList();
+            foreach(var item in exceptList)
+            {
+                result.Add(new RatingViewModel()
+                {
+                    Value =item,
+                    Amount = 0,
+                });;
+            }
+
+            return result.OrderByDescending(x=>x.Value).ToList();
         }
 
         public async Task<Comment> CreateAsync(Comment comment)
