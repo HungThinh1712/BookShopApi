@@ -5,6 +5,7 @@ using BookShopApi.Models.ViewModels.Books;
 using BookShopApi.Models.ViewModels.BookTypes;
 using BookShopApi.Service;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ namespace BookShopApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class BooksController : ControllerBase
     {
         private readonly BookService _bookService;
@@ -206,6 +208,7 @@ namespace BookShopApi.Controllers
             return Ok(bookViewModel);
         }
         [HttpPost("[action]")]
+        [Authorize]
         public async Task<IActionResult> Create([FromForm] Book book)
         {
             book.Alias = Unsign.convertToUnSign(book.BookName.ToLower());
@@ -214,6 +217,7 @@ namespace BookShopApi.Controllers
 
         }
         [HttpPut("[action]")]
+        [Authorize]
         public async Task<IActionResult> Update([FromForm] Book updatedBook)
         {
 
@@ -223,17 +227,13 @@ namespace BookShopApi.Controllers
 
 
         [HttpDelete("[action]")]
+        [Authorize]
         public async Task<IActionResult> Delete(string id)
         {
             var book = await _bookService.GetAsync(id);
             book.DeleteAt = DateTime.UtcNow;
             await _bookService.UpdateAsync(id, book);
             return Ok("Delete sucessfully");
-        }
-        [HttpPut("[action]")]
-        public async Task UpdateMany()
-        {
-            await _bookService.UpdateManyAsyns();
         }
         private BooksViewModel GetBookExisted(string bookId, List<BooksViewModel> books)
         {
@@ -254,13 +254,6 @@ namespace BookShopApi.Controllers
             var books = await _bookService.SearchBooksAdminAsync(filter, Request, page);
             return Ok(books);
         }
-        [HttpGet("[action]")]
-        public async Task<ActionResult> CorrectDataBook()
-        {
-            var books = await _bookService.GetAllBooksAsync();
-            await _bookService.DeleteManyAsync();
-            await _bookService.AddManyAsync(books);
-            return Ok();
-        }
+       
     }
 }

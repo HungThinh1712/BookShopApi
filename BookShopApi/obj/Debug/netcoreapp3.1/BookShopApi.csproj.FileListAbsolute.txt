@@ -145,3 +145,6 @@ F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.dll
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.pdb
 F:\TLCN\BookShopApi\BookShopApi\BookShopApi\obj\Debug\netcoreapp3.1\BookShopApi.genruntimeconfig.cache
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
+F:\TLCN\BookShopApi\BookShopApi\BookShopApi\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.Proxy" Version="4.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.16" />
     <PackageReference Include="System.Device.Location.Portable" Version="1.0.0" />
     <PackageReference Include="gmaps-api-net" Version="0.32.0" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />

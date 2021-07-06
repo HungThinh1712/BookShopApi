@@ -120,6 +120,12 @@ namespace BookShopApi.Service
             await _promotions.UpdateOneAsync(x => x.Id == id, update);
             return true;
         }
+        public async Task<bool> ActivePromotionAsync(string id)
+        {
+            var update = Builders<Promotion>.Update.Set(x => x.Status, PromotionStatus.Active);
+            await _promotions.UpdateOneAsync(x => x.Id == id, update);
+            return true;
+        }
 
         public async Task<bool> UpdateStatusAsync()
         {
@@ -151,6 +157,14 @@ namespace BookShopApi.Service
                   && !promotion.CustomerApplied.Contains(userId)).ToListAsync();
             return promotions;
             
+        }
+        public async Task<List<Promotion>> GetAllPromotionByMe(string userId)
+        {
+            var promotions = await _promotions.Find(promotion => (promotion.Status == PromotionStatus.OnGoing || promotion.Status == PromotionStatus.Active)
+                  && promotion.CustomerIds.Contains(userId)
+                  && !promotion.CustomerApplied.Contains(userId)).ToListAsync();
+            return promotions;
+
         }
 
 

@@ -21,16 +21,16 @@ namespace BookShopApi.Controllers
         private readonly UserService _userService;
         private readonly ProvinceService _provinceService;
         private readonly DistrictService _districtService;
-        private readonly WardService _wardService;
+        private readonly BookService _bookService;
 
         public OrdersController(OrderService orderService, UserService userService,
-            ProvinceService provinceService,DistrictService districtService,WardService wardService)
+            ProvinceService provinceService,DistrictService districtService, BookService bookService)
         {
             _orderService = orderService;
             _userService = userService;
             _provinceService = provinceService;
             _districtService = districtService;
-            _wardService = wardService;
+            _bookService = bookService;
         }
     
 
@@ -71,6 +71,13 @@ namespace BookShopApi.Controllers
         public async Task<ActionResult> CancelOrder(string orderId, string reason)
         {
             await _orderService.CancelOrder(orderId, reason);
+            var order =await _orderService.GetOrderAsync(orderId);
+            foreach(var item in order.Items)
+            {
+                var book = await _bookService.GetAsync(item.BookId);
+                book.Amount = book.Amount + item.Amount;
+                await _bookService.UpdateAsync(book.Id, book);
+            }
             return Ok();
         }
         [HttpGet("StatisticByMonth")]

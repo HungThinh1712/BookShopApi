@@ -38,6 +38,12 @@ namespace BookShopApi.Controllers
             await _promotion.CancelPromotionAsync(id);
             return Ok(true);
         }
+        [HttpGet("Active")]
+        public async Task<ActionResult> Active([FromQuery] string id)
+        {
+            await _promotion.ActivePromotionAsync(id);
+            return Ok(true);
+        }
         [HttpGet("Detail")]
         public async Task<ActionResult> GetDetail([FromQuery] string id)
         {
@@ -70,6 +76,14 @@ namespace BookShopApi.Controllers
             string userId = Authenticate.DecryptToken(headerValues.ToString());
 
             return Ok(await _promotion.GetPromotionByMe(userId,totalMoney,bookIds));
+        }
+        [HttpGet("GetAllPromotionsByMe")]
+        public async Task<ActionResult> GetAllPromotionsByMe()
+        {
+            var headerValues = Request.Headers["Authorization"];
+            string userId = Authenticate.DecryptToken(headerValues.ToString());
+
+            return Ok(await _promotion.GetAllPromotionByMe(userId));
         }
     }
 }
