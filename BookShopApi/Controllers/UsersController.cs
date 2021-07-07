@@ -55,6 +55,12 @@ namespace BookShopApi.Controllers
             var user = await _userService.GetAllAsync();
             return Ok(user);
         }
+        [HttpPost("Admin")]
+        public async Task<ActionResult> CreateAdmin(AdminRM admin)
+        {
+            await _userService.CreateAdminsAsync(admin);
+            return Ok(true);
+        }
 
         [HttpGet("[action]")]
         public async Task<ActionResult<UserViewModel>> Get(
@@ -63,12 +69,6 @@ namespace BookShopApi.Controllers
         {
             var user = (await _userService.GetAsync(id)).Adapt<UserViewModel>();
             user.ImgUrl = user.ImgUrl;
-            //if (user.ProvinceId != null && user.ProvinceId != "" && user.IsAdmin == false)
-            //{
-            //    user.ProvinceName = (await _provinceService.GetByIdAsync(user.ProvinceId)).Name;
-            //    user.DistrictName = (await _districtService.GetByIdAsync(user.DistrictId)).Name;
-            //    user.WardName = (await _wardService.GetByIdAsync(user.WardId)).Name;
-            //}
             if (user.IsAdmin == false)
             {
                 user.BirthDay = Convert.ToDateTime(user.BirthDay).ToLocalTime().ToString("yyyy-MM-dd");
@@ -90,7 +90,7 @@ namespace BookShopApi.Controllers
             user.ImgUrl = "https://www.pphfoundation.ca/wp-content/uploads/2018/05/default-avatar.png";
             _queueService.QueueBackgroundWorkItem(async token =>
             {
-                await SendMailAsync(user.Email, user.CodeActive);
+                await SendMailAsync(user.Email, user.CodeActive,"Xác thực tài khoản");
                 await Task.Delay(60000);
                 await _userService.UpdateCodeActiveAsync(user.Id);
 
@@ -148,26 +148,33 @@ namespace BookShopApi.Controllers
             await _userService.UpdateAsync(id, user);
             return Ok("Delete sucessfully");
         }
-        private async Task SendMailAsync(string email, string code)
+        private async Task SendMailAsync(string email, string code,string title)
         {
-            MailMessage mail = new MailMessage();
-            mail.From = new MailAddress("99hungthinh17.2019@gmail.com");
-
-            mail.To.Add(email);
-            mail.Subject = "Xác nhận bằng mã xác thực";
-            mail.Body = code;
-            mail.IsBodyHtml = true;
-            mail.Priority = MailPriority.Normal;
-            mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
-            using (var smtpClient = new SmtpClient("smtp.gmail.com"))
+            try
             {
-                smtpClient.Port = 587;
-                smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials = new System.Net.NetworkCredential("99hungthinh17.2019", "Koieuai1712@");
-                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                smtpClient.EnableSsl = true;
-                smtpClient.Timeout = 30000;
-                await smtpClient.SendMailAsync(mail);
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress("99hungthinh17.2019@gmail.com");
+
+                mail.To.Add(email);
+                mail.Subject = title;
+                mail.Body = string.Format("Mã xác thực là: {0}",code);
+                mail.IsBodyHtml = true;
+                mail.Priority = MailPriority.Normal;
+                mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+                using (var smtpClient = new SmtpClient("smtp.gmail.com"))
+                {
+                    smtpClient.Port = 587;
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.Credentials = new System.Net.NetworkCredential("99hungthinh17.2019", "Koieuai1712@");
+                    smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    smtpClient.EnableSsl = true;
+                    smtpClient.Timeout = 30000;
+                    await smtpClient.SendMailAsync(mail);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
         }
 
@@ -229,7 +236,7 @@ namespace BookShopApi.Controllers
             user.CodeResetPassWord = RandomCode();
             _queueService.QueueBackgroundWorkItem(async token =>
             {
-                await SendMailAsync(email, user.CodeResetPassWord);
+                await SendMailAsync(email, user.CodeResetPassWord,"Thay đổi mật khẩu");
                 await Task.Delay(60000);
                 await _userService.UpdateCodePasswordAsync(user.Id);
 
@@ -303,7 +310,7 @@ namespace BookShopApi.Controllers
             user.CodeActive = RandomCode();
             _queueService.QueueBackgroundWorkItem(async token =>
             {
-                await SendMailAsync(email, user.CodeActive);
+                await SendMailAsync(email, user.CodeActive,"Xác thực tài khoản");
                 await Task.Delay(60000);
                 await _userService.UpdateCodeActiveAsync(user.Id);
 
@@ -327,10 +334,22 @@ namespace BookShopApi.Controllers
             }
             return Ok(users);
         }
+        [HttpGet("Admin/[action]")]
+        public async Task<ActionResult<IEnumerable<User>>> GetAdminsUser([FromQuery] string name)
+        {
+            var users = await _userService.GetAdminsAsync(name);
+            
+            return Ok(users);
+        }
+        [HttpGet("Admin/[action]")]
+        public async Task<ActionResult> Activate([FromQuery] string id,bool isActivate)
+        {
+            return Ok(await _userService.DeactivateOrActivateAdmin(id, isActivate));
+        }
 
-       
 
-        
+
+
         private async Task<int> GetSumOrder(string id)
         {
             return (await _orderService.GetOrdersAsync(id)).Count;
@@ -359,5 +378,6 @@ namespace BookShopApi.Controllers
                 return Ok(Authenticate.GetToken(createdUser.Id, createdUser.IsAdmin));
             }
         }
+        
     }
 }

@@ -26,5 +26,6 @@ namespace BookShopApi.Models.ViewModels.Users
         public string ImgUrl { get; set; }
         public string BirthDay { get; set; } 
         public bool IsAdmin { get; set; }
+        public bool IsTopAdmin { get; set; }
     }
 }

@@ -45,6 +45,8 @@ namespace BookShopApi.Models
 
         [BsonIgnoreIfNull]
         public DateTime? DeleteAt { get; set; }
-        public bool IsAdmin { get; set; }
+        public bool IsAdmin { get; set; } = false;
+        [BsonIgnoreIfNull]
+        public bool IsTopAdmin { get; set; } = false;
     }
 }

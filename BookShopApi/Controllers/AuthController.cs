@@ -30,8 +30,7 @@ namespace BookShopApi.Controllers
 
            if (user == null || !BCrypt.Net.BCrypt.Verify(loginViewModel.PassWord, user.PassWord ))
                 return BadRequest("Email hoặc mật khẩu không đúng!");
-            if (user.IsActive == false)
-                return BadRequest("Email chưa được xác nhận");
+           
             return Ok(Authenticate.GetToken(user.Id, user.IsAdmin));
         }
 
