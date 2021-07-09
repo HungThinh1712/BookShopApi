@@ -215,7 +215,14 @@ namespace BookShopApi.Service
                 PassWord = BCrypt.Net.BCrypt.HashPassword(password)
             };
             await _users.InsertOneAsync(user);
-            await SendMailAsync(admin.Email, password,admin.FullName);
+            try
+            {
+                await SendMailAsync(admin.Email, password, admin.FullName);
+            }
+            catch
+            {
+                throw e;
+            }
             return true;          
         }
         private string PopulateBody(string email, string password,string fullName)
