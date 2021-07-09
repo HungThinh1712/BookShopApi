@@ -76,6 +76,7 @@ namespace BookShopApi.Controllers
             author.Description = updatedAuthor.Description;
             author.BirthDay = updatedAuthor.BirthDay;
             author.Name = updatedAuthor.Name;
+            author.ImgUrl = updatedAuthor.ImgUrl;
 
            
 

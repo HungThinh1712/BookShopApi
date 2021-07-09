@@ -211,7 +211,8 @@ namespace BookShopApi.Service
                                          ConfirmStatus = x.ConfirmStatus,
                                          UserId = x.UserId,
                                          ShippingFee = x.ShippingFee,
-                                         PaymentType = x.PaymentType
+                                         PaymentType = x.PaymentType,
+                                         CancelReason =x.CancelReason
                                      }).ToListAsync()
             };
         }

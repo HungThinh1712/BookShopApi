@@ -13,7 +13,6 @@ namespace BookShopApi.Models.ViewModels.Authors
         public string Name { get; set; }
         public DateTime BirthDay { get; set; }
         public string Description { get; set; }
-        public string ImageName { get; set; }
-        public IFormFile ImageFile { get; set; }
+        public string ImgUrl { get; set; }
     }
 }

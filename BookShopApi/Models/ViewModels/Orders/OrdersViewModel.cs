@@ -25,7 +25,7 @@ namespace BookShopApi.Models.ViewModels.Orders
         public string PromotionCode { get; set; }
         public string PhoneNumber { get; set; }
         public OrderAddress OrderAddress { get; set; }
-
+        public string CancelReason { get; set; }
         public string UserId { get; set; }
         public string UserName { get; set; }
         public string UserAddress { get; set; }
