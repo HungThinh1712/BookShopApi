@@ -215,14 +215,10 @@ namespace BookShopApi.Service
                 PassWord = BCrypt.Net.BCrypt.HashPassword(password)
             };
             await _users.InsertOneAsync(user);
-            try
-            {
+           
                 await SendMailAsync(admin.Email, password, admin.FullName);
-            }
-            catch
-            {
-                throw e;
-            }
+         
+           
             return true;          
         }
         private string PopulateBody(string email, string password,string fullName)
@@ -251,11 +247,12 @@ namespace BookShopApi.Service
                 mail.Body = PopulateBody(email,password,fullname);
                 mail.IsBodyHtml = true;
                 mail.Priority = MailPriority.Normal;
+               
                 mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
                 using (var smtpClient = new SmtpClient("smtp.gmail.com"))
                 {
                     smtpClient.Port = 587;
-                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.UseDefaultCredentials = true;
                     smtpClient.Credentials = new System.Net.NetworkCredential("99hungthinh17.2019", "Koieuai1712@");
                     smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                     smtpClient.EnableSsl = true;
