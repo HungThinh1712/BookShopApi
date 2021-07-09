@@ -252,8 +252,8 @@ namespace BookShopApi.Service
                 using (var smtpClient = new SmtpClient("smtp.gmail.com"))
                 {
                     smtpClient.Port = 587;
-                    smtpClient.UseDefaultCredentials = true;
-                    smtpClient.Credentials = new System.Net.NetworkCredential("99hungthinh17.2019", "Koieuai1712@");
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.Credentials = new System.Net.NetworkCredential("99hungthinh17.2021", "Koieuai1712@");
                     smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                     smtpClient.EnableSsl = true;
                     smtpClient.Timeout = 30000;
