@@ -208,7 +208,6 @@ namespace BookShopApi.Controllers
             return Ok(bookViewModel);
         }
         [HttpPost("[action]")]
-        [Authorize]
         public async Task<IActionResult> Create([FromForm] Book book)
         {
             book.Alias = Unsign.convertToUnSign(book.BookName.ToLower());
@@ -217,7 +216,6 @@ namespace BookShopApi.Controllers
 
         }
         [HttpPut("[action]")]
-        [Authorize]
         public async Task<IActionResult> Update([FromForm] Book updatedBook)
         {
 
