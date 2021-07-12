@@ -203,8 +203,7 @@ namespace BookShopApi.Service
             int pageSize = 16;
             var query = _books.Find(filter);
             var total = await query.CountDocumentsAsync();
-            query = query.Skip((page - 1) * pageSize).Limit(pageSize);
-
+            query = query.Skip((page - 1) * pageSize).Limit(pageSize).SortByDescending(x=>x.CreateAt);
             return new EntityList<BooksViewModel>
             {
                 Total = (int)total,
