@@ -17,6 +17,7 @@ namespace BookShopApi.Models
         public DateTime CreateAt { get; set; }
         [BsonRepresentation(BsonType.ObjectId)]
         public string UserId { get; set; }
+        public  List<string> UserIds { get; set; } = new List<string>();
         public string SenderId { get; set; }
         public string TimeAgo { get; set; }
         public string Type { get; set; }

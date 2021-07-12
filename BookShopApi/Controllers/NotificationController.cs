@@ -3,6 +3,7 @@ using BookShopApi.Hubs;
 using BookShopApi.Hubs.Clients;
 using BookShopApi.Models;
 using BookShopApi.Service;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -32,27 +33,46 @@ namespace BookShopApi.Controllers
         public async Task Post(Notification notification)
         {
             // run some logic...
-            notification.CreateAt = DateTime.UtcNow;
-            notification.Status = 0;
-            if (notification.Type == "Confirm")
+           if(notification.Type != "Promotion")
             {
-                notification.ImgUrl = "https://img.icons8.com/bubbles/2x/admin-settings-male.png";
-            }
-            else if (notification.Type == "Delivery")
-            {
-                notification.ImgUrl = "https://www.pngitem.com/pimgs/m/485-4853792_white-motorbike-icon-delivery-png-transparent-png.png";
-            }
-            else if (notification.Type == "ConfirmDelivery")
-            {
-                notification.ImgUrl = "https://c8.alamy.com/comp/2AP68RG/package-delivery-color-icon-courier-service-parcel-delivering-deliveryman-with-box-and-invoice-postman-holding-cardboard-package-postal-service-2AP68RG.jpg";
-            }
-            else if (notification.Type == "Cancel")
-            {
-                notification.ImgUrl = "https://png.pngtree.com/png-clipart/20190614/original/pngtree-cancel-icon-wood-png-image_3604377.jpg";
-            }
-            await _notificationService.CreateAsync(notification);
+                notification.CreateAt = DateTime.UtcNow;
+                notification.Status = 0;
+                if (notification.Type == "Confirm")
+                {
+                    notification.ImgUrl = "https://img.icons8.com/bubbles/2x/admin-settings-male.png";
+                }
+                else if (notification.Type == "Delivery")
+                {
+                    notification.ImgUrl = "https://www.pngitem.com/pimgs/m/485-4853792_white-motorbike-icon-delivery-png-transparent-png.png";
+                }
+                else if (notification.Type == "ConfirmDelivery")
+                {
+                    notification.ImgUrl = "https://c8.alamy.com/comp/2AP68RG/package-delivery-color-icon-courier-service-parcel-delivering-deliveryman-with-box-and-invoice-postman-holding-cardboard-package-postal-service-2AP68RG.jpg";
+                }
+                else if (notification.Type == "Cancel")
+                {
+                    notification.ImgUrl = "https://png.pngtree.com/png-clipart/20190614/original/pngtree-cancel-icon-wood-png-image_3604377.jpg";
+                }
+                await _notificationService.CreateAsync(notification);
+                await _notificationHub.Clients.All.ReceiveMessage(notification);
 
-            await _notificationHub.Clients.All.ReceiveMessage(notification);
+
+            }
+            else
+            {
+                foreach(var id in notification.UserIds)
+                {
+                    Notification tempNotification = notification.Adapt<Notification>();
+                    tempNotification.CreateAt = DateTime.UtcNow;
+                    tempNotification.Status = 0;
+                    tempNotification.UserId = id;
+                    tempNotification.ImgUrl = "https://cdn4.vectorstock.com/i/1000x1000/86/03/promotion-grunge-icon-vector-4098603.jpg";
+                    await _notificationService.CreateAsync(tempNotification);
+                    await _notificationHub.Clients.All.ReceiveMessage(tempNotification);
+
+                }
+            }
+
         }
         [HttpGet("ChangeStatus")]
         public async Task ChangeStatus(string id)
@@ -106,17 +126,24 @@ namespace BookShopApi.Controllers
             // run some logic...    
             try
             {
-                var userAdmin = await _userService.GetAdminAsync();
+                var userAdmins = await _userService.GetAdminAsync();
+                foreach(var userAdmin in userAdmins)
+                {
+                    Notification tempNotification = notification.Adapt<Notification>();
+                    
+                    tempNotification.UserId = userAdmin.Id;
+                    tempNotification.CreateAt = DateTime.UtcNow;
+                    tempNotification.Status = 0;
+                    tempNotification.ImgUrl = (await _userService.GetAsync(notification.SenderId)).ImgUrl;
+                    tempNotification.OrderId = notification.OrderId;
 
-                notification.UserId = userAdmin.Id;
-                notification.CreateAt = DateTime.UtcNow;
-                notification.Status = 0;
-                notification.ImgUrl = (await _userService.GetAsync(notification.SenderId)).ImgUrl;
-               
 
-                await _notificationService.CreateAsync(notification);
+                    await _notificationService.CreateAsync(tempNotification);
+                    await _notificationHub.Clients.All.ReceiveMessage(tempNotification);
 
-                await _notificationHub.Clients.All.ReceiveMessage(notification);
+
+                }
+
             }
             catch (Exception e)
             {

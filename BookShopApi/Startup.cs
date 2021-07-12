@@ -35,8 +35,7 @@ namespace BookShopApi
                 options.AddPolicy("AllowAllOriginsPolicy",
                 builder =>
                 {
-
-                    builder.WithOrigins("https://bookshoptina.herokuapp.com", "http://localhost:3000")
+                    builder.SetIsOriginAllowed(origin => true)
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();

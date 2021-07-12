@@ -157,8 +157,8 @@ namespace BookShopApi.Service
             return true;
         }
 
-        public async Task<User> GetAdminAsync() =>
-         await _users.Find<User>(user => user.IsAdmin == true).FirstOrDefaultAsync();
+        public async Task<List<User>> GetAdminAsync() =>
+         await _users.Find<User>(user => user.IsAdmin == true).ToListAsync();
 
         public async Task  UpdateAvatarAsync(UpdateAvatarModel updatedUser)
         {

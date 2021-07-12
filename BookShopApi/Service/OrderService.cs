@@ -40,11 +40,15 @@ namespace BookShopApi.Service
                                          OrderId = x.OrderId,
                                          CreateAt = Convert.ToDateTime(x.CreateAt).ToString("dd-MM-yyyy"),
                                          TotalMoney = x.TotalMoney,
-                                         ShippingFee = x.ShippingFee,
                                          Description = GetDescription(x.Items),
                                          Items = x.Items.Adapt<List<ItemInCartViewModel>>(),
                                          Status = x.Status,
-                                         PaymentType = x.PaymentType
+                                         OrderAddress = x.OrderAddress,
+                                         ConfirmStatus = x.ConfirmStatus,
+                                         UserId = x.UserId,
+                                         ShippingFee = x.ShippingFee,
+                                         PaymentType = x.PaymentType,
+                                         CancelReason = x.CancelReason
                                      }).ToListAsync()
              };
         } 
@@ -98,6 +102,7 @@ namespace BookShopApi.Service
                 {
                     order.ConfirmStatus = ConfirmStatus.Both;
                     order.Status = OrderStatus.DaGiaoHang;
+                    order.UpdatedAt = DateTime.UtcNow.AddHours(7);
                 }
                 await _orders.ReplaceOneAsync(x => x.Id == order.Id, order);
             }
@@ -107,7 +112,8 @@ namespace BookShopApi.Service
         {
             var filter = Builders<Order>.Filter.Eq(x => x.Id , orderId);
             var update = Builders<Order>.Update.Set(x => x.Status, OrderStatus.Huy)
-                                                .Set(x => x.CancelReason , reason);
+                                                .Set(x => x.CancelReason , reason)
+                                                .Set(x=>x.UpdatedAt,DateTime.UtcNow.AddHours(7));
             await _orders.UpdateOneAsync(filter, update);
         }
 
@@ -132,7 +138,7 @@ namespace BookShopApi.Service
             var filter = Builders<Order>.Filter.Eq(x => x.Id, id);
             var order = await _orders.Find(filter).FirstOrDefaultAsync();
             order.Status = status;
-            order.UpdatedAt = DateTime.UtcNow;
+            order.UpdatedAt = DateTime.UtcNow.AddHours(7);
             if (status == OrderStatus.DaGiaoHang)
             {
                 if (order.ConfirmStatus ==ConfirmStatus.None)
