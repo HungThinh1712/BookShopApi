@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using System.Linq;
 
 namespace BookShopApi.Service
 {
@@ -63,8 +64,8 @@ namespace BookShopApi.Service
                                        Price = x.Price.ToString(),
                                        CoverPrice = x.CoverPrice.ToString(),
                                        ImgUrl = x.ImgUrl,
-                                       Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
-                                       CountRating = x.Comments.Count,
+                                       Rating = Rouding.Adjust(Average.CountingAverage(x.Comments.Where(x=>x.IsCheck==true).ToList())),
+                                       CountRating = x.Comments.Where(x => x.IsCheck == true).ToList().Count,
                                        TypeId = x.TypeId
                                    }).ToListAsync();
         }
