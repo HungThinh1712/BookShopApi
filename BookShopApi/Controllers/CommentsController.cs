@@ -7,6 +7,7 @@ using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BookShopApi.Controllers
@@ -124,9 +125,8 @@ namespace BookShopApi.Controllers
         {
             var comment = await _commentService.GetCommentByIdAsync(id);
             var bookRated = await _bookService.GetAsync(comment.BookId);
-            //update rate
-            
-            bookRated.Comments.Remove(comment);
+            var tempComment = bookRated.Comments.Where(x => x.Id == comment.Id).FirstOrDefault();
+            bookRated.Comments.Remove(tempComment);
             comment.IsCheck = true;
             bookRated.Comments.Add(comment);
 
