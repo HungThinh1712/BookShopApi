@@ -83,7 +83,7 @@ namespace BookShopApi.Service
                 }
                 else
                 {
-                    order.TotalMoney = totalMoney - shipingFee;
+                    order.TotalMoney = totalMoney;
                 }
             }
             await _orders.InsertOneAsync(order);
