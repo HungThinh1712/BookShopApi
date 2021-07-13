@@ -29,7 +29,7 @@ namespace BookShopApi.Service
 
         public async Task<EntityList<CommentViewModel>> GetAsyncManage(string userId, int page = 1, int pageSize = 4)
         {
-            var query = _comments.Find(comment => comment.UserId == userId);
+            var query = _comments.Find(comment => comment.UserId == userId && comment.IsCheck ==true);
 
             var total = await query.CountDocumentsAsync();
             query = query.SortByDescending(x => x.CreateAt).Skip((page - 1) * pageSize).Limit(pageSize);
@@ -49,6 +49,29 @@ namespace BookShopApi.Service
                                      }).ToListAsync()
             };
         }
+        public async Task<EntityList<CommentViewModel>> GetAsyncManageByAdmin( int page = 1, int pageSize = 12)
+        {
+            var query = _comments.Find(comment => true);
+
+            var total = await query.CountDocumentsAsync();
+            query = query.SortByDescending(x => x.CreateAt).Skip((page - 1) * pageSize).Limit(pageSize);
+            return new EntityList<CommentViewModel>()
+            {
+                Total = (int)total,
+                Entities = await query.Project(x =>
+                                     new CommentViewModel
+                                     {
+                                         Id = x.Id,
+                                         CreateAt = Convert.ToDateTime(x.CreateAt).ToString("dd-MM-yyyy"),
+                                         Content = x.Content,
+                                         Rate = x.Rate,
+                                         Title = x.Title,
+                                         BookId = x.BookId,
+                                         BookName = GetBookName(x.BookId),
+                                         IsCheck = x.IsCheck
+                                     }).ToListAsync()
+            };
+        }
 
         private string GetBookName(string id)
         {
@@ -57,10 +80,12 @@ namespace BookShopApi.Service
         }
 
         public async Task<Comment> GetByUserIdAsync(string id) =>
-           await _comments.Find<Comment>(comment => comment.UserId == id).FirstOrDefaultAsync();
+           await _comments.Find<Comment>(comment => comment.UserId == id && comment.IsCheck ==true).FirstOrDefaultAsync();
+        public async Task<Comment> GetCommentByIdAsync(string id) =>
+         await _comments.Find<Comment>(comment => comment.Id == id).FirstOrDefaultAsync();
 
         public async Task<List<Comment>> GetByIdAsync(string id) =>
-            await _comments.Find(comment => comment.BookId ==id).ToListAsync();
+            await _comments.Find(comment => comment.BookId ==id && comment.IsCheck ==true).ToListAsync();
         //public async Task<List<Comment>> GetByUserIdAsync(string id) =>
         //    await _comments.Find(comment => comment.UserId == id).ToListAsync();
 
@@ -70,7 +95,7 @@ namespace BookShopApi.Service
             if (page == 0)
                 page = 1;
 
-            var query = _comments.Find(x => x.BookId == id);
+            var query = _comments.Find(x => x.BookId == id && x.IsCheck ==true);
             var total = await query.CountDocumentsAsync();
             query = query.SortByDescending(x => x.CreateAt).Skip((page - 1) * 3).Limit(3);
 
@@ -85,7 +110,7 @@ namespace BookShopApi.Service
         public async Task<List<RatingViewModel>> GetAmountRating(string id)
         {
             var result = await _comments.Aggregate()
-                                        .Match(comment => comment.BookId == id)
+                                        .Match(comment => comment.BookId == id && comment.IsCheck ==true)
                                        .Group(comment => comment.Rate, g => new
                                        {
                                            Key = g.Key,
@@ -116,13 +141,15 @@ namespace BookShopApi.Service
             await _comments.InsertOneAsync(comment);
             return comment;
         }
+        public async Task<bool> CheckedComment(string id)
+        {
+            var update = Builders<Comment>.Update.Set(x => x.IsCheck, true);
 
-        public async Task UpdateAsync(string id, Comment commentIn) =>
-           await _comments.ReplaceOneAsync(comment => comment.Id == id, commentIn);
+            await _comments.UpdateOneAsync(x=>x.Id==id,update);
+            return true;
+        }
 
-
-        public async Task RemoveAsync(string id) =>
-           await _comments.DeleteOneAsync(comment => comment.Id == id);
+        
         public string FormatDatetimeComment(DateTime createAt)
         {
             DateTime date = createAt.ToLocalTime();

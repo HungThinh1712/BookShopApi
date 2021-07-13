@@ -225,7 +225,6 @@ namespace BookShopApi.Controllers
 
 
         [HttpDelete("[action]")]
-        [Authorize]
         public async Task<IActionResult> Delete(string id)
         {
             var book = await _bookService.GetAsync(id);

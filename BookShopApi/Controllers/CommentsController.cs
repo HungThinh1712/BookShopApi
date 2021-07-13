@@ -77,6 +77,14 @@ namespace BookShopApi.Controllers
             };
             return Ok(commentViewModel);
         }
+        [HttpGet("[action]")]
+        public async Task<ActionResult<EntityList<CommentViewModel>>> GetComentsByAdmin([FromQuery] int page, [FromQuery] int pageSize)
+        {
+   
+            var comments = await _commentService.GetAsyncManageByAdmin(page, pageSize);
+            return Ok(comments);
+        }
+
 
         [HttpGet("[action]")]
         public async Task<ActionResult<List<RatingViewModel>>> GetRatings(
@@ -111,51 +119,20 @@ namespace BookShopApi.Controllers
           
             return Ok();
         }
-        [HttpDelete]
-        public async Task<ActionResult<List<CommentViewModel>>> Delete(
-            [FromQuery] string id, string bookId)
+        [HttpGet("CheckComment")]
+        public async Task<ActionResult> CheckComment(string id)
         {
-            await _commentService.RemoveAsync(id);
+            var comment = await _commentService.GetCommentByIdAsync(id);
+            var bookRated = await _bookService.GetAsync(comment.BookId);
+            //update rate
+            
+            bookRated.Comments.Remove(comment);
+            comment.IsCheck = true;
+            bookRated.Comments.Add(comment);
 
-            var bookRated = await _bookService.GetAsync(bookId);
-
-            var newListComment = await _commentService.GetByIdAsync(bookId);
-            bookRated.Comments = newListComment;
             await _bookService.UpdateAsync(bookRated.Id, bookRated);
 
-            var comments = await _commentService.GetAsync(bookId);
-            var ratings = await _commentService.GetAmountRating(bookId);
-            await GetCommentWithUserName(comments);
-            var commentWithRating = new CommentRatingViewModel()
-            {
-                Comments = comments,
-                Ratings = ratings
-            };
-            return Ok(commentWithRating);
-        }
-        [HttpPut]
-        public async Task<ActionResult<List<CommentViewModel>>> Update(CommentUpdateModel updatedCommentModel)
-        {
-            //var updatedComment = updatedCommentModel.Adapt<Comment>();
-
-            //await _commentService.UpdateAsync(updatedComment.Id, updatedComment);
-
-            //var bookRated = await _bookService.GetAsync(updatedComment.BookId);
-
-            //var newListComment = await _commentService.GetByIdAsync(updatedComment.BookId);
-            //bookRated.Comments = newListComment;
-            //await _bookService.UpdateAsync(bookRated.Id, bookRated);
-
-            //var comments = await _commentService.GetAsync(updatedComment.BookId, updatedCommentModel.Page);
-            //var ratings = await _commentService.GetAmountRating(updatedComment.BookId);
-            //await GetCommentWithUserName(comments);
-            //var commentWithRating = new CommentRatingViewModel()
-            //{
-            //    Comments = comments,
-            //    Ratings = ratings
-            //};
-            return Ok();
-
+            return Ok(await _commentService.CheckedComment(id));
         }
         private async Task GetCommentWithUserName(EntityList<CommentViewModel> comments)
         {

@@ -25,6 +25,7 @@ namespace BookShopApi.Models
         public string Content { get; set; }
         [BsonRepresentation(BsonType.ObjectId)]
         public string OrderId { get; set; }
+        public bool IsCheck { get; set; } = false;
 
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdateAt { get; set; }

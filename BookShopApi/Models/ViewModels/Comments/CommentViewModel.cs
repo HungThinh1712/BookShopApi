@@ -18,6 +18,8 @@ namespace BookShopApi.Models.ViewModels.Comments
         public string BookId { get; set; }
         public string Title { get; set; }
         public int Rate { get; set; }
+        public bool IsCheck { get; set; } = false;
+
         public string Content { get; set; }
         public string CreateAt { get; set; }
 
