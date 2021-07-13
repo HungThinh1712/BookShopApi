@@ -207,7 +207,7 @@ namespace BookShopApi.Controllers
             string accessKey = "klm05TvNBzhg7h7j";
             string serectkey = "at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa";
             string orderInfo = "Thanh toán đơn hàng";
-            string returnUrl = "https://tinabook.herokuapp.com/order_success_page";
+            string returnUrl = "https://bookshoptina.herokuapp.com/order_success_page";
             returnUrl = returnUrl + string.Format("?shippingFee={0}", shippingFee);
             if (promotionCode != null)
             {
