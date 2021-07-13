@@ -48,7 +48,8 @@ namespace BookShopApi.Service
                                          UserId = x.UserId,
                                          ShippingFee = x.ShippingFee,
                                          PaymentType = x.PaymentType,
-                                         CancelReason = x.CancelReason
+                                         CancelReason = x.CancelReason,
+                                         DiscountMoney = x.DiscountMoney
                                      }).ToListAsync()
              };
         } 
@@ -79,7 +80,7 @@ namespace BookShopApi.Service
             {
                 if (promotion.PromotionType == PromotionType.Discount)
                 {
-                    order.TotalMoney = totalMoney - promotion.DiscountMoney;
+                    order.TotalMoney = totalMoney + promotion.DiscountMoney ;
                 }
                 else
                 {
@@ -218,7 +219,8 @@ namespace BookShopApi.Service
                                          UserId = x.UserId,
                                          ShippingFee = x.ShippingFee,
                                          PaymentType = x.PaymentType,
-                                         CancelReason =x.CancelReason
+                                         CancelReason =x.CancelReason,
+                                         DiscountMoney = x.DiscountMoney
                                      }).ToListAsync()
             };
         }
