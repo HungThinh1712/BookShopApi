@@ -40,7 +40,27 @@ namespace BookShopApi.Service
                 Entities = await query.ToListAsync()
             };;
         }
-           
+
+        public async Task<EntityList<PublishingHousesInAdminViewModel>> GetIncludeDeleteAsync(string name, int page, int pageSize, HttpRequest request)
+        {
+            string searchString = String.IsNullOrEmpty(name) ? string.Empty : name;
+            var query = _publishingHouses.Find(publishingHouse => true)
+                .Project(x => new PublishingHousesInAdminViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    CreateAt = x.CreateAt.ToLocalTime().ToString("yyyy-MM-dd"),
+                    DeleteAt = x.DeleteAt
+                }); 
+            int total = (int)await query.CountDocumentsAsync();
+            query = query.SortByDescending(x => x.CreateAt).Skip((page - 1) * pageSize).Limit(pageSize);
+            return new EntityList<PublishingHousesInAdminViewModel>()
+            {
+                Total = total,
+                Entities = await query.ToListAsync()
+            }; ;
+        }
+
         public async Task<Models.PublishingHouse> GetAsync(string id) =>
            await _publishingHouses.Find<Models.PublishingHouse>(publishingHouse => publishingHouse.Id == id).FirstOrDefaultAsync();
 

@@ -26,7 +26,12 @@ namespace BookShopApi.Controllers
         public async Task<ActionResult> Login(LoginViewModel loginViewModel)
         {
             
-            var user = await _userService.GetUserbyEmailAsync(loginViewModel.Email);
+            var user = await _userService.GetUserLoginbyEmailAsync(loginViewModel.Email);
+
+            if (user.IsActive == false)
+            {
+                return BadRequest("Email chưa được xác nhận");
+            }
 
            if (user == null || !BCrypt.Net.BCrypt.Verify(loginViewModel.PassWord, user.PassWord ))
                 return BadRequest("Email hoặc mật khẩu không đúng!");
@@ -38,7 +43,7 @@ namespace BookShopApi.Controllers
         public async Task<ActionResult> ConfirmCode(ConfirmModel confirm)
         {
            
-            var user = await _userService.GetUserbyEmailAsync(confirm.Email);
+            var user = await _userService.GetUserLoginbyEmailAsync(confirm.Email);
             if (user.CodeActive == confirm.Code)
             {
                 user.IsActive = true;

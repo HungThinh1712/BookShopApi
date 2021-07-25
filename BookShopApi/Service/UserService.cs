@@ -35,7 +35,10 @@ namespace BookShopApi.Service
 
         public async Task<User> GetUserbyEmailAsync(string email) =>
             await _users.Find<User>(user => user.Email == email && user.DeleteAt ==null && user.IsActive ==true).FirstOrDefaultAsync();
-        
+
+        public async Task<User> GetUserLoginbyEmailAsync(string email) =>
+           await _users.Find<User>(user => user.Email == email && user.DeleteAt == null).FirstOrDefaultAsync();
+
 
         public async Task<List<User>> GetAsync() =>
             await _users.Find(user => true && user.IsAdmin==false && user.IsActive==true).ToListAsync();
@@ -171,6 +174,18 @@ namespace BookShopApi.Service
         {
             var filter = Builders<User>.Filter.Eq(u => u.Id, id);
             var update = Builders<User>.Update.Set(u => u.CodeResetPassWord, null);
+            _logger.LogInformation(
+                        "Queued Background Task {Guid} is starting.");
+            await _users.UpdateOneAsync(filter, update);
+        }
+        public async Task UpdateAdminAsync(UpdatedcAdmin admin)
+        {
+            var filter = Builders<User>.Filter.Eq(u => u.Id, admin.Id);
+            var update = Builders<User>.Update.Set(u => u.IsTopAdmin, admin.IsTopAdmin)
+                .Set(u=>u.Phone,admin.PhoneNumber)
+                .Set(u=>u.Email,admin.Email).
+                Set(u=>u.FullName,admin.FullName);
+            
             _logger.LogInformation(
                         "Queued Background Task {Guid} is starting.");
             await _users.UpdateOneAsync(filter, update);

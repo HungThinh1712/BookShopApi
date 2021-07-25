@@ -14,7 +14,7 @@ namespace BookShopApi.Models.ViewModels.PublishingHouses
         [BsonIgnoreIfNull]
         public string UpdateAt { get; set; }
         [BsonIgnoreIfNull]
-        public string DeleteAt { get; set; }
+        public DateTime? DeleteAt { get; set; }
         public int SumBooks { get; set; }
     }
 }

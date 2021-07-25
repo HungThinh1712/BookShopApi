@@ -13,5 +13,6 @@ namespace BookShopApi.Models.ViewModels.Authors
         public string BirthDay { get; set; }
         public string Description { get; set; }
         public string ImgUrl { get; set; }
+        public DateTime? DeleteAt { get; set; }
     }
 }

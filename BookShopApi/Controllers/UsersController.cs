@@ -61,6 +61,12 @@ namespace BookShopApi.Controllers
             await _userService.CreateAdminsAsync(admin);
             return Ok(true);
         }
+        [HttpPost("Admin/Update")]
+        public async Task<ActionResult> UpdateAdmin(UpdatedcAdmin admin)
+        {
+            await _userService.UpdateAdminAsync(admin);
+            return Ok(true);
+        }
 
         [HttpGet("[action]")]
         public async Task<ActionResult<UserViewModel>> Get(
@@ -250,7 +256,7 @@ namespace BookShopApi.Controllers
         public async Task<ActionResult> ConfirmCodeResetPassWord(ConfirmModel confirm)
         {
 
-            var user = await _userService.GetUserbyEmailAsync(confirm.Email);
+            var user = await _userService.GetUserLoginbyEmailAsync(confirm.Email);
             if (user.CodeResetPassWord == confirm.Code)
                 return Ok("Xác thực thành công");
             else
@@ -304,7 +310,7 @@ namespace BookShopApi.Controllers
         public async Task<IActionResult> ResendConfirmCode([FromQuery] string email)
         {
             //Hash password
-            var user = await _userService.GetUserbyEmailAsync(email);
+            var user = await _userService.GetUserLoginbyEmailAsync(email);
             if (user == null)
                 return BadRequest("Email không tồn tại");
             user.CodeActive = RandomCode();

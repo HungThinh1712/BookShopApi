@@ -31,6 +31,16 @@ namespace BookShopApi.Controllers
            
             return Ok(types); ;
         }
+        [HttpGet("[action]")]
+        public async Task<ActionResult<EntityList<BookTypeViewModel>>> GetAllIncludesDeleted(
+            [FromQuery] string name,
+            [FromQuery] int page,
+            [FromQuery] int pageSize)
+        {
+            var types = await _typeService.GetIncludeDeleteAsync(name, page, pageSize);
+
+            return Ok(types); ;
+        }
 
         [HttpGet("[action]")]
         public async Task<ActionResult<System.Type>> Get(

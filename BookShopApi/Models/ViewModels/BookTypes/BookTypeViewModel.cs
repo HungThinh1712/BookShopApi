@@ -15,5 +15,6 @@ namespace BookShopApi.Models.ViewModels.BookTypes
 
         public string Name { get; set; }
         public string CreateAt { get; set; }
+        public DateTime? DeleteAt { get; set; }
     }
 }

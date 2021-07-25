@@ -30,6 +30,15 @@ namespace BookShopApi.Controllers
             var publishingHouse = await _publishingHouseService.GetAsync(name, page, pageSize, Request);
             return Ok(publishingHouse);
         }
+        [HttpGet("[action]")]
+        public async Task<ActionResult<IEnumerable<Models.PublishingHouse>>> GetIncludeDeleted(
+           [FromQuery] string name,
+           [FromQuery] int page,
+           [FromQuery] int pageSize)
+        {
+            var publishingHouse = await _publishingHouseService.GetIncludeDeleteAsync(name, page, pageSize, Request);
+            return Ok(publishingHouse);
+        }
 
         [HttpGet("[action]")]
         public async Task<ActionResult<Models.PublishingHouse>> Get(

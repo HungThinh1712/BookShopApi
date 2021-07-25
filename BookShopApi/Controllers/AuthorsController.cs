@@ -39,6 +39,18 @@ namespace BookShopApi.Controllers
                 return Ok(authors);
         }
 
+        [HttpGet("[action]")]
+        public async Task<ActionResult<EntityList<AuthorsInAdminViewModel>>> GetIncludeDeleted(
+            [FromQuery] string name,
+            [FromQuery] int page,
+            [FromQuery] int pageSize)
+        {
+
+
+            var authors = await _authorService.GetIncludeDeletedAsync(name, page, pageSize, Request);
+
+            return Ok(authors);
+        }
 
         [HttpGet("[action]")]
         public async Task<ActionResult<Models.Author>> Get(

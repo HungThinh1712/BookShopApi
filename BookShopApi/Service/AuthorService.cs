@@ -43,6 +43,29 @@ namespace BookShopApi.Service
             };
         }
 
+        public async Task<EntityList<AuthorsInAdminViewModel>> GetIncludeDeletedAsync(string name, int page, int pageSize, HttpRequest request)
+        {
+            string searchString = String.IsNullOrEmpty(name) ? string.Empty : name;
+            var query = _authors.Find(author => true)
+                .Project(x => new AuthorsInAdminViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    BirthDay = x.BirthDay.ToLocalTime().ToString("yyyy-MM-dd"),
+                    ImgUrl = x.ImgUrl,
+                    DeleteAt = x.DeleteAt
+                    
+                });
+            int total = (int)await query.CountDocumentsAsync();
+            query = query.SortByDescending(x => x.CreateAt).Skip((page - 1) * pageSize).Limit(pageSize);
+            return new EntityList<AuthorsInAdminViewModel>()
+            {
+                Total = total,
+                Entities = await query.ToListAsync()
+            };
+        }
+
         public async Task<AuthorsInAdminViewModel> GetAsync(string id,HttpRequest request) =>
            await _authors.Find<Models.Author>(author => author.Id == id).Project(x => new AuthorsInAdminViewModel
            {
