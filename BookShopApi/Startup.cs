@@ -18,6 +18,7 @@ namespace BookShopApi
     public class Startup
     {
 
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,12 +33,13 @@ namespace BookShopApi
 
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowAllOriginsPolicy",
+                options.AddPolicy(name:MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.AllowAnyOrigin()
+                    builder.WithOrigins("https://bookshoptina.herokuapp.com" , "http://localhost:3000")
                         .AllowAnyHeader()
-                        .AllowAnyMethod();
+                        .AllowAnyMethod()
+                        .AllowCredentials();
                 });
             });
 
@@ -95,7 +97,7 @@ namespace BookShopApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors("AllowAllOriginsPolicy");
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseSession();       
           
             app.UseEndpoints(endpoints =>
