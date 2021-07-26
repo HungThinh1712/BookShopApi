@@ -104,14 +104,16 @@ namespace BookShopApi.Service
         public async Task UpdateAsync(string id, User userIn) =>
            await _users.ReplaceOneAsync(user => user.Id == id, userIn);
 
-        public async Task UpdateAddressAsync(string id, string name, string phone,string address,string distance)
+        public async Task UpdateAddressAsync(string id, string name, string phone,string address,string provinceId,string districtId,string wardId)
         {
             var filter = Builders<User>.Filter.Eq(u => u.Id, id);
             var update = Builders<User>.Update.
-                                               Set(u=>u.FullName,name).
-                                               Set(u=>u.Phone,phone).
-                                               Set(u => u.SpecificAddress, address).
-                                               Set(u=>u.Distance,distance);
+                                               Set(u => u.FullName, name).
+                                               Set(u => u.Phone, phone).
+                                               Set(u => u.SpecificAddress, address)
+                                               .Set(x=>x.ProvinceId,provinceId)
+                                               .Set(x=>x.DistrictId,districtId).
+                                               Set(x=>x.WardId,wardId);
             await _users.UpdateOneAsync(filter,update);
         }
          

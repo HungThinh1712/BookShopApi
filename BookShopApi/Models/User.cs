@@ -24,11 +24,11 @@ namespace BookShopApi.Models
         public string CodeResetPassWord { get; set; }
 
         public string SpecificAddress { get; set; }
-        //public string ProvinceId { get; set; }
+        public string ProvinceId { get; set; }
         //public string ProvinceName { get; set; }
-        //public string DistrictId { get; set; }
+        public string DistrictId { get; set; }
         //public string DistrictName { get; set; }
-        //public string WardId { get; set; }
+        public string WardId { get; set; }
         //public string WardName { get; set; }
         public int Sex { get; set; }
 
@@ -36,7 +36,7 @@ namespace BookShopApi.Models
 
         public DateTime BirthDay { get; set; }
         [BsonIgnoreIfNull]
-        public string? Distance { get; set; }
+    
 
         public DateTime CreateAt { get; set; } = DateTime.UtcNow;
 

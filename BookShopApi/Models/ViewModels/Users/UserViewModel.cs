@@ -16,9 +16,9 @@ namespace BookShopApi.Models.ViewModels.Users
         public string Email { get; set; }
         public string Phone { get; set; }
         public string SpecificAddress { get; set; }
-        //public string ProvinceId { get; set; }
-        //public string DistrictId { get; set; }
-        //public string WardId { get; set; }
+        public string ProvinceId { get; set; }
+        public string DistrictId { get; set; }
+        public string WardId { get; set; }
         //public string ProvinceName { get; set; }
         //public string DistrictName { get; set; }
         //public string WardName { get; set; }

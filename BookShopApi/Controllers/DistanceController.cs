@@ -16,18 +16,15 @@ namespace BookShopApi.Controllers
         {
             _userService = userService;
         }
-        [HttpGet]
-        public async Task<ActionResult> GetDistanceAndShippingFee()        
-        {
-            var headerValues = Request.Headers["Authorization"];
-            string userId = Authenticate.DecryptToken(headerValues.ToString());
-            var distance =(await _userService.GetAsync(userId)).Distance;
-            var shippingFee = ShippingFee.CalculateShippingFee(distance);
+        //[HttpGet]
+        //public async Task<ActionResult> GetDistanceAndShippingFee()        
+        //{
+            
 
-            return Ok(new { distance= distance, shippingFee = shippingFee });
+        //    return Ok(new { distance= distance, shippingFee = shippingFee });
 
             
-        }
+        //}
         
     }
 }

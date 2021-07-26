@@ -123,19 +123,27 @@ namespace BookShopApi.Controllers
             var user = updatedUser["updatedUser"];
 
         
-            string address = user["tempAddress"].ToString();
+            string address = user["address"].ToString();
+           
          
-            string destination = string.Format(address);
-            var distance = ShippingFee.GetDistance(destination);
-
+          
           
             string name = user["name"].ToString();
             string phone = user["phone"].ToString();
 
             string id = user["id"].ToString();
+            string provinceId = user["province"].ToString();
+            string districtId = user["district"].ToString();
+            string wardId = user["ward"].ToString();
             var tempUser = await _userService.GetAsync(id);
+            //Date locations
+            var province = await _provinceService.GetByIdAsync(provinceId);
+            var district = await _districtService.GetByIdAsync(districtId);
+            var ward = await _wardService.GetByIdAsync(wardId);
 
-            await _userService.UpdateAddressAsync(id, name, phone, address,distance);
+            address = string.Format("{0}, {1}, {2}, {3}", address, ward.Name, district.Name, province.Name);
+
+            await _userService.UpdateAddressAsync(id, name, phone, address,provinceId,districtId,wardId);
 
             ///Return updated user to update state in react
             var returnedUser = (await _userService.GetAsync(id)).Adapt<UserViewModel>();

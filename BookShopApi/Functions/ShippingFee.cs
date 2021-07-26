@@ -33,7 +33,7 @@ namespace BookShopApi.Functions
             var response = new DistanceMatrixService(new GoogleSigned("AIzaSyCiz3hHe4n_DUtzlTwMebrAw3i8pgCNi_Y"))
                    .GetResponse(requestDistanceMatrix);
             if (response.ErrorMessage != null)
-                throw new Exception("Địa chỉ k hợp lệ");
+                return "10 km";
             return response.Rows[0].Elements[0].distance.Text;
         }
     }
