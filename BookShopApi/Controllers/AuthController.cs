@@ -28,13 +28,14 @@ namespace BookShopApi.Controllers
             
             var user = await _userService.GetUserLoginbyEmailAsync(loginViewModel.Email);
 
-            if (user.IsActive == false)
+            if (user == null || !BCrypt.Net.BCrypt.Verify(loginViewModel.PassWord, user.PassWord))
+                return BadRequest("Email hoặc mật khẩu không đúng!");
+            if (user!=null &&  user.IsActive == false)
             {
                 return BadRequest("Email chưa được xác nhận");
             }
 
-           if (user == null || !BCrypt.Net.BCrypt.Verify(loginViewModel.PassWord, user.PassWord ))
-                return BadRequest("Email hoặc mật khẩu không đúng!");
+          
            
             return Ok(Authenticate.GetToken(user.Id, user.IsAdmin));
         }
