@@ -187,7 +187,8 @@ namespace BookShopApi.Service
                                                 Set(x => x.Size, updatedBook.Size).
                                                 Set(x => x.CoverType, updatedBook.CoverType).
                                                 Set(x => x.ZoneType, updatedBook.ZoneType).
-                                                Set(x => x.ImgUrl, updatedBook.ImgUrl);
+                                                Set(x => x.ImgUrl, updatedBook.ImgUrl).
+                                                Set(x=>x.Description,updatedBook.Description);
             await _books.UpdateOneAsync(filter, update);
         }
 

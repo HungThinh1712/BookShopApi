@@ -16,5 +16,6 @@ namespace BookShopApi.Models.ViewModels.Users
         public int Sex { get; set; }
         public string BirthDay { get; set; }
         public int SumOrder { get; set; }
+        public bool IsActive { get; set; }
     }
 }
