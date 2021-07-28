@@ -23,8 +23,8 @@ namespace BookShopApi.Validator
             RuleFor(user => user.Phone).Length(10).WithMessage("Số điện thoại không hợp lệ").MustAsync(async (phone, cancellation) => {
                 bool exists = await _userService.GetAsyncByPhone(phone);
                 return !exists;
-            }).WithMessage("Số điện thoại đã đăng ký tài khoản"); ;
-           
+            }).WithMessage("Số điện thoại đã đăng ký tài khoản");
+
         }
     }
 }

@@ -41,7 +41,7 @@ namespace BookShopApi.Service
                                          Price = x.Price.ToString(),
                                          CoverPrice = x.CoverPrice.ToString(),
                                          ImgUrl = x.ImgUrl,
-                                         Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
+                                         Rating = Rouding.Adjust(Average.CountingAverage(x.Comments.Where(x => x.IsCheck == true).ToList())),
                                          TypeId = x.TypeId
                                      }).ToListAsync();
         }
@@ -84,7 +84,7 @@ namespace BookShopApi.Service
                                         Price = x.Price.ToString(),
                                         CoverPrice = x.CoverPrice.ToString(),
                                         ImgUrl = x.ImgUrl,
-                                        Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
+                                        Rating = Rouding.Adjust(Average.CountingAverage(x.Comments.Where(x => x.IsCheck == true).ToList())),
                                         TypeId = x.TypeId
                                     }).ToListAsync();
         }
@@ -100,8 +100,9 @@ namespace BookShopApi.Service
                                       Price = x.Price.ToString(),
                                       CoverPrice = x.CoverPrice.ToString(),
                                       ImgUrl = x.ImgUrl,
-                                      Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
-                                      CountRating = x.Comments.Count,
+                                      Rating = Rouding.Adjust(Average.CountingAverage(x.Comments.Where(x => x.IsCheck == true).ToList())),
+
+                                      CountRating = x.Comments.Where(x => x.IsCheck == true).ToList().Count,
                                       TypeId = x.TypeId
                                   }).ToListAsync();
         }
@@ -124,8 +125,8 @@ namespace BookShopApi.Service
                                         Price = x.Price.ToString(),
                                         CoverPrice = x.CoverPrice.ToString(),
                                         ImgUrl = x.ImgUrl,
-                                        Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
-                                        CountRating = x.Comments.Count,
+                                        Rating = Rouding.Adjust(Average.CountingAverage(x.Comments.Where(x => x.IsCheck == true).ToList())),
+                                        CountRating = x.Comments.Where(x => x.IsCheck == true).ToList().Count,
                                         TypeId = x.TypeId
                                     }).ToListAsync()
             };
@@ -165,7 +166,8 @@ namespace BookShopApi.Service
                 Price = book.Price.ToString(),
                 CoverPrice = book.CoverPrice.ToString(),
                 ImgUrl = book.ImgUrl,
-                Rating = Rouding.Adjust(Average.CountingAverage(book.Comments)),
+                Rating = Rouding.Adjust(Average.CountingAverage(book.Comments.Where(x => x.IsCheck == true).ToList())),
+
                 TypeId = book.TypeId
             };
 
@@ -242,8 +244,8 @@ namespace BookShopApi.Service
                                          Price = x.Price.ToString(),
                                          CoverPrice = x.CoverPrice.ToString(),
                                          ImgUrl = x.ImgUrl,
-                                         Rating = Rouding.Adjust(Average.CountingAverage(x.Comments)),
-                                         CountRating = x.Comments.Count,
+                                         Rating = Rouding.Adjust(Average.CountingAverage(x.Comments.Where(x => x.IsCheck == true).ToList())),
+                                         CountRating = x.Comments.Where(x => x.IsCheck == true).ToList().Count,
                                          TypeId = x.TypeId
                                      }).ToListAsync();
         }
